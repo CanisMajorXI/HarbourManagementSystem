@@ -17,10 +17,10 @@
                         password: $("#login-password").val()
                     },
                     success: function (result) {
-                        alert(result);
+                        //alert(result);
                         if (result && result === 'true')
-                            $(location).attr('href', '/main.html');
-                        else alert("密码错误!");
+                            $(location).attr('href', '/home.html');
+                        else alert("用户名或密码错误!");
                     },
                     error: function () {
                         alert("error!");

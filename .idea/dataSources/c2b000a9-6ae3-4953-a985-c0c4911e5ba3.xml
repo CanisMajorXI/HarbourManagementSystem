@@ -17,5 +17,139 @@
     <schema id="11" parent="1" name="simple_blog"/>
     <schema id="12" parent="1" name="ssm"/>
     <schema id="13" parent="1" name="sys"/>
+    <table id="14" parent="2" name="cargo_distribution_table"/>
+    <table id="15" parent="2" name="cargo_table"/>
+    <table id="16" parent="2" name="container_table"/>
+    <table id="17" parent="2" name="user_table"/>
+    <column id="18" parent="14" name="cargo_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="19" parent="14" name="container_id">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="20" parent="14" name="units">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="21" parent="14" name="container_id">
+      <ColNames>container_id</ColNames>
+    </index>
+    <key id="22" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>cargo_id
+container_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="23" parent="14" name="cargo_distribution_table_ibfk_1">
+      <ColNames>container_id</ColNames>
+      <RefSchemaName>redsun</RefSchemaName>
+      <RefTableName>container_table</RefTableName>
+      <RefColNames>container_id</RefColNames>
+    </foreign-key>
+    <column id="24" parent="15" name="cargo_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="15" name="cargo_name">
+      <Position>2</Position>
+      <DataType>varchar(30)|0</DataType>
+    </column>
+    <column id="26" parent="15" name="maximum">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="27" parent="15" name="gross">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="28" parent="15" name="unit_type">
+      <Position>5</Position>
+      <DataType>varchar(10)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="29" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>cargo_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="30" parent="16" name="container_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="16" name="container_position">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="32" parent="16" name="cargo_id">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="33" parent="16" name="container_type">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="16" name="container_size">
+      <Position>5</Position>
+      <DataType>tinyint(4)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="35" parent="16" name="cargo_id">
+      <ColNames>cargo_id</ColNames>
+    </index>
+    <key id="36" parent="16" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>container_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="37" parent="16" name="container_table_ibfk_1">
+      <ColNames>cargo_id</ColNames>
+      <RefSchemaName>redsun</RefSchemaName>
+      <RefTableName>cargo_table</RefTableName>
+      <RefColNames>cargo_id</RefColNames>
+    </foreign-key>
+    <column id="38" parent="17" name="user_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="39" parent="17" name="user_password">
+      <Position>2</Position>
+      <DataType>varchar(40)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="40" parent="17" name="user_email">
+      <Position>3</Position>
+      <DataType>varchar(50)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="41" parent="17" name="user_type">
+      <Position>4</Position>
+      <DataType>tinyint(4)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="42" parent="17" name="user_table_user_email_pk">
+      <ColNames>user_email</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="43" parent="17" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>user_id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="44" parent="17" name="user_table_user_email_pk">
+      <ColNames>user_email</ColNames>
+      <UnderlyingIndexName>user_table_user_email_pk</UnderlyingIndexName>
+    </key>
   </database-model>
 </dataSource>

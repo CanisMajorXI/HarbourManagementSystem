@@ -7,9 +7,9 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/chapter12"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/redsun"/>
         <property name="username" value="root"/>
-        <property name="password" value="Zqw8782169"/>
+        <property name="password" value="1926817"/>
         <!--连接池的最大数据库连接数 -->
         <property name="maxActive" value="255"/>
         <!--最大等待连接中的数量 -->
@@ -24,7 +24,7 @@
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.zqw.dao"/>
+        <property name="basePackage" value="com.redsun.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <property name="annotationClass" value="org.springframework.stereotype.Repository"/>
     </bean>

@@ -18,17 +18,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
             sendRedirect(response);
             return false;
         }
-        //todo
-        User user = (User)session.getAttribute("user");
-        if(true) {
-            sendRedirect(response);
-            return false;
-        }
-
         return true;
     }
     public void sendRedirect(HttpServletResponse response) throws Exception {
-        System.out.println("session中密码错误");
+        System.out.println("用户未登录！");
         response.sendRedirect("/index.html");
     }
     @Override
