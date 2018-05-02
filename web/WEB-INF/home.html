@@ -5,11 +5,163 @@
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/js/three.js"></script>
+    <script src="/static/js/OrbitControls.js"></script>
+    <script src="/static/js/Detector.js"></script>
+    <script src="/static/js/mythreejs.js"></script>
+    <!--<script src="static/js/three.js"></script>-->
+    <!--<script src="static/js/OrbitControls.js"></script>-->
+    <!--<script src="static/js/Detector.js"></script>-->
+    <!--<script src="static/js/mythreejs.js"></script>-->
     <script>
-
+        $(function () {
+            container_remove(1,2,3);
+            $("#container-query-btn").click(function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    url: "/api/container/get",
+                    data: {
+                        id: $("#container-id").val(),
+                        row: $("#container-row").val(),
+                        column: $("#container-column").val(),
+                        layer: $("#container-layer").val(),
+                        type: $("#container-type").val(),
+                        size: $("#container-size").val()
+                    },
+                    success: function (result) {
+                      //  alert(result);
+                        showThreejs(JSON.parse(result).container);
+                    },
+                    error: function () {
+                        alert("error!");
+                    }
+                });
+            });
+            $("#container-add-btn").click(function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    url: "/api/container/add",
+                    data: {
+                        id: $("#container-add-id").val(),
+                        row: $("#container-add-row").val(),
+                        column: $("#container-add-column").val(),
+                        layer: $("#container-add-layer").val(),
+                        type: $("#container-add-type").val(),
+                        size: $("#container-add-size").val()
+                    },
+                    success: function (result) {
+                        alert(result);
+                        //showThreejs(JSON.parse(result).container);
+                    },
+                    error: function () {
+                        alert("error!");
+                    }
+                });
+            })
+        })
     </script>
+    <style>
+        div#canvas-frame {
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            height: 600px;
+            background-color: #EEEEEE;
+        }
+    </style>
 </head>
-<body>
-<h2>欢迎来到红太阳港口管理系统</h2>
+<body onload="startThreejs(0)">
+
+<h2 style="text-align: center">欢迎来到红太阳港口管理系统</h2>
+<div class="container">
+    <h2>查询指定箱子</h2>
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <label for="container-id">id</label>
+            <input type="number" class="form-control" id="container-id" autocomplete="off"
+                   placeholder="请输入8位数id">
+        </div>
+        <div class="form-group">
+            <label for="container-row">行</label>
+            <input type="number" class="form-control" id="container-row" autocomplete="off"
+                   placeholder="请输入行数">
+        </div>
+        <div class="form-group">
+            <label for="container-column">列</label>
+            <input type="number" class="form-control" id="container-column" autocomplete="off"
+                   placeholder="请输入行数">
+        </div>
+        <div class="form-group">
+            <label for="container-layer">层</label>
+            <input type="number" class="form-control" id="container-layer" autocomplete="off"
+                   placeholder="请输入行数">
+        </div>
+        <div class="form-group">
+            <label for="container-type">箱子种类</label>
+            <select class="form-control" id="container-type">
+                <option value selected>所有</option>
+                <option value="0">普通箱</option>
+                <option value="1">冷冻箱</option>
+                <option value="2">危险箱</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="container-size">箱子尺寸</label>
+            <select class="form-control" id="container-size">
+                <option value selected>所有</option>
+                <option value="0">小</option>
+                <option value="1">大</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-default" id="container-query-btn">查询</button>
+        </div>
+    </form>
+    <h2>插入指定箱子</h2>
+    <form class="form-inline" role="form">
+        <div class="form-group">
+            <label for="container-add-id">id</label>
+            <input type="number" class="form-control" id="container-add-id" autocomplete="off"
+                   placeholder="请输入8位数id">
+        </div>
+        <div class="form-group">
+            <label for="container-add-row">行</label>
+            <input type="number" class="form-control" id="container-add-row" autocomplete="off"
+                   placeholder="请输入行数">
+        </div>
+        <div class="form-group">
+            <label for="container-add-column">列</label>
+            <input type="number" class="form-control" id="container-add-column" autocomplete="off"
+                   placeholder="请输入行数">
+        </div>
+        <div class="form-group">
+            <label for="container-add-layer">层</label>
+            <input type="number" class="form-control" id="container-add-layer" autocomplete="off"
+                   placeholder="请输入行数">
+        </div>
+        <div class="form-group">
+            <label for="container-add-type">箱子种类</label>
+            <select class="form-control" id="container-add-type">
+                <option value="0">普通箱子</option>
+                <option value="1">冷冻箱</option>
+                <option value="2">危险箱</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="container-add-size">箱子尺寸</label>
+            <select class="form-control" id="container-add-size">
+                <option value="0">小</option>
+                <option value="1">大</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="button" class="btn btn-default" id="container-add-btn">插入箱子</button>
+        </div>
+    </form>
+</div>
+<div id="canvas-frame"></div>
+
 </body>
 </html>

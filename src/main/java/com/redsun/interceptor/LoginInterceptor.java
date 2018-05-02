@@ -14,11 +14,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("preHandle");
         HttpSession session = request.getSession(false);
-        if(session == null) {
-            sendRedirect(response);
-            return false;
-        }
         return true;
+//        if(session == null) {
+//            sendRedirect(response);
+//            return false;
+//        }
+//        return true;
     }
     public void sendRedirect(HttpServletResponse response) throws Exception {
         System.out.println("用户未登录！");

@@ -3,8 +3,13 @@ package com.redsun.service.impl;
 import com.redsun.dao.UserMapper;
 import com.redsun.pojo.User;
 import com.redsun.service.UserService;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,45 +20,40 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper = null;
-
+    Logger logger = Logger.getLogger(UserServiceImpl.class);
+    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE)
     @Override
-    public User userVerification(String email, String password) {
-        User user = null;
+    public User userVerification(User user) {
+        User resultUser = null;
         try {
-            List<User> users = userMapper.LoginByEmailVerification(email, password);
+            List<User> users = userMapper.getUsers(user);
             if (users.size() == 1) {
-                user = users.get(0);
+                resultUser = users.get(0);
+                System.out.println(user.getId()+" "+user.getEmail()+" "+user.getPassword());
             } else if (users.size() >= 1) {
                 System.out.println("用户数据库发生重复用户名！请联系管理员进行检查！");
                 throw new RuntimeException();
             }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.info(e);
             throw new RuntimeException(e);
-
         } finally {
-            return user;
+            return resultUser;
         }
     }
-
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public User userVerification(int id, String password) {
-
-       User user = null;
+    public List<User> getTotalUsers() {
+        List<User> users = null;
+        User user = new User();
         try {
-            List<User> users = userMapper.LoginByIdVerification(id, password);
-            if (users.size() == 1) {
-                user = users.get(0);
-            } else if (users.size() >= 1) {
-                System.out.println("用户数据库发生重复用户名！请联系管理员进行检查！");
-                throw new RuntimeException();
-            }
+            users = userMapper.getUsers(user);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-
         } finally {
-            return user;
+            return users;
         }
     }
 }

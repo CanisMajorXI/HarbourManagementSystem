@@ -17,6 +17,8 @@
     <!-- 别名配置 -->
     <typeAliases>
         <typeAlias alias="user" type="com.redsun.pojo.User"/>
+        <typeAlias alias="container" type="com.redsun.pojo.Container"/>
+        <typeAlias alias="cargo" type="com.redsun.pojo.Cargo"/>
     </typeAliases>
     <mappers>
         <package name="com.redsun.dao"/>
