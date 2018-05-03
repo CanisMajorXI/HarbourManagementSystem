@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.redsun.dao.UserMapper">
+    <resultMap id="user" type="com.redsun.pojo.User">
+        <id property="id" column="user_id"/>
+    </resultMap>
+    <select id="loginByEmailVerification" resultMap="user">
+       SELECT user_id FROM user_table WHERE user_email = #{email} AND  user_password = #{password}
+    </select>
+    <select id="loginByIdVerification" resultMap="user">
+        SELECT user_id FROM user_table WHERE user_id = #{id} AND user_password = #{password}
+    </select>
+
+    <select id="getUsers" resultType="user" parameterType="user">
+        SELECT user_id AS id ,user_password AS password ,user_email AS email ,user_type AS type FROM user_table
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="id != null">
+                AND user_id = #{id}
+            </if>
+            <if test="password != null">
+                AND user_password = #{password}
+            </if>
+            <if test="email != null">
+                AND user_email = #{email}
+            </if>
+            <if test="type != null">
+                AND user_type = #{type}
+            </if>
+        </trim>
+    </select>
+</mapper>

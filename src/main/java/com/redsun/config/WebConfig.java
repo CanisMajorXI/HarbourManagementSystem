@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 @Configuration
 @ComponentScan(basePackages = {"com.redsun"})
-//@ImportResource("classpath:/spring-cfg.xml")
+@ImportResource("classpath:/spring-cfg.xml")
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean(name = "viewResolver")
     public ViewResolver initViewResolver() {
         InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
-        internalResourceViewResolver.setPrefix("/WEB-INF/");
+        internalResourceViewResolver.setPrefix("/WEB-INF");
         //internalResourceViewResolver.setSuffix(".html");
         return internalResourceViewResolver;
     }
