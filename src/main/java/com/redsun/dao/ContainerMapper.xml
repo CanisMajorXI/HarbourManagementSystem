@@ -36,4 +36,8 @@
     <insert id="insertContainer" parameterType="container">
         INSERT into container_table VALUES (#{id},#{row},#{column},#{layer},#{type},#{size})
     </insert>
+
+    <delete id="deleteContainer" parameterType="container">
+
+    </delete>
 </mapper>

@@ -5,6 +5,8 @@ var container_remove;
 var container_shift;
 var area_shift;
 var showThreejs;
+var updateThreejs;
+var areatype;
 var threejs_areas = [{
     lengthSeq: 10,
     widthSeq: 5,
@@ -167,7 +169,7 @@ var threejs_areas = [{
 
         var loader = new THREE.FontLoader();
         //注意是异步加载！
-        loader.load('https://threejs.org/examples/fonts/optimer_bold.typeface.json', function (font) {
+        loader.load('/static/json/font.json', function (font) {
             var nameGeo = new THREE.TextGeometry(name, {
                 // 设定文字字体，
                 font: font,
@@ -205,6 +207,19 @@ var threejs_areas = [{
             materialsList.push(materials);
         }
 
+    }
+
+    function getRowByDatabaseRow(row) {
+        switch (areatype) {
+            case 0 :
+                return row;
+            case 1:
+                return row - 5;
+            case 2:
+                return row - 15;
+            case 3:
+                return row - 21;
+        }
     }
 
     var group = new THREE.Group();
@@ -250,14 +265,14 @@ var threejs_areas = [{
             }
         }
     };
-    area_shift = function (type) {
-        type = type || 0;
+    area_shift = function (_areatype) {
+        areatype = _areatype;
         scene.remove(group);
         group = new THREE.Group();
-        lengthSeq = threejs_areas[type].lengthSeq;
-        widthSeq = threejs_areas[type].widthSeq;
+        lengthSeq = threejs_areas[areatype].lengthSeq;
+        widthSeq = threejs_areas[areatype].widthSeq;
         var height = 20;
-        var name = threejs_areas[type].areaName;
+        var name = threejs_areas[areatype].areaName;
         initGroup(lengthSeq, widthSeq, height, name);
     };
 
@@ -274,12 +289,12 @@ var threejs_areas = [{
     }
 
     var lengthSeq, widthSeq;
-    startThreejs = function threeStart(type) {
-        type = type || 0;
-        lengthSeq = threejs_areas[type].lengthSeq;
-        widthSeq = threejs_areas[type].widthSeq;
+    startThreejs = function threeStart(_areatype) {
+        areatype = _areatype;
+        lengthSeq = threejs_areas[areatype].lengthSeq;
+        widthSeq = threejs_areas[areatype].widthSeq;
         var height = 20;
-        var name = threejs_areas[type].areaName;
+        var name = threejs_areas[areatype].areaName;
         initThree();
         initCamera();
         initScene();
@@ -288,13 +303,44 @@ var threejs_areas = [{
         initControls();
         animate();
     };
-    showThreejs = function (container) {
-        // alert(container[0].id);
+    // showThreejs = function (container) {
+    //     for (var x in container) {
+    //         container_add(container[x].row, container[x].column, container[x].layer, container[x].type, container[x].size);
+    //     }
+    // };
+    updateThreejs = function (container) {
+        area_shift(areatype);
         for (var x in container) {
-            container_add(container[x].row, container[x].column, container[x].layer, container[x].type, container[x].size);
+            var canShow = false;
+            switch (areatype) {
+                case 0:
+                    if (container[x].row >= 1 && container[x].row <= 5) {
+                        canShow = true;
+                    }
+                    break;
+                case 1:
+                    if (container[x].row >= 6 && container[x].row <= 15) {
+                        container[x].row -= 5;
+                        canShow = true;
+                    }
+                    break;
+                case 2:
+                    if (container[x].row >= 16 && container[x].row <= 21) {
+                        container[x].row -= 15;
+                        canShow = true;
+                    }
+                    break;
+                case 3:
+                    if (container[x].row >= 22 && container[x].row <= 27) {
+                        container[x].row -= 21;
+                        canShow = true;
+                    }
+                    break;
+            }
+            if (canShow)
+                container_add(container[x].row, container[x].column, container[x].layer, container[x].type, container[x].size);
         }
-    }
-
+    };
 })();
 
 

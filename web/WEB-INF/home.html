@@ -15,7 +15,24 @@
     <!--<script src="static/js/mythreejs.js"></script>-->
     <script>
         $(function () {
-            container_remove(1,2,3);
+            $(".next-area-btn").click(function () {
+                if (areatype < 3) {
+                    areatype++;
+                    updateThreejs();
+                }
+                $.get("/api/container/get", function (result) {
+                    updateThreejs(JSON.parse(result).container);
+                });
+            });
+            $(".prev-area-btn").click(function () {
+                if (areatype > 0) {
+                    areatype--;
+                    area_shift(areatype);
+                }
+                $.get("/api/container/get", function (result) {
+                    updateThreejs(JSON.parse(result).container);
+                })
+            });
             $("#container-query-btn").click(function () {
                 $.ajax({
                     type: "POST",
@@ -30,8 +47,9 @@
                         size: $("#container-size").val()
                     },
                     success: function (result) {
-                      //  alert(result);
-                        showThreejs(JSON.parse(result).container);
+                        //  alert(result);
+                        updateThreejs(JSON.parse(result).container);
+                        //   showThreejs(JSON.parse(result).container);
                     },
                     error: function () {
                         alert("error!");
@@ -64,12 +82,31 @@
     </script>
     <style>
         div#canvas-frame {
-            border: none;
+            border: 1px solid darkcyan;
             cursor: pointer;
-            width: 100%;
+            width: 90%;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
             height: 600px;
             background-color: #EEEEEE;
         }
+
+        .threejscontainer {
+            position: relative;
+        }
+
+        .prev-area-btn, .next-area-btn {
+            position: absolute;
+            top: 40%;
+            display: block;
+            font-size: 60px;
+        }
+
+        .next-area-btn {
+            right: 16px;
+        }
+
     </style>
 </head>
 <body onload="startThreejs(0)">
@@ -161,7 +198,12 @@
         </div>
     </form>
 </div>
-<div id="canvas-frame"></div>
+<div class="threejscontainer container">
+    <button class="prev-area-btn"> <</button>
+    <button class="next-area-btn">></button>
+    <div id="canvas-frame"></div>
+</div>
+
 
 </body>
 </html>
