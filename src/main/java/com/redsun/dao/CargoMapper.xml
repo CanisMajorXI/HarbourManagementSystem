@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redsun.dao.CargoMapper">
+    <resultMap id="cargo" type="cargo">
+        <id property="id" column="cargo_id"/>
+        <id property="name" column="cargo_name"/>
+        <id property="maximum" column="cargo_maximum"/>
+        <id property="gross" column="cargo_gross"/>
+        <id property="type" column="cargo_type"/>
+    </resultMap>
+    <select id="getCargos"  resultMap="cargo" parameterType="cargo">
+        SELECT * FROM cargo_table
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="id != null">
+                AND cargo_id = #{id}
+            </if>
+            <if test="name != null">
+                AND cargo_name = #{name}
+            </if>
+            <if test="maximum != null">
+                AND cargo_maximum = #{maximum}
+            </if>
+            <if test="gross != null">
+                AND cargo_gross = #{gross}
+            </if>
+            <if test="type != null">
+                AND cargo_type = #{type}
+            </if>
+        </trim>
+    </select>
+    <insert id="insertCargo" parameterType="cargo">
+        INSERT into cargo_table VALUES (#{id},#{name},#{maximum},#{gross},#{type})
+    </insert>
+</mapper>
