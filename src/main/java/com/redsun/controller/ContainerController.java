@@ -49,7 +49,6 @@ public class ContainerController {
 //                System.out.println("field"+fieldError.getField()+"\nmessage:"+fieldError.getDefaultMessage());
 //            }
 //        }
-
         ModelAndView mv = new ModelAndView();
         List<Container> containers = containerService.getContainers(container);
         modelMap.addAttribute("container", containers);

@@ -7,6 +7,7 @@ var area_shift;
 var showThreejs;
 var updateThreejs;
 var areatype;
+var convertToDatabaseFormat;
 var threejs_areas = [{
     lengthSeq: 10,
     widthSeq: 5,
@@ -341,6 +342,35 @@ var threejs_areas = [{
                 container_add(container[x].row, container[x].column, container[x].layer, container[x].type, container[x].size);
         }
     };
+    convertToDatabaseFormat = function (data) {
+        var canShow = false;
+        switch (areatype) {
+            case 0:
+                if (data.row >= 1 && data.row <= 5) {
+                    canShow = true;
+                }
+                break;
+            case 1:
+                if (container[x].row >= 1 && container[x].row <= 10) {
+                    container[x].row += 5;
+                    canShow = true;
+                }
+                break;
+            case 2:
+                if (container[x].row >= 1 && container[x].row <= 6) {
+                    container[x].row += 15;
+                    canShow = true;
+                }
+                break;
+            case 3:
+                if (container[x].row >= 1 && container[x].row <= 6) {
+                    container[x].row += 21;
+                    canShow = true;
+                }
+                break;
+        }
+        return canShow;
+    }
 })();
 
 

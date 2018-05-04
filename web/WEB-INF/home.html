@@ -15,68 +15,69 @@
     <!--<script src="static/js/mythreejs.js"></script>-->
     <script>
         $(function () {
+            var getContainers = {
+                type: "POST",
+                dataType: "json",
+                url: "/api/container/get",
+                data: {
+                    id: $("#container-id").val(),
+                    row: $("#container-row").val(),
+                    column: $("#container-column").val(),
+                    layer: $("#container-layer").val(),
+                    type: $("#container-type").val(),
+                    size: $("#container-size").val()
+                },
+                success: function (result) {
+                    updateThreejs(result.container);
+                },
+                error: function () {
+                    alert("error!");
+                }
+            };
+            var insertContainer = {
+                type: "POST",
+                dataType: "text",
+                url: "/api/container/add",
+                data: {
+                    id: $("#container-add-id").val(),
+                    row: $("#container-add-row").val(),
+                    column: $("#container-add-column").val(),
+                    layer: $("#container-add-layer").val(),
+                    type: $("#container-add-type").val(),
+                    size: $("#container-add-size").val()
+                },
+                success: function (result) {
+                    alert(result);
+                    $.ajax(getContainers);
+                },
+                error: function () {
+                    alert("error!");
+                }
+            };
+            $.ajax(getContainers);
             $(".next-area-btn").click(function () {
                 if (areatype < 3) {
                     areatype++;
-                    updateThreejs();
+                    $.get("/api/container/get", function (result) {
+                        updateThreejs(result.container);
+                    }, "json");
                 }
-                $.get("/api/container/get", function (result) {
-                    updateThreejs(JSON.parse(result).container);
-                });
             });
             $(".prev-area-btn").click(function () {
                 if (areatype > 0) {
                     areatype--;
-                    area_shift(areatype);
+                    $.get("/api/container/get", function (result) {
+                        updateThreejs(result.container);
+                    }, "json");
                 }
-                $.get("/api/container/get", function (result) {
-                    updateThreejs(JSON.parse(result).container);
-                })
+
             });
             $("#container-query-btn").click(function () {
-                $.ajax({
-                    type: "POST",
-                    dataType: "text",
-                    url: "/api/container/get",
-                    data: {
-                        id: $("#container-id").val(),
-                        row: $("#container-row").val(),
-                        column: $("#container-column").val(),
-                        layer: $("#container-layer").val(),
-                        type: $("#container-type").val(),
-                        size: $("#container-size").val()
-                    },
-                    success: function (result) {
-                        //  alert(result);
-                        updateThreejs(JSON.parse(result).container);
-                        //   showThreejs(JSON.parse(result).container);
-                    },
-                    error: function () {
-                        alert("error!");
-                    }
-                });
+                $.ajax(getContainers);
             });
             $("#container-add-btn").click(function () {
-                $.ajax({
-                    type: "POST",
-                    dataType: "text",
-                    url: "/api/container/add",
-                    data: {
-                        id: $("#container-add-id").val(),
-                        row: $("#container-add-row").val(),
-                        column: $("#container-add-column").val(),
-                        layer: $("#container-add-layer").val(),
-                        type: $("#container-add-type").val(),
-                        size: $("#container-add-size").val()
-                    },
-                    success: function (result) {
-                        alert(result);
-                        //showThreejs(JSON.parse(result).container);
-                    },
-                    error: function () {
-                        alert("error!");
-                    }
-                });
+                if (!convertToDatabaseFormat(insertContainer.data)) return;
+                $.ajax(insertContainer);
             })
         })
     </script>
