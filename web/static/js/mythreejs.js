@@ -290,7 +290,7 @@ var threejs_areas = [{
     }
 
     var lengthSeq, widthSeq;
-    startThreejs = function threeStart(_areatype) {
+    startThreejs = function (_areatype) {
         areatype = _areatype;
         lengthSeq = threejs_areas[areatype].lengthSeq;
         widthSeq = threejs_areas[areatype].widthSeq;
@@ -304,11 +304,7 @@ var threejs_areas = [{
         initControls();
         animate();
     };
-    // showThreejs = function (container) {
-    //     for (var x in container) {
-    //         container_add(container[x].row, container[x].column, container[x].layer, container[x].type, container[x].size);
-    //     }
-    // };
+
     updateThreejs = function (container) {
         area_shift(areatype);
         for (var x in container) {
@@ -343,6 +339,7 @@ var threejs_areas = [{
         }
     };
     convertToDatabaseFormat = function (data) {
+
         var canShow = false;
         switch (areatype) {
             case 0:
@@ -351,20 +348,20 @@ var threejs_areas = [{
                 }
                 break;
             case 1:
-                if (container[x].row >= 1 && container[x].row <= 10) {
-                    container[x].row += 5;
+                if (data.row >= 1 && data.row <= 10) {
+                    data.row += 5;
                     canShow = true;
                 }
                 break;
             case 2:
-                if (container[x].row >= 1 && container[x].row <= 6) {
-                    container[x].row += 15;
+                if (data.row >= 1 && data.row <= 6) {
+                  data.row += 15;
                     canShow = true;
                 }
                 break;
             case 3:
-                if (container[x].row >= 1 && container[x].row <= 6) {
-                    container[x].row += 21;
+                if (data.row >= 1 && data.row <= 6) {
+                    data.row += 21;
                     canShow = true;
                 }
                 break;

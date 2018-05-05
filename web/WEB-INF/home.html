@@ -15,6 +15,7 @@
     <!--<script src="static/js/mythreejs.js"></script>-->
     <script>
         $(function () {
+            startThreejs(0);
             var getContainers = {
                 type: "POST",
                 dataType: "json",
@@ -38,14 +39,7 @@
                 type: "POST",
                 dataType: "text",
                 url: "/api/container/add",
-                data: {
-                    id: $("#container-add-id").val(),
-                    row: $("#container-add-row").val(),
-                    column: $("#container-add-column").val(),
-                    layer: $("#container-add-layer").val(),
-                    type: $("#container-add-type").val(),
-                    size: $("#container-add-size").val()
-                },
+                data: null,
                 success: function (result) {
                     alert(result);
                     $.ajax(getContainers);
@@ -76,6 +70,14 @@
                 $.ajax(getContainers);
             });
             $("#container-add-btn").click(function () {
+                insertContainer.data = {
+                    id: Number($("#container-add-id").val()),
+                    row: Number($("#container-add-row").val()),
+                    column: Number($("#container-add-column").val()),
+                    layer: Number($("#container-add-layer").val()),
+                    type: Number($("#container-add-type").val()),
+                    size: Number($("#container-add-size").val())
+                };
                 if (!convertToDatabaseFormat(insertContainer.data)) return;
                 $.ajax(insertContainer);
             })
@@ -110,7 +112,7 @@
 
     </style>
 </head>
-<body onload="startThreejs(0)">
+<body>
 
 <h2 style="text-align: center">欢迎来到红太阳港口管理系统</h2>
 <div class="container">
