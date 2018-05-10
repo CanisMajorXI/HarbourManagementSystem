@@ -16,6 +16,7 @@
     </settings>
     <!-- 别名配置 -->
     <typeAliases>
+        <typeAlias alias="cargoandcontainer" type="com.redsun.pojo.CargoAndContainer"/>
         <typeAlias alias="user" type="com.redsun.pojo.User"/>
         <typeAlias alias="container" type="com.redsun.pojo.Container"/>
         <typeAlias alias="cargo" type="com.redsun.pojo.Cargo"/>
