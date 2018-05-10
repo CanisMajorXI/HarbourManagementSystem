@@ -6,9 +6,9 @@
     <resultMap id="cargo" type="cargo">
         <id property="id" column="cargo_id"/>
         <id property="name" column="cargo_name"/>
-        <id property="maximum" column="cargo_maximum"/>
-        <id property="gross" column="cargo_gross"/>
-        <id property="type" column="cargo_type"/>
+        <id property="maximumInAContainer" column="maximum"/>
+        <id property="gross" column="gross"/>
+        <id property="type" column="unit_type"/>
     </resultMap>
     <select id="getCargos"  resultMap="cargo" parameterType="cargo">
         SELECT * FROM cargo_table
@@ -19,18 +19,18 @@
             <if test="name != null">
                 AND cargo_name = #{name}
             </if>
-            <if test="maximum != null">
-                AND cargo_maximum = #{maximum}
+            <if test="maximumInAContainer != null">
+                AND maximum = #{maximumInAContainer}
             </if>
             <if test="gross != null">
-                AND cargo_gross = #{gross}
+                AND gross = #{gross}
             </if>
             <if test="type != null">
-                AND cargo_type = #{type}
+                AND unit_type = #{type}
             </if>
         </trim>
     </select>
     <insert id="insertCargo" parameterType="cargo">
-        INSERT into cargo_table VALUES (#{id},#{name},#{maximum},#{gross},#{type})
+        INSERT into cargo_table VALUES (#{id},#{name},#{maximumInAContainer},#{gross},#{type})
     </insert>
 </mapper>

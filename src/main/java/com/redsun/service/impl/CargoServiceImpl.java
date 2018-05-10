@@ -22,12 +22,26 @@ public class CargoServiceImpl implements CargoService {
         List<Cargo> resultCargos = null;
         try {
             resultCargos = cargoMapper.getCargos(cargo);
-            //System.out.println("resultContainers == null?"+(resultContainers==null));
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         } finally {
             return resultCargos;
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public boolean addABatchCargo(Cargo cargo){
+        boolean result = true;
+        try {
+            int i = cargoMapper.insertCargo(cargo);
+            System.out.println("受影响的行数:"+i);
+        } catch (Exception e) {
+            result = false;
+            throw new RuntimeException(e);
+        } finally {
+            return result;
         }
     }
 }
