@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            var proAreaCode =$("#pro_areaCode").val();
+            alert(proAreaCode);
+        });
+    </script>
+</head>
+<body>
+<select name="select" id="pro_areaCode">
+<option value="0000000000">请选择</option>
+<option value="110000">北京市</option>
+<option value="120000" selected="selected">天津市</option>
+<option value="130000">河北省</option>
+<option value="140000">山西省</option>
+<option value="150000">内蒙古自治区</option>
+</select>
+</body>
+</html>

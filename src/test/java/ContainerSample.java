@@ -16,6 +16,15 @@ public class ContainerSample {
         }
     }
 
+    /*
+    transaction
+    1: insertAnEmptyContainer
+    2:insertAnUnitCargo
+    3:insertCargoToContainer
+    id1
+    id2
+
+    * */
     private void print() {
         contaners.sort(new Comparator<Container>() {
             @Override

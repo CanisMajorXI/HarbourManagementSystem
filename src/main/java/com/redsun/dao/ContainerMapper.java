@@ -10,4 +10,5 @@ public interface ContainerMapper {
     List<Container> getTotalContainers();
     List<Container> getContainers(Container container);
     int insertContainer(Container container);
+    int deleteContainer(Container container);
 }
