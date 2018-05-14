@@ -42,8 +42,6 @@ $(document).ready(function () {
         rules: {
             username: {
                 required: true,//必填
-                rangelength: [8, 8]
-
             },
             password: {
                 required: true,
@@ -55,9 +53,6 @@ $(document).ready(function () {
         messages: {
             username: {
                 required: "必须填写用户名",
-                minlength: "用户名为8位ID或者邮箱",
-                maxlength: "用户名为8位ID或者邮箱",
-                remote: "用户名或密码错误!"
             },
             password: {
                 required: "必须填写密码",
@@ -170,13 +165,15 @@ $(document).ready(function () {
         },
         onkeyup: false,
         submitHandler: function (form) {
+            var username =  $(".username").val();
+            var password =   $(".password").val();
             $.ajax({
                 type: "POST",
                 dataType: "text",
                 url: "/api/user/register/addanuser",
                 data: {
-                    username: $(".username").val(),
-                    password: $(".password").val(),
+                    username: username,
+                    password: password,
                     email: $(".email").val(),
                     type: $(".type").val(),
                     vericode: $(".veriinput").val(),
@@ -184,7 +181,8 @@ $(document).ready(function () {
                 success: function (result) {
                     if (result && result === '0') {
                         alert("注册成功！");
-                        $.cookie('auto', 'cookieValue');
+                        $.cookie('registeruser',username);
+                        $.cookie('registerpassword',password);
                         $(location).attr('href', 'index.html');
                     }
                     else if(result === '1'){
