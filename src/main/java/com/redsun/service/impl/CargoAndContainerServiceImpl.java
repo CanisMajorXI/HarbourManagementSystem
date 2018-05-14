@@ -24,37 +24,37 @@ public class CargoAndContainerServiceImpl implements CargoAndContainerService {
     @Autowired
     private CargoAndContainerMapper cargoandcontainerMapper = null;
 
+    /**
+     * 获取箱子
+     * @param cargoandcontainer
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public List<CargoAndContainer> getCargoAndContainer(CargoAndContainer cargoandcontainer) {
         List<CargoAndContainer> resultCargoAndContainers = null;
-        try {
-            resultCargoAndContainers = cargoandcontainerMapper.getCargoAndContainer(cargoandcontainer);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } finally {
-            return resultCargoAndContainers;
-        }
+        resultCargoAndContainers = cargoandcontainerMapper.getCargoAndContainer(cargoandcontainer);
+        return resultCargoAndContainers;
     }
 
+    /**
+     * 加入一个有货的箱子
+     * @param container
+     * @param cargo
+     * @param cargoandcontainer
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
-    public boolean addContainerWithCargo(Container container, Cargo cargo,CargoAndContainer cargoandcontainer) {
-        boolean result = true;
-        try {
-            int i = containerMapper.insertContainer(container);
-            System.out.println("加入箱子成功");
-            int j = cargoMapper.insertCargo(cargo);
-            System.out.println("加入货物成功");
-            int k = cargoandcontainerMapper.insertCargoAndContainer(cargoandcontainer);
-            System.out.println("加入箱货成功");
-        } catch (Exception e) {
-            result = false;
-            throw new RuntimeException(e);
-        } finally {
-            return result;
-        }
+    public void addContainerWithCargo(Container container, Cargo cargo,CargoAndContainer cargoandcontainer) {
+        int i = containerMapper.insertContainer(container);
+        System.out.println("加入箱子成功");
+        int j = cargoMapper.insertCargo(cargo);
+        System.out.println("加入货物成功");
+        cargoandcontainer.setCargoid(cargo.getCargoid());
+        cargoandcontainer.setContainerid(container.getId());
+        cargoandcontainer.setUnits(cargo.getGross());
+        int k = cargoandcontainerMapper.insertCargoAndContainer(cargoandcontainer);
+        System.out.println("加入箱货成功");
     }
 
 

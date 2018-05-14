@@ -20,6 +20,7 @@
         <typeAlias alias="user" type="com.redsun.pojo.User"/>
         <typeAlias alias="container" type="com.redsun.pojo.Container"/>
         <typeAlias alias="cargo" type="com.redsun.pojo.Cargo"/>
+        <typeAlias alias="cargoattr"  type="com.redsun.pojo.CargoAttr" />
     </typeAliases>
     <mappers>
         <package name="com.redsun.dao"/>

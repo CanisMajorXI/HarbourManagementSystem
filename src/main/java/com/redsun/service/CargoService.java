@@ -8,5 +8,5 @@ public interface CargoService {
    // List<Cargo> getTotalCargos();
     //List<Cargo> getCargos();
     List<Cargo> getCargos(Cargo cargo);
-    boolean addABatchCargo(Cargo cargo);
+    void addABatchCargo(Cargo cargo);
 }

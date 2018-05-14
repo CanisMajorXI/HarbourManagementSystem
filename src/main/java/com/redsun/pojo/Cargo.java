@@ -1,34 +1,24 @@
 package com.redsun.pojo;
 
 public class Cargo {
-    private Integer id;
-    private String name;
-    private Integer maximumInAContainer;
+    private Integer cargoid;
+    private Integer typeid;
     private Integer gross;
-    private String type;
 
-    public Integer getId() {
-        return id;
+    public Integer getCargoid() {
+        return cargoid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCargoid(Integer cargoid) {
+        this.cargoid = cargoid;
     }
 
-    public String getName() {
-        return name;
+    public Integer getTypeid() {
+        return typeid;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getMaximumInAContainer() {
-        return maximumInAContainer;
-    }
-
-    public void setMaximumInAContainer(Integer maximumInAContainer) {
-        this.maximumInAContainer = maximumInAContainer;
+    public void setTypeid(Integer typeid) {
+        this.typeid = typeid;
     }
 
     public Integer getGross() {
@@ -37,13 +27,5 @@ public class Cargo {
 
     public void setGross(Integer gross) {
         this.gross = gross;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

@@ -16,32 +16,26 @@ public class CargoServiceImpl implements CargoService {
     @Autowired
     private CargoMapper cargoMapper = null;
 
+    /**
+     * 获取货物
+     * @param cargo
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public List<Cargo> getCargos(Cargo cargo) {
         List<Cargo> resultCargos = null;
-        try {
-            resultCargos = cargoMapper.getCargos(cargo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } finally {
-            return resultCargos;
-        }
+        resultCargos = cargoMapper.getCargos(cargo);
+        return resultCargos;
     }
 
+    /**
+     *加入一批货物
+     * @param cargo
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
-    public boolean addABatchCargo(Cargo cargo){
-        boolean result = true;
-        try {
-            int i = cargoMapper.insertCargo(cargo);
-            System.out.println("受影响的行数:"+i);
-        } catch (Exception e) {
-            result = false;
-            throw new RuntimeException(e);
-        } finally {
-            return result;
-        }
+    public void addABatchCargo(Cargo cargo){
+        cargoMapper.insertCargo(cargo);
     }
 }
