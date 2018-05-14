@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>注册新用户</title>
+    <link rel="stylesheet" href="/static/css/style.css"/>
+    <link rel="stylesheet" href="/static/css/modification.css"/>
+
+<body>
+
+<div class="register-container">
+    <h1>红太阳港口管理系统</h1>
+
+    <div class="connect">
+        <a href="https://github.com/XiWinnie/HabourManagementSystem"> <img src="/static/img/github_128px_1173875_easyicon.net.png"></a>
+    </div>
+
+    <form action="" method="post" id="registerForm">
+        <div class="typemodule">
+            <label>我是：</label>
+            <select class="type">
+                <option value="1" selected>操作员</option>
+                <option value="2">货主</option>
+                <option value="3">承运人</option>
+                <option value="4">管理员</option>
+            </select>
+        </div>
+
+        <div>
+            <input  type="number" name="username" class="username" placeholder="您的用户名" autocomplete="off"/>
+        </div>
+
+        <div>
+            <input type="password" name="password" class="password" placeholder="输入密码" oncontextmenu="return false"
+                   onpaste="return false"/>
+        </div>
+        <div>
+            <input type="password" name="confirm_password" class="confirm_password" placeholder="再次输入密码"
+                   oncontextmenu="return false" onpaste="return false"/>
+        </div>
+        <div>
+            <input type="text" name="email" class="email" placeholder="输入邮箱地址" autocomplete="off" id="number"/>
+        </div>
+        <div class="vericodemodule">
+            <input type="number" name="veriinput" class="veriinput" placeholder="点击获取验证码" oncontextmenu="return false"
+                   onpaste="return false"/>
+            <button class="getcode" type="button" id="verificationcode">获取验证码</button>
+        </div>
+        <div>
+
+        </div>
+
+        <button id="submit" type="submit">注 册</button>
+    </form>
+    <a href="index.html">
+        <button type="button" class="register-tis">已经有账号？</button>
+    </a>
+
+</div>
+
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/common.js"></script>
+<!--背景图片自动更换-->
+<script src="/static/js/supersized.3.2.7.min.js"></script>
+<script src="/static/js/supersized-init.js"></script>
+<!--表单验证-->
+<script src="/static/js/jquery.validate.min.js?var1.14.0"></script>
+<script src="/static/js/jquery.cookie.js"></script>
+</body>
+</html>
+<!--
+本代码由js代码收集并编辑整理;
+尊重他人劳动成果;
+转载请保留js代码链接 - www.jsdaima.com
+-->

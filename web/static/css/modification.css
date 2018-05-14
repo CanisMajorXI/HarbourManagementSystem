@@ -1,0 +1,68 @@
+.vericodemodule {
+    position: relative;
+}
+.getcode {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35%;
+    opacity: 1;
+    background-color: deeppink;
+}
+.typemodule {
+    width: 100%;
+    position: relative;
+    height: 42px;
+    margin-top: 35px;
+ }
+.typemodule label{
+    position: absolute;
+    left: 3px;
+    top: 12px;
+}
+.type {
+    position: absolute;
+    right: 2px;
+    width: 83%;
+    height: 42px;
+    line-height: 42px;
+    padding: 0 15px;
+    background: #2d2d2d;
+    background: rgba(45, 45, 45, .15);
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 1px solid #3d3d3d;
+    border: 1px solid rgba(255, 255, 255, .15);
+    -moz-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+    font-family: "Microsoft YaHei", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+    -o-transition: all .2s;
+    -moz-transition: all .2s;
+    -webkit-transition: all .2s;
+    -ms-transition: all .2s
+}
+.connect img {
+    width: 60px;
+}
+/*.typemodule{*/
+    /*position: relative;*/
+/*}*/
+/*.typemodule .optiondiv {*/
+
+    /*!*height: 15px;*!*/
+    /*width: 25%;*/
+    /*position: relative;*/
+
+    /*!*display: inline-block;*!*/
+/*}*/
+/*.typemodule input {*/
+    /*!*width: 15%;*!*/
+    /*display: block;*/
+    /*height: 15px;*/
+    /*box-shadow: none;*/
+/*}*/

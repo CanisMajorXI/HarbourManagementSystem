@@ -11,9 +11,10 @@ import java.util.Map;
 public interface UserMapper {
 
 
-    List<User> loginByEmailVerification(@Param("email") String email,@Param("password") String password);
-
-    List<User> loginByIdVerification(@Param("id") int id, @Param("password") String password);
+//    List<User> loginByEmailVerification(@Param("email") String email,@Param("password") String password);
+//
+//    List<User> loginByIdVerification(@Param("id") int id, @Param("password") String password);
+    int insertUser(User user);
 
     List<User> getUsers(User user);
 }
