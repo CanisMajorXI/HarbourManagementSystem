@@ -32,7 +32,6 @@ public class ContainerController {
                                       @RequestParam(name = "type", required = false) Byte type,
                                       @RequestParam(name = "size", required = false) Byte size,
                                       ModelMap modelMap) {
-        //System.out.println("row" + (row == null));
         Container container = new Container();
         container.setId(id);
         container.setRow(row);
@@ -40,15 +39,6 @@ public class ContainerController {
         container.setLayer(layer);
         container.setType(type);
         container.setSize(size);
-       /* System.out.println("row:"+container.getRow());
-        System.out.println("column:"+container.getColumn());
-        System.out.println("layer:"+container.getLayer());*/
-//        if(errors.hasErrors()) {
-//            List<FieldError>fieldErrors = errors.getFieldErrors();
-//            for(FieldError fieldError: fieldErrors) {
-//                System.out.println("field"+fieldError.getField()+"\nmessage:"+fieldError.getDefaultMessage());
-//            }
-//        }
         ModelAndView mv = new ModelAndView();
         List<Container> containers = containerService.getContainers(container);
         modelMap.addAttribute("container", containers);

@@ -21,7 +21,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper = null;
     Logger logger = Logger.getLogger(UserServiceImpl.class);
-    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.SERIALIZABLE)
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public User userVerification(User user) {
         User resultUser = null;
@@ -29,7 +30,7 @@ public class UserServiceImpl implements UserService {
             List<User> users = userMapper.getUsers(user);
             if (users.size() == 1) {
                 resultUser = users.get(0);
-                System.out.println(user.getId()+" "+user.getEmail()+" "+user.getPassword());
+                System.out.println(user.getId() + " " + user.getEmail() + " " + user.getPassword());
             } else if (users.size() >= 1) {
                 System.out.println("用户数据库发生重复用户名！请联系管理员进行检查！");
                 throw new RuntimeException();
@@ -42,7 +43,8 @@ public class UserServiceImpl implements UserService {
             return resultUser;
         }
     }
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public List<User> getTotalUsers() {
         List<User> users = null;
@@ -55,5 +57,22 @@ public class UserServiceImpl implements UserService {
         } finally {
             return users;
         }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public boolean isNotDuplicate(Integer username, String email) {
+        User user = new User();
+        user.setId(username);
+        user.setEmail(email);
+        List<User> userList = userMapper.getUsers(user);
+        if (userList.size() == 0) return true;
+        return false;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public void addAnUser(User user) {
+        userMapper.insertUser(user);
     }
 }

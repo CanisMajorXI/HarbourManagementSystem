@@ -11,5 +11,9 @@ public interface UserService {
 
     User userVerification(User user);
 
+    boolean isNotDuplicate(Integer username,String email);
+
+   void addAnUser(User user);
+
     List<User> getTotalUsers();
 }

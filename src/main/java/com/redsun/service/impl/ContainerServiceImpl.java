@@ -51,7 +51,6 @@ public class ContainerServiceImpl implements ContainerService {
         boolean result = true;
         try {
             int i = containerMapper.insertContainer(container);
-            System.out.println("受影响的行数:"+i);
         } catch (Exception e) {
             result = false;
             throw new RuntimeException(e);
