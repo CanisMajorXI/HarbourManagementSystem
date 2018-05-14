@@ -39,6 +39,13 @@ public class ContainerController {
         container.setLayer(layer);
         container.setType(type);
         container.setSize(size);
+        System.out.println(container.getId());
+        System.out.println(container.getRow());
+        System.out.println(container.getColumn());
+        System.out.println(container.getLayer());
+        System.out.println(container.getType());
+        System.out.println(container.getSize());
+
         ModelAndView mv = new ModelAndView();
         List<Container> containers = containerService.getContainers(container);
         modelMap.addAttribute("container", containers);

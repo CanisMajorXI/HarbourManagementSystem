@@ -9,46 +9,55 @@
     <script src="/static/js/OrbitControls.js"></script>
     <script src="/static/js/Detector.js"></script>
     <script src="/static/js/mythreejs.js"></script>
-    <!--<script src="static/js/three.js"></script>-->
-    <!--<script src="static/js/OrbitControls.js"></script>-->
-    <!--<script src="static/js/Detector.js"></script>-->
-    <!--<script src="static/js/mythreejs.js"></script>-->
     <script>
         $(function () {
             startThreejs(0);
-            var getContainers = {
-                type: "POST",
-                dataType: "json",
-                url: "/api/container/get",
-                data: {
-                    id: $("#container-id").val(),
-                    row: $("#container-row").val(),
-                    column: $("#container-column").val(),
-                    layer: $("#container-layer").val(),
-                    type: $("#container-type").val(),
-                    size: $("#container-size").val()
-                },
-                success: function (result) {
-                    updateThreejs(result.container);
-                },
-                error: function () {
-                    alert("error!");
-                }
-            };
-            var insertContainer = {
-                type: "POST",
-                dataType: "text",
-                url: "/api/container/add",
-                data: null,
-                success: function (result) {
-                    alert(result);
-                    $.ajax(getContainers);
-                },
-                error: function () {
-                    alert("error!");
-                }
-            };
-            $.ajax(getContainers);
+
+            function getContainers() {
+                return {
+                    type: "POST",
+                    dataType: "json",
+                    url: "/api/container/get",
+                    data: {
+                        id: $("#container-id").val(),
+                        row: $("#container-row").val(),
+                        column: $("#container-column").val(),
+                        layer: $("#container-layer").val(),
+                        type: $("#container-type").val(),
+                        size: $("#container-size").val()
+                    },
+                    success: function (result) {
+                        updateThreejs(result.container);
+                    },
+                    error: function () {
+                        alert("error!");
+                    }
+                };
+            }
+
+            function insertContainer() {
+                return {
+                    type: "POST",
+                    dataType: "text",
+                    url: "/api/container/add",
+                    data: {
+                        id: Number($("#container-add-id").val()),
+                        row: Number($("#container-add-row").val()),
+                        column: Number($("#container-add-column").val()),
+                        layer: Number($("#container-add-layer").val()),
+                        type: Number($("#container-add-type").val()),
+                        size: Number($("#container-add-size").val())
+                    },
+                    success: function (result) {
+                        alert(result);
+                        $.ajax(getContainers());
+                    },
+                    error: function () {
+                        alert("error!");
+                    }
+                };
+            }
+            $.ajax(getContainers());
             $(".next-area-btn").click(function () {
                 if (areatype < 3) {
                     areatype++;
@@ -67,19 +76,12 @@
 
             });
             $("#container-query-btn").click(function () {
-                $.ajax(getContainers);
+                $.ajax(getContainers());
             });
             $("#container-add-btn").click(function () {
-                insertContainer.data = {
-                    id: Number($("#container-add-id").val()),
-                    row: Number($("#container-add-row").val()),
-                    column: Number($("#container-add-column").val()),
-                    layer: Number($("#container-add-layer").val()),
-                    type: Number($("#container-add-type").val()),
-                    size: Number($("#container-add-size").val())
-                };
-                if (!convertToDatabaseFormat(insertContainer.data)) return;
-                $.ajax(insertContainer);
+                var insertdata = insertContainer();
+                if (!convertToDatabaseFormat(insertdata.data)) return;
+                $.ajax(insertdata);
             })
         })
     </script>
