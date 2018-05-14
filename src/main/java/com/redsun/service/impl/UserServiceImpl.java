@@ -66,8 +66,7 @@ public class UserServiceImpl implements UserService {
         user.setId(username);
         user.setEmail(email);
         List<User> userList = userMapper.getUsers(user);
-        if (userList.size() == 0) return true;
-        return false;
+        return userList.size() == 0;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)

@@ -5,7 +5,7 @@ window.onload = function () {
 };
 //jquery.validate表单验证
 $(document).ready(function () {
-    let TL = 6;
+    let TL = 300;
     let pattern = /[0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+)*@[0-9a-zA-Z_]+(\.[0-9a-zA-Z_]+)+/;
     var countdown = TL;
 
