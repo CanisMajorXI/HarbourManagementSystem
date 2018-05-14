@@ -1,19 +1,10 @@
 package com.redsun.pojo;
 
 public class CargoAttr {
-    private Integer cargoId;
     private Integer typeId;
     private String name;
     private Integer maximumInAContainer;
     private String type;
-
-    public Integer getCargoId() {
-        return cargoId;
-    }
-
-    public void setCargoId(Integer cargoId) {
-        this.cargoId = cargoId;
-    }
 
     public Integer getTypeId() {
         return typeId;

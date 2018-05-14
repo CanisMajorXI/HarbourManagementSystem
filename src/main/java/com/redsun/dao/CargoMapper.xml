@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.redsun.dao.CargoMapper">
-    <resultMap id="cargo" type="cargo">
-        <id property="id" column="cargo_id"/>
-        <id property="name" column="cargo_name"/>
-        <id property="maximumInAContainer" column="maximum"/>
-        <id property="gross" column="gross"/>
-        <id property="type" column="unit_type"/>
-    </resultMap>
-    <select id="getCargos"  resultMap="cargo" parameterType="cargo">
-        SELECT * FROM cargo_table
-        <trim prefix="WHERE" prefixOverrides="AND">
-            <if test="id != null">
-                AND cargo_id = #{id}
-            </if>
-            <if test="name != null">
-                AND cargo_name = #{name}
-            </if>
-            <if test="maximumInAContainer != null">
-                AND maximum = #{maximumInAContainer}
-            </if>
-            <if test="gross != null">
-                AND gross = #{gross}
-            </if>
-            <if test="type != null">
-                AND unit_type = #{type}
-            </if>
-        </trim>
-    </select>
-    <insert id="insertCargo" parameterType="cargo">
-        INSERT into cargo_table VALUES (#{id},#{name},#{maximumInAContainer},#{gross},#{type})
-    </insert>
+<resultMap id="cargo" type="cargo">
+    <id property="id" column="cargo_id"/>
+    <id property="name" column="cargo_name"/>
+    <id property="maximumInAContainer" column="maximum"/>
+    <id property="gross" column="gross"/>
+    <id property="type" column="unit_type"/>
+</resultMap>
+<select id="getCargos"  resultMap="cargo" parameterType="cargo">
+    SELECT * FROM cargo_table
+    <trim prefix="WHERE" prefixOverrides="AND">
+        <if test="id != null">
+            AND cargo_id = #{id}
+        </if>
+        <if test="name != null">
+            AND cargo_name = #{name}
+        </if>
+        <if test="maximumInAContainer != null">
+            AND maximum = #{maximumInAContainer}
+        </if>
+        <if test="gross != null">
+            AND gross = #{gross}
+        </if>
+        <if test="type != null">
+            AND unit_type = #{type}
+        </if>
+    </trim>
+</select>
+<insert id="insertCargo" parameterType="cargo">
+    INSERT into cargo_table VALUES (#{id},#{name},#{maximumInAContainer},#{gross},#{type})
+</insert>
 </mapper>
