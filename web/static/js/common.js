@@ -45,8 +45,7 @@ $(document).ready(function () {
             },
             password: {
                 required: true,
-                minlength: 6,
-                maxlength: 20
+                rangelength:[6,20]
             },
         },
         //错误信息提示
@@ -56,7 +55,7 @@ $(document).ready(function () {
             },
             password: {
                 required: "必须填写密码",
-                rangelength: "用户名为8位数字"
+                rangelength: "密码6到20位"
             }
         },
         // onkeyup: false,
