@@ -68,4 +68,16 @@ public class CargoAndContainerController {
              e.printStackTrace();
          }
     }
+    /**
+     * 将货加入到箱子中
+     */
+    @RequestMapping("/put")
+    @ResponseBody
+    public void putCargoIntoContainer(Container container, Cargo cargo,CargoAndContainer cargoandcontainer){
+        try{
+            cargoandcontainerService.putCargoIntoContainer(container,cargo,cargoandcontainer);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

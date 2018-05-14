@@ -56,6 +56,15 @@ public class CargoAndContainerServiceImpl implements CargoAndContainerService {
         int k = cargoandcontainerMapper.insertCargoAndContainer(cargoandcontainer);
         System.out.println("加入箱货成功");
     }
-
-
+    /**
+     * 将货加入到箱子中
+     */
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public void putCargoIntoContainer(Container container, Cargo cargo, CargoAndContainer cargoandcontainer) {
+        cargoandcontainer.setCargoid(cargo.getCargoid());
+        cargoandcontainer.setContainerid(container.getId());
+        cargoandcontainer.setUnits(cargo.getGross());
+        cargoandcontainerMapper.insertCargoAndContainer(cargoandcontainer);
+    }
 }
