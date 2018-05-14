@@ -21,6 +21,8 @@
         <typeAlias alias="container" type="com.redsun.pojo.Container"/>
         <typeAlias alias="cargo" type="com.redsun.pojo.Cargo"/>
         <typeAlias alias="cargoattr"  type="com.redsun.pojo.CargoAttr" />
+        <typeAlias alias="shippercargo" type="com.redsun.pojo.ShipperCargo" />
+        <typeAlias alias="shippercontainer" type="com.redsun.pojo.ShipperContainer" />
     </typeAliases>
     <mappers>
         <package name="com.redsun.dao"/>
