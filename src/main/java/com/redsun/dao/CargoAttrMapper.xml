@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.redsun.dao.CargoMapper">
-    <select id="getCargos" resultType="cargoattr" parameterType="cargoattr">
+<mapper namespace="com.redsun.dao.CargoAttrMapper">
+    <select id="getCargoAttr" resultType="cargoattr" parameterType="cargoattr">
         SELECT * FROM cargo_attr_table
         <trim prefix="WHERE" prefixOverrides="AND">
             <if test="typeId != null">
