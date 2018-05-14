@@ -9,7 +9,34 @@
     <meta name="description" content=""/>
     <link rel="stylesheet" href="/static/css/style.css"/>
     <link rel="stylesheet" href="/static/css/modification.css"/>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/common.js"></script>
+    <!--背景图片自动更换-->
+    <script src="/static/js/supersized.3.2.7.min.js"></script>
+    <script src="/static/js/supersized-init.js"></script>
+    <!--表单验证-->
+    <script src="/static/js/jquery.validate.min.js?var1.14.0"></script>
+    <script src="/static/js/jquery.cookie.js"></script>
 
+    <script>
+        $(function () {
+            var username = $.cookie('registeruser');
+            var password = $.cookie('registerpassword');
+            if (username && password) {
+                $(".username").val(username);
+                $(".password").val(password);
+                $.cookie('registeruser',null);
+                $.cookie('registerpassword',null);
+            }
+
+//            if (username && password) {
+//
+//            }
+            $.cookie('registeruser', null);
+            $.cookie('registeruser', null);
+        });
+    </script>
+</head>
 <body>
 
 <div class="login-container">
@@ -31,14 +58,14 @@
             </select>
         </div>
         <div>
-            <input type="number" name="username" class="username" placeholder="用户ID/邮箱" autocomplete="off"/>
+            <input type="text" name="username" class="username" placeholder="用户ID/邮箱" autocomplete="off"/>
         </div>
         <div>
             <input type="password" name="password" class="password" placeholder="密码" oncontextmenu="return false"
                    autocomplete="off" auonpaste="return false"/>
         </div>
         <!--<input type="submit" id="submit" name="submitbtn" class="submitbtn" value="登陆"/>-->
-        <button id="submit" type="submit" class= "submitbtn">登 录</button>
+        <button id="submit" type="submit" class="submitbtn">登 录</button>
     </form>
 
     <a href="register.html">
@@ -46,15 +73,6 @@
     </a>
 
 </div>
-
-<script src="/static/js/jquery.min.js"></script>
-<script src="/static/js/common.js"></script>
-<!--背景图片自动更换-->
-<script src="/static/js/supersized.3.2.7.min.js"></script>
-<script src="/static/js/supersized-init.js"></script>
-<!--表单验证-->
-<script src="/static/js/jquery.validate.min.js?var1.14.0"></script>
-<script src="/static/js/jquery.cookie.js"></script>
 
 </body>
 </html>
