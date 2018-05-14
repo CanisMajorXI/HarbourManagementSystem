@@ -24,6 +24,17 @@ public class ContainerController {
     @Autowired
     private ContainerService containerService = null;
 
+    /**
+     * 获取箱子信息
+     * @param id
+     * @param row
+     * @param column
+     * @param layer
+     * @param type
+     * @param size
+     * @param modelMap
+     * @return
+     */
     @RequestMapping("/get")
     public ModelAndView getContainers(@RequestParam(name = "id", required = false) Integer id,
                                       @RequestParam(name = "row", required = false) Byte row,
@@ -32,39 +43,46 @@ public class ContainerController {
                                       @RequestParam(name = "type", required = false) Byte type,
                                       @RequestParam(name = "size", required = false) Byte size,
                                       ModelMap modelMap) {
-        Container container = new Container();
-        container.setId(id);
-        container.setRow(row);
-        container.setColumn(column);
-        container.setLayer(layer);
-        container.setType(type);
-        container.setSize(size);
-        System.out.println(container.getId());
-        System.out.println(container.getRow());
-        System.out.println(container.getColumn());
-        System.out.println(container.getLayer());
-        System.out.println(container.getType());
-        System.out.println(container.getSize());
+        try{
+            Container container = new Container();
+            container.setId(id);
+            container.setRow(row);
+            container.setColumn(column);
+            container.setLayer(layer);
+            container.setType(type);
+            container.setSize(size);
+            System.out.println(container.getId());
+            System.out.println(container.getRow());
+            System.out.println(container.getColumn());
+            System.out.println(container.getLayer());
+            System.out.println(container.getType());
+            System.out.println(container.getSize());
 
-        ModelAndView mv = new ModelAndView();
-        List<Container> containers = containerService.getContainers(container);
-        modelMap.addAttribute("container", containers);
-        mv.setView(new MappingJackson2JsonView());
-        return mv;
+            ModelAndView mv = new ModelAndView();
+            List<Container> containers = containerService.getContainers(container);
+            modelMap.addAttribute("container", containers);
+            mv.setView(new MappingJackson2JsonView());
+            return mv;
+        }catch(Exception e){
+            return null;
+        }
     }
 
+    /**
+     * 加入一个空箱子
+     * @param container
+     */
     @RequestMapping("/add")
     @ResponseBody
     public boolean addAnEmptyContainer(Container container) {
-        if (!Container.checkTentativeValidity(container)) return false;
-        System.out.println(container.getRow());
-        System.out.println(container.getColumn());
-        System.out.println(container.getLayer());
-        System.out.println(container.getType());
-        System.out.println(container.getSize());
-//        if (!Container.checkTentativeValidity(container)) return false;
-//
-        return containerService.addAnEmptyContainer(container);
+        try{
+            if (!Container.checkTentativeValidity(container)) return false;
+            containerService.addAnEmptyContainer(container);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     //初步判断集装箱属性合法性，即数据是否在设计范围

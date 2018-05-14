@@ -22,26 +22,50 @@ public class CargoAndContainerController {
     @Autowired
     private CargoAndContainerService cargoandcontainerService = null;
 
+    /**
+     * 获取箱子
+     * @param cargoid
+     * @param containerid
+     * @param units
+     * @param modelMap
+     * @return
+     */
     @RequestMapping("/get")
     public ModelAndView getCargoAndContainer(@RequestParam(name = "cargoid", required = false) Integer cargoid,
                                              @RequestParam(name = "containerid", required = false) Integer containerid,
                                              @RequestParam(name = "units", required = false) Integer units,
                                              ModelMap modelMap){
-        CargoAndContainer cargoandcontainer = new CargoAndContainer();
-        cargoandcontainer.setCargoid(cargoid);
-        cargoandcontainer.setContainerid(containerid);
-        cargoandcontainer.setUnits(units);
+        try{
+            CargoAndContainer cargoandcontainer = new CargoAndContainer();
+            cargoandcontainer.setCargoid(cargoid);
+            cargoandcontainer.setContainerid(containerid);
+            cargoandcontainer.setUnits(units);
 
-        ModelAndView mv = new ModelAndView();
-        List<CargoAndContainer> cargoandcontainers = cargoandcontainerService.getCargoAndContainer(cargoandcontainer);
-        modelMap.addAttribute("cargoandcontainer", cargoandcontainers);
+            ModelAndView mv = new ModelAndView();
+            List<CargoAndContainer> cargoandcontainers = cargoandcontainerService.getCargoAndContainer(cargoandcontainer);
+            modelMap.addAttribute("cargoandcontainer", cargoandcontainers);
 
-        mv.setView(new MappingJackson2JsonView());
-        return mv;
+            mv.setView(new MappingJackson2JsonView());
+            return mv;
+        }catch (Exception e){
+            return null;
+        }
+
     }
+
+    /**
+     * 加入一个有货的箱子
+     * @param container
+     * @param cargo
+     * @param cargoandcontainer
+     */
     @RequestMapping("/add")
     @ResponseBody
-    public boolean addContainerWithCargo(Container container, Cargo cargo,CargoAndContainer cargoandcontainer){
-        return cargoandcontainerService.addContainerWithCargo(container,cargo,cargoandcontainer);
+    public void addContainerWithCargo(Container container, Cargo cargo,CargoAndContainer cargoandcontainer){
+         try{
+             cargoandcontainerService.addContainerWithCargo(container,cargo,cargoandcontainer);
+         }catch (Exception e){
+             e.printStackTrace();
+         }
     }
 }

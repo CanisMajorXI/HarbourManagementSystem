@@ -30,46 +30,31 @@ public class ContainerServiceImpl implements ContainerService {
         }
     }
 
+    /**
+     * 获取箱子信息
+     * @param container
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public List<Container> getContainers(Container container) {
         List<Container> resultContainers = null;
-        try {
-            resultContainers = containerMapper.getContainers(container);
-            //System.out.println("resultContainers == null?"+(resultContainers==null));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } finally {
-            return resultContainers;
-        }
+        resultContainers = containerMapper.getContainers(container);
+        return resultContainers;
     }
 
+    /**
+     * 添加一个空箱子
+     * @param container
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public boolean addAnEmptyContainer(Container container) {
-        boolean result = true;
-        try {
-            int i = containerMapper.insertContainer(container);
-        } catch (Exception e) {
-            result = false;
-            throw new RuntimeException(e);
-        } finally {
-            return result;
-        }
+        containerMapper.insertContainer(container);
+        return true;
     }
 
-    @Override
-    public boolean addContainers(List<Container> containers) {
-        try {
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            return true;
-        }
-
-    }
 
     //检查插入的位置是否可插入，例如放在高层的时候底层必须有集装箱
     private boolean isPosEnabled(Container con) {
