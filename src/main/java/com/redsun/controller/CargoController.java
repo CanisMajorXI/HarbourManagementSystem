@@ -19,41 +19,51 @@ public class CargoController {
     @Autowired
     private CargoService cargoService = null;
 
+    /**
+     * 获取货物
+     * @param cargoid
+     * @param typeid
+     * @param gross
+     * @param modelMap
+     * @return
+     */
     @RequestMapping("/get")
-    public ModelAndView getCargos(@RequestParam(name = "id", required = false) Integer id,
-                                  @RequestParam(name = "name", required = false) String name,
-                                  @RequestParam(name = "maximumInAContainer", required = false) Integer maximumInAContainer,
+    public ModelAndView getCargos(@RequestParam(name = "cargoid", required = false) Integer cargoid,
+                                  @RequestParam(name = "typeid", required = false) Integer typeid,
                                   @RequestParam(name = "gross", required = false) Integer gross,
-                                  @RequestParam(name = "type", required = false) String type,
                                   ModelMap modelMap) {
-        Cargo cargo = new Cargo();
-        cargo.setId(id);
-        cargo.setName(name);
-        cargo.setMaximumInAContainer(maximumInAContainer);
-        cargo.setGross(gross);
-        cargo.setType(type);
+        try{
+            Cargo cargo = new Cargo();
+            cargo.setCargoid(cargoid);
+            cargo.setTypeid(typeid);
+            cargo.setGross(gross);
+            ModelAndView mv = new ModelAndView();
+            List<Cargo> cargos = cargoService.getCargos(cargo);
+            modelMap.addAttribute("cargo", cargos);
 
-
-        ModelAndView mv = new ModelAndView();
-        List<Cargo> cargos = cargoService.getCargos(cargo);
-        modelMap.addAttribute("cargo", cargos);
-
-        mv.setView(new MappingJackson2JsonView());
-        return mv;
+            mv.setView(new MappingJackson2JsonView());
+            return mv;
+        }catch(Exception e){
+            return null;
+        }
     }
 
+    /**
+     * 加入一批货物
+     * @param cargo
+     */
     @RequestMapping("/add")
     @ResponseBody
-    public boolean addABatchCargo(Cargo cargo){
-        System.out.println(cargo.getId());
-        System.out.println(cargo.getName());
-        System.out.println(cargo.getGross());
-        System.out.println(cargo.getMaximumInAContainer());
-        System.out.println(cargo.getType());
+    public void addABatchCargo(Cargo cargo){
         /**
          * 没有控制合法函数
          * 直接进行数据添加
          */
-            return cargoService.addABatchCargo(cargo);
+        try{
+            cargoService.addABatchCargo(cargo);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

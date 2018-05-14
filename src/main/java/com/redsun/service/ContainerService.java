@@ -14,5 +14,4 @@ public interface ContainerService {
 
     boolean addAnEmptyContainer(Container container);
 
-    boolean addContainers(List<Container>containers);
 }
