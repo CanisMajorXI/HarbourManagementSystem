@@ -9,14 +9,14 @@
        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/contexttesttable
        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/redsun"/>
         <property name="username" value="root"/>
-        <property name="password" value="1926817"/>
+        <property name="password" value="123"/>
         <!--连接池的最大数据库连接数 -->
         <property name="maxActive" value="255"/>
         <!--最大等待连接中的数量 -->
