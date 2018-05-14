@@ -20,20 +20,14 @@ public class CargoController {
     private CargoService cargoService = null;
 
     @RequestMapping("/get")
-    public ModelAndView getCargos(@RequestParam(name = "id", required = false) Integer id,
-                                  @RequestParam(name = "name", required = false) String name,
-                                  @RequestParam(name = "maximumInAContainer", required = false) Integer maximumInAContainer,
+    public ModelAndView getCargos(@RequestParam(name = "cargoid", required = false) Integer cargoid,
+                                  @RequestParam(name = "typeid", required = false) Integer typeid,
                                   @RequestParam(name = "gross", required = false) Integer gross,
-                                  @RequestParam(name = "type", required = false) String type,
                                   ModelMap modelMap) {
         Cargo cargo = new Cargo();
-        cargo.setId(id);
-        cargo.setName(name);
-        cargo.setMaximumInAContainer(maximumInAContainer);
+        cargo.setCargoid(cargoid);
+        cargo.setTypeid(typeid);
         cargo.setGross(gross);
-        cargo.setType(type);
-
-
         ModelAndView mv = new ModelAndView();
         List<Cargo> cargos = cargoService.getCargos(cargo);
         modelMap.addAttribute("cargo", cargos);
@@ -45,15 +39,10 @@ public class CargoController {
     @RequestMapping("/add")
     @ResponseBody
     public boolean addABatchCargo(Cargo cargo){
-        System.out.println(cargo.getId());
-        System.out.println(cargo.getName());
-        System.out.println(cargo.getGross());
-        System.out.println(cargo.getMaximumInAContainer());
-        System.out.println(cargo.getType());
         /**
          * 没有控制合法函数
          * 直接进行数据添加
          */
-            return cargoService.addABatchCargo(cargo);
+        return cargoService.addABatchCargo(cargo);
     }
 }

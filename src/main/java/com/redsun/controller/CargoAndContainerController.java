@@ -42,45 +42,6 @@ public class CargoAndContainerController {
     @RequestMapping("/add")
     @ResponseBody
     public boolean addContainerWithCargo(Container container, Cargo cargo,CargoAndContainer cargoandcontainer){
-        /*
-        container.setId(10000010);
-        container.setRow(Byte.valueOf("1"));
-        container.setColumn(Byte.valueOf("1"));
-        container.setLayer(Byte.valueOf("3"));
-        container.setType(Byte.valueOf("0"));
-        container.setSize(Byte.valueOf("0"));
-        cargo.setId(10000001);
-        cargo.setName("棉花");
-        cargo.setMaximumInAContainer(100);
-        cargo.setGross(134);
-        cargo.setType("箱");
-        */
         return cargoandcontainerService.addContainerWithCargo(container,cargo,cargoandcontainer);
-    }
-    @RequestMapping("/put")
-    @ResponseBody
-    public void putCargoIntoContainer(Container container, Cargo cargo,CargoAndContainer cargoandcontainer){
-        cargoandcontainerService.putCargoIntoContainer(container,cargo,cargoandcontainer);
-    }
-
-    @RequestMapping("/test")
-    @ResponseBody
-    public boolean test(){
-        Container container = new Container();
-        Cargo cargo = new Cargo();
-        CargoAndContainer cargoandcontainer = new CargoAndContainer();
-        container.setId(10000005);
-        container.setRow(Byte.valueOf("1"));
-        container.setColumn(Byte.valueOf("1"));
-        container.setLayer(Byte.valueOf("3"));
-        container.setType(Byte.valueOf("0"));
-        container.setSize(Byte.valueOf("0"));
-        cargo.setId(10004273);
-        cargo.setName("棉花");
-        cargo.setMaximumInAContainer(100);
-        cargo.setGross(134);
-        cargo.setType("箱");
-        cargoandcontainerService.putCargoIntoContainer(container,cargo,cargoandcontainer);
-        return true;
     }
 }
