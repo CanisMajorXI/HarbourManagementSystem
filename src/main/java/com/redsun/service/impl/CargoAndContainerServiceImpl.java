@@ -17,6 +17,8 @@ import java.util.List;
 @Service
 public class CargoAndContainerServiceImpl implements CargoAndContainerService {
 
+
+
     @Autowired
     private CargoMapper cargoMapper = null;
     @Autowired
@@ -47,6 +49,9 @@ public class CargoAndContainerServiceImpl implements CargoAndContainerService {
             System.out.println("加入箱子成功");
             int j = cargoMapper.insertCargo(cargo);
             System.out.println("加入货物成功");
+            cargoandcontainer.setCargoid(cargo.getId());
+            cargoandcontainer.setContainerid(container.getId());
+            cargoandcontainer.setUnits(cargo.getGross());
             int k = cargoandcontainerMapper.insertCargoAndContainer(cargoandcontainer);
             System.out.println("加入箱货成功");
         } catch (Exception e) {
@@ -54,6 +59,21 @@ public class CargoAndContainerServiceImpl implements CargoAndContainerService {
             throw new RuntimeException(e);
         } finally {
             return result;
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public void putCargoIntoContainer(Container container, Cargo cargo, CargoAndContainer cargoandcontainer) {
+        try{
+            cargoandcontainer.setCargoid(cargo.getId());
+            cargoandcontainer.setContainerid(container.getId());
+            cargoandcontainer.setUnits(cargo.getGross());
+            int i = cargoandcontainerMapper.insertCargoAndContainer(cargoandcontainer);
+            System.out.println("成功把货加到箱子里！");
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

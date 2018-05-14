@@ -9,4 +9,5 @@ import java.util.List;
 public interface CargoAndContainerService {
     List<CargoAndContainer> getCargoAndContainer(CargoAndContainer cargoandcontainer);
     boolean addContainerWithCargo(Container container, Cargo cargo,CargoAndContainer cargoandcontainer);
+    void putCargoIntoContainer(Container container, Cargo cargo,CargoAndContainer cargoandcontainer);
 }
