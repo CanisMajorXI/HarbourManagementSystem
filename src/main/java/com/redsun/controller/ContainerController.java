@@ -176,11 +176,11 @@ public class ContainerController {
                              ModelMap modelMap){
         try{
             Container container = new Container();
-            container.setId(10000010);
+            container.setId(10000000);
             container.setRow(row);
             container.setColumn(column);
             container.setLayer(layer);
-            container.setType(type);
+            container.setType(Container.TYPE_ORDINARY);
             container.setSize(Container.SIZE_LARGE);
             ModelAndView mv = new ModelAndView();
             List<Container> containers = containerService.showFeasibleArea(container);
