@@ -3,14 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.redsun.dao.ShipperContainerMapper">
-    <resultMap id="shippercontainer" type="shippercontainer">
-        <id property="userId" column="user_id"/>
-        <id property="containerId" column="container_id"/>
-        <id property="type" column="type"/>
-        <id property="size" column="size"/>
-    </resultMap>
-    <select id="getShipperContainers"  resultMap="shippercontainer" parameterType="shippercontainer">
-        SELECT * FROM shipper_cargo_table
+    <select id="getShipperContainers"  resultType="shippercontainer" parameterType="shippercontainer">
+        SELECT user_id AS userId,
+        container_id AS containerId
+        FROM shipper_cargo_table
         <trim prefix="WHERE" prefixOverrides="AND">
             <if test="userId != null">
                 AND user_id = #{userId}
