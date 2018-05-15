@@ -180,8 +180,8 @@ public class ContainerController {
             container.setRow(row);
             container.setColumn(column);
             container.setLayer(layer);
-            container.setType(Container.TYPE_ORDINARY);
-            container.setSize(Container.SIZE_LARGE);
+            container.setType(Container.TYPE_HAZARD);
+            container.setSize(Container.SIZE_SMALL);
             ModelAndView mv = new ModelAndView();
             List<Container> containers = containerService.showFeasibleArea(container);
             modelMap.addAttribute("container", containers);

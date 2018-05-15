@@ -312,7 +312,7 @@ public class ContainerServiceImpl implements ContainerService {
                                     }else{
                                         cont[i][j][k] = 0;
                                     }
-                                }else if(cont[i][j][k] == 2 && j==9){
+                                }else if(cont[i][j][k] == 2 && j== (Container.TOTAL_COLUMNS_ORDINARY - 1)){
                                     cont[i][j][k] = 0;//处理边缘数据
                                 }
                             }
@@ -337,10 +337,218 @@ public class ContainerServiceImpl implements ContainerService {
                 return result;
             }else if(container.getType() == Container.TYPE_FREEZE){
                 //冷冻
-                return null;
+                int cont[][][] = new int[Container.TOTAL_ROWS_FREEZE][Container.TOTAL_COLUMNS_FREEZE][Container.TOTAL_LAYERS_FREEZE];
+                for(int i=0;i<Container.TOTAL_ROWS_FREEZE;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_FREEZE;j++)
+                        for(int k=0;k<Container.TOTAL_LAYERS_FREEZE;k++)
+                            cont[i][j][k] = 0;
+                /**
+                 * step 1
+                 * 获取所有空箱区的箱子的行列层数以及箱子尺寸加入到containerTools链表中
+                 */
+                for (Container container3: Containers
+                        ) {
+                    Byte row = container3.getRow();
+                    Byte column = container3.getColumn();
+                    Byte layer = container3.getLayer();
+                    Byte size = container3.getSize();
+                    if(row >= Container.LOWER_LIMIT_FREEZE && row <= Container.UPPER_LIMIT_FREEZE){
+                        ContainerTool containerTool = new ContainerTool();
+                        containerTool.setColumn(column);
+                        containerTool.setLayer(layer);
+                        containerTool.setRow(row);
+                        containerTool.setSize(size);
+                        containerTools.add(containerTool);
+                    }
+                }
+
+                /**
+                 * step 2
+                 * 标记所有箱子的位置 设置为1
+                 * 对大箱进行拆分 -- 相当于拆分成两个箱子
+                 */
+                for (ContainerTool containertool:containerTools
+                        ) {
+                    Byte row = containertool.getRow();
+                    Byte column = containertool.getColumn();
+                    Byte layer = containertool.getLayer();
+                    Byte size = containertool.getSize();
+                    if(size == 0)
+                        cont[row-1][column-1][layer-1] = 1;
+                    else if(size == 1){
+                        cont[row-1][column-1][layer-1] = 1;
+                        cont[row-1][column][layer-1] = 1;
+                    }
+                }
+                /**
+                 * step 3
+                 * 第一层可放箱子的区域设置
+                 */
+                for(int i=0;i<Container.TOTAL_ROWS_FREEZE;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_FREEZE;j++){
+                        if(cont[i][j][0]  == 0){
+                            cont[i][j][0] = 2;
+                        }
+                    }
+                /**
+                 * step 4
+                 * 高层可放箱子的区域设置
+                 */
+                for(int i=0;i<Container.TOTAL_ROWS_FREEZE;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_FREEZE;j++)
+                        for(int k=0;k<Container.TOTAL_LAYERS_FREEZE;k++){
+                            if(cont[i][j][k] == 1 && k<= (Container.TOTAL_LAYERS_FREEZE-2)){
+                                if(cont[i][j][k+1] == 0){
+                                    cont[i][j][k+1] = 2;
+                                }
+                            }
+                        }
+
+                /**
+                 * step 5
+                 * 根据尺寸进行合并 （大箱）
+                 */
+                if(ContaienrSize == 1){
+                    for(int i=0;i<Container.TOTAL_ROWS_FREEZE;i++)
+                        for(int j=0;j<Container.TOTAL_COLUMNS_FREEZE;j++)
+                            for(int k=0;k<Container.TOTAL_LAYERS_FREEZE;k++){
+                                if(cont[i][j][k] == 2 && j<= (Container.TOTAL_COLUMNS_FREEZE - 2)){
+                                    if(cont[i][j+1][k] == 2){
+                                        //cont[i][j][k] = 2;
+                                        //  cont[i][j+1][k] = 1; //相当于进行了插入
+                                    }else{
+                                        cont[i][j][k] = 0;
+                                    }
+                                }else if(cont[i][j][k] == 2 && j==(Container.TOTAL_COLUMNS_FREEZE - 1)){
+                                    cont[i][j][k] = 0;//处理边缘数据
+                                }
+                            }
+
+                }
+                /**
+                 * step 6
+                 * 遍历可插入的箱子位置
+                 */
+                for(int i=0;i<Container.TOTAL_ROWS_FREEZE;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_FREEZE;j++)
+                        for(int k=0;k<Container.TOTAL_LAYERS_FREEZE;k++){
+                            if(cont[i][j][k]  == 2 ) {
+                                Container container1 = new Container();
+                                container1.setRow((byte) (i + Container.LOWER_LIMIT_FREEZE)); //行数加6
+                                container1.setColumn((byte) (j + 1));
+                                container1.setLayer((byte) (k + 1));
+                                result.add(container1);
+                            }
+                        }
+
+                return result;
             }else{
                 //危险
-                return null;
+                int cont[][][] = new int[Container.TOTAL_ROWS_HAZARD][Container.TOTAL_COLUMNS_HAZARD][Container.TOTAL_LAYERS_HAZARD];
+                for(int i=0;i<Container.TOTAL_ROWS_HAZARD;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_HAZARD;j++)
+                        for(int k=0;k<Container.TOTAL_LAYERS_HAZARD;k++)
+                            cont[i][j][k] = 0;
+                /**
+                 * step 1
+                 * 获取所有空箱区的箱子的行列层数以及箱子尺寸加入到containerTools链表中
+                 */
+                for (Container container3: Containers
+                        ) {
+                    Byte row = container3.getRow();
+                    Byte column = container3.getColumn();
+                    Byte layer = container3.getLayer();
+                    Byte size = container3.getSize();
+                    if(row >= Container.LOWER_LIMIT_HAZARD && row <= Container.UPPER_LIMIT_HAZARD){
+                        ContainerTool containerTool = new ContainerTool();
+                        containerTool.setColumn(column);
+                        containerTool.setLayer(layer);
+                        containerTool.setRow(row);
+                        containerTool.setSize(size);
+                        containerTools.add(containerTool);
+                    }
+                }
+
+                /**
+                 * step 2
+                 * 标记所有箱子的位置 设置为1
+                 * 对大箱进行拆分 -- 相当于拆分成两个箱子
+                 */
+                for (ContainerTool containertool:containerTools
+                        ) {
+                    Byte row = containertool.getRow();
+                    Byte column = containertool.getColumn();
+                    Byte layer = containertool.getLayer();
+                    Byte size = containertool.getSize();
+                    if(size == 0)
+                        cont[row-1][column-1][layer-1] = 1;
+                    else if(size == 1){
+                        cont[row-1][column-1][layer-1] = 1;
+                        cont[row-1][column][layer-1] = 1;
+                    }
+                }
+                /**
+                 * step 3
+                 * 第一层可放箱子的区域设置
+                 */
+                for(int i=0;i<Container.TOTAL_ROWS_HAZARD;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_HAZARD;j++){
+                        if(cont[i][j][0]  == 0){
+                            cont[i][j][0] = 2;
+                        }
+                    }
+                /**
+                 * step 4
+                 * 高层可放箱子的区域设置
+                 */
+                for(int i=0;i<Container.TOTAL_ROWS_HAZARD;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_HAZARD;j++)
+                        for(int k=0;k<Container.TOTAL_LAYERS_HAZARD;k++){
+                            if(cont[i][j][k] == 1 && k<= (Container.TOTAL_LAYERS_HAZARD-2)){
+                                if(cont[i][j][k+1] == 0){
+                                    cont[i][j][k+1] = 2;
+                                }
+                            }
+                        }
+
+                /**
+                 * step 5
+                 * 根据尺寸进行合并 （大箱）
+                 */
+                if(ContaienrSize == 1){
+                    for(int i=0;i<Container.TOTAL_ROWS_HAZARD;i++)
+                        for(int j=0;j<Container.TOTAL_COLUMNS_HAZARD;j++)
+                            for(int k=0;k<Container.TOTAL_LAYERS_HAZARD;k++){
+                                if(cont[i][j][k] == 2 && j<= (Container.TOTAL_COLUMNS_HAZARD - 2)){
+                                    if(cont[i][j+1][k] == 2){
+                                        //cont[i][j][k] = 2;
+                                        //  cont[i][j+1][k] = 1; //相当于进行了插入
+                                    }else{
+                                        cont[i][j][k] = 0;
+                                    }
+                                }else if(cont[i][j][k] == 2 && j==(Container.TOTAL_COLUMNS_HAZARD - 1)){
+                                    cont[i][j][k] = 0;//处理边缘数据
+                                }
+                            }
+
+                }
+                /**
+                 * step 6
+                 * 遍历可插入的箱子位置
+                 */
+                for(int i=0;i<Container.TOTAL_ROWS_HAZARD;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_HAZARD;j++)
+                        for(int k=0;k<Container.TOTAL_LAYERS_HAZARD;k++){
+                            if(cont[i][j][k]  == 2 ) {
+                                Container container1 = new Container();
+                                container1.setRow((byte) (i + Container.LOWER_LIMIT_HAZARD)); //行数加6
+                                container1.setColumn((byte) (j + 1));
+                                container1.setLayer((byte) (k + 1));
+                                result.add(container1);
+                            }
+                        }
+
+                return result;
             }
         }
 
