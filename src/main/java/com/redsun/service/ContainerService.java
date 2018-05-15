@@ -19,4 +19,6 @@ public interface ContainerService {
 
     void changeContainerPosition(Integer id, Byte row, Byte column, Byte layer);
 
+    List<Container> showFeasibleArea(Container container);
+
 }

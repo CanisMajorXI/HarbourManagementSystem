@@ -21,11 +21,11 @@ public class Container {
     //对应箱子的范围;
     public static final byte LOWER_LIMIT_EMPTY = 1;
     public static final byte UPPER_LIMIT_EMPTY = 5;
-    public static final byte LOWER_LIMIT_ORDINARY = 6;
+    public static final byte LOWER_LIMIT_ORDINARY = 6; // 普通
     public static final byte UPPER_LIMIT_ORDINARY = 15;
-    public static final byte LOWER_LIMIT_FREEZE = 16;
+    public static final byte LOWER_LIMIT_FREEZE = 16; // 冷冻
     public static final byte UPPER_LIMIT_FREEZE = 21;
-    public static final byte LOWER_LIMIT_HAZARD = 22;
+    public static final byte LOWER_LIMIT_HAZARD = 22; //危险
     public static final byte UPPER_LIMIT_HAZARD = 27;
 
     public static final byte TOTAL_ROWS_EMPTY = 5;

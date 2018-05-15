@@ -22,14 +22,7 @@ public class CargoController {
     @Autowired
     private CargoService cargoService = null;
 
-    //    /**
-//     * 获取货物
-//     * @param cargoid
-//     * @param typeid
-//     * @param gross
-//     * @param modelMap
-//     * @return
-//     */
+
     @RequestMapping("/gettypeidbyname")
     @ResponseBody
     public Integer getTypeIdByName(@RequestParam("name") String name) {

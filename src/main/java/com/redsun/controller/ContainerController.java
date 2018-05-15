@@ -153,5 +153,44 @@ public class ContainerController {
             return false;
         }
     }
+
+    /**
+     * NB
+     * @param id
+     * @param row
+     * @param column
+     * @param layer
+     * @param type
+     * @param size
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("/show")
+    @ResponseBody
+    public ModelAndView show(@RequestParam(name = "id", required = false) Integer id,
+                             @RequestParam(name = "row", required = false) Byte row,
+                             @RequestParam(name = "column", required = false) Byte column,
+                             @RequestParam(name = "layer", required = false) Byte layer,
+                             @RequestParam(name = "type", required = false) Byte type,
+                             @RequestParam(name = "size", required = false) Byte size,
+                             ModelMap modelMap){
+        try{
+            Container container = new Container();
+            container.setId(10000010);
+            container.setRow(row);
+            container.setColumn(column);
+            container.setLayer(layer);
+            container.setType(type);
+            container.setSize(Container.SIZE_LARGE);
+            ModelAndView mv = new ModelAndView();
+            List<Container> containers = containerService.showFeasibleArea(container);
+            modelMap.addAttribute("container", containers);
+            mv.setView(new MappingJackson2JsonView());
+            return mv;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
 

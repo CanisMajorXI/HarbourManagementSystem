@@ -68,6 +68,12 @@ public class CargoServiceImpl implements CargoService {
         cargoAttrMapper.insertCargoAttr(cargoAttr);
     }
 
+    /**
+     * 判断箱子里是否有货
+     * 空箱返回true
+     * @param container
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public boolean isEmpty(Container container) {
