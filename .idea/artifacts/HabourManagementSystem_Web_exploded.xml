@@ -36,6 +36,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.0.5.RELEASE" />
           <element id="library" level="project" name="Maven: javax.mail:mail:1.4.7" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1.1" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.2" />
         </element>
       </element>
     </root>

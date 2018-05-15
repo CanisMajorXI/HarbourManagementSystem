@@ -29,6 +29,6 @@
         </trim>
     </select>
     <insert id="insertShipperCargo" parameterType="shippercargo">
-        INSERT into shipper_cargo_table VALUES (#{userId},#{cargoId},#{cargoTypeId},#{gross},#{containerId})
+        INSERT into shipper_cargo_table (user_id, cargo_type_id, gross, container_id) VALUES (#{userId},#{cargoTypeId},#{gross},#{containerId})
     </insert>
 </mapper>

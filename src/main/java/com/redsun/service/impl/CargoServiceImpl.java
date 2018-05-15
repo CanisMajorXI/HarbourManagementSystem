@@ -113,6 +113,39 @@ public class CargoServiceImpl implements CargoService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
+    public boolean isFullToTheseCargos(Container container, List<Cargo> uninsertCargos) {
+        Integer containerId = container.getId();
+        Cargo cargo = new Cargo();
+        cargo.setContainerId(containerId);
+        List<Cargo> cargos = cargoMapper.getCargos(cargo);
+        List<CargoAttr> cargoAttrs = cargoAttrMapper.getCargoAttrs(new CargoAttr());
+        //大箱子容量为小箱子的两倍
+        double remain = container.getSize() == Container.SIZE_SMALL ? 1 : 2;
+        for (Cargo insertedCargo : cargos) {
+            for (CargoAttr cargoAttr : cargoAttrs) {
+                if (cargoAttr.getTypeId().equals(insertedCargo.getTypeId())) {
+                    remain -= (double) insertedCargo.getGross() * (1 / (double) cargoAttr.getMaximumInAContainer());
+                    if (remain <= 0) return false;
+                    break;
+                }
+            }
+        }
+        System.out.println("remain：" + remain);
+        for (Cargo uninsertCargo : uninsertCargos) {
+            for (CargoAttr cargoAttr : cargoAttrs) {
+                if (cargoAttr.getTypeId().equals(uninsertCargo.getTypeId())) {
+                    if (uninsertCargo.getGross() >= cargoAttr.getMaximumInAContainer()) return false;
+                    remain -= (double) uninsertCargo.getGross() * (1 / (double) cargoAttr.getMaximumInAContainer());
+                    break;
+                }
+            }
+        }
+        System.out.println("finalremain：" + remain);
+        return remain > 0;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
     public void addACargo(Cargo cargo) {
     }
 

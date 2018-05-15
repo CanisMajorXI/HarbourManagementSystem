@@ -23,6 +23,8 @@ public interface CargoService {
 
     boolean isFullToThisCargo(Container container, Cargo cargo);
 
+    boolean isFullToTheseCargos(Container container, List<Cargo> cargos);
+
     void addABatchCargo(Cargo cargo);
 
 }

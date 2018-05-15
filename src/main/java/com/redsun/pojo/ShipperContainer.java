@@ -1,9 +1,19 @@
 package com.redsun.pojo;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ShipperContainer {
+
+    @SerializedName(value = "userid")
     public Integer userId;
+
+    @SerializedName(value = "containerid")
     public Integer containerId;
+
+    @SerializedName(value = "type")
     public Byte type;
+
+    @SerializedName(value = "size")
     public Byte size;
 
     public Integer getUserId() {
