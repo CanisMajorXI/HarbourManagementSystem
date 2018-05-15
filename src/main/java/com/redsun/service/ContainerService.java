@@ -17,6 +17,6 @@ public interface ContainerService {
 
     void addAContainerWithCargo(Container container, List<Cargo> cargos);
 
-    void changeContainerPosition(Container old,Container alter);
+    void changeContainerPosition(Integer id, Byte row, Byte column, Byte layer);
 
 }

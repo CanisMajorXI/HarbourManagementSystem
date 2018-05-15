@@ -77,11 +77,12 @@ public class ContainerServiceImpl implements ContainerService {
         }
     }
 
-
-    //alter的container只要包含row,column,layer就行！
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
-    public void changeContainerPosition(Container old, Container alter) {
-      //  containerMapper.
+    public void changeContainerPosition(Integer id, Byte row, Byte column, Byte layer) {
+
+        //todo位置检查
+        containerMapper.updateContainerPosition(id, row, column, layer);
     }
 }
 

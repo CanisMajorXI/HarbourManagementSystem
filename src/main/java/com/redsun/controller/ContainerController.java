@@ -6,6 +6,7 @@ import com.redsun.service.CargoService;
 import com.redsun.service.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -29,6 +30,7 @@ public class ContainerController {
 
     @Autowired
     private CargoService cargoService = null;
+
     /**
      * 获取箱子信息
      *
@@ -113,6 +115,20 @@ public class ContainerController {
         }
         try {
             containerService.addAContainerWithCargo(container, cargos);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @RequestMapping("/shift")
+    @ResponseBody
+    public boolean shift(@RequestParam("id") Integer id, @RequestParam("row") Byte row, @RequestParam("column") Byte column, @RequestParam("layer") Byte layer) {
+
+        try {
+            if (id == null || row == null || column == null || layer == null) return false;
+            containerService.changeContainerPosition(id,row,column,layer);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

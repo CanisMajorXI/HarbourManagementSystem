@@ -37,7 +37,7 @@
         INSERT into container_table VALUES (#{id},#{row},#{column},#{layer},#{type},#{size})
     </insert>
 
-    <update id="updateContainerPosition" parameterType="container">
+    <update id="updateContainerPosition">
         UPDATE container_table SET container_row = #{row},
         container_column = #{column},
         container_layer = #{layer}

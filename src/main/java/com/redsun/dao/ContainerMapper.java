@@ -1,6 +1,7 @@
 package com.redsun.dao;
 
 import com.redsun.pojo.Container;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,5 +17,5 @@ public interface ContainerMapper {
     int deleteContainer(Container container);
 
     //目前的功能只有更换位置
-    int updateContainerPosition(Container container);
+    int updateContainerPosition(@Param("id") Integer id, @Param("row") Byte row, @Param("column") Byte column, @Param("layer") Byte layer);
 }
