@@ -1,7 +1,10 @@
 package com.redsun.service.impl;
 
+import com.redsun.dao.CargoAttrMapper;
 import com.redsun.dao.CargoMapper;
 import com.redsun.pojo.Cargo;
+import com.redsun.pojo.CargoAttr;
+import com.redsun.pojo.Container;
 import com.redsun.service.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +19,12 @@ public class CargoServiceImpl implements CargoService {
     @Autowired
     private CargoMapper cargoMapper = null;
 
+    @Autowired
+    private CargoAttrMapper cargoAttrMapper = null;
+
     /**
      * 获取货物
+     *
      * @param cargo
      * @return
      */
@@ -29,13 +36,94 @@ public class CargoServiceImpl implements CargoService {
         return resultCargos;
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public Integer getTypeIdByName(String name) {
+        CargoAttr cargoAttr = new CargoAttr();
+        cargoAttr.setName(name);
+        List<CargoAttr> cargoAttrs = cargoAttrMapper.getCargoAttrs(cargoAttr);
+        return cargoAttrs.get(0).getTypeId();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public String getNameByTypeId(Integer typeId) {
+        CargoAttr cargoAttr = new CargoAttr();
+        cargoAttr.setTypeId(typeId);
+        List<CargoAttr> cargoAttrs = cargoAttrMapper.getCargoAttrs(cargoAttr);
+        return cargoAttrs.get(0).getName();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public CargoAttr getAllByTypeId(Integer typeId) {
+        CargoAttr cargoAttr = new CargoAttr();
+        cargoAttr.setTypeId(typeId);
+        return cargoAttrMapper.getCargoAttrs(cargoAttr).get(0);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public void addACargoAttr(CargoAttr cargoAttr) {
+        cargoAttrMapper.insertCargoAttr(cargoAttr);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public boolean isEmpty(Container container) {
+        Integer containerId = container.getId();
+        Cargo cargo = new Cargo();
+        cargo.setContainerId(containerId);
+        List<Cargo> cargos = cargoMapper.getCargos(cargo);
+        return cargos.size() == 0;
+    }
+
+    //检查该箱子是否还能装得下该货物
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public boolean isFullToThisCargo(Container container, Cargo uninsertCargo) {
+
+        Integer containerId = container.getId();
+        Cargo cargo = new Cargo();
+        cargo.setContainerId(containerId);
+        List<Cargo> cargos = cargoMapper.getCargos(cargo);
+        List<CargoAttr> cargoAttrs = cargoAttrMapper.getCargoAttrs(new CargoAttr());
+        //大箱子容量为小箱子的两倍
+        double remain = container.getSize() == Container.SIZE_SMALL ? 1 : 2;
+        for (Cargo cargo2 : cargos) {
+            for (CargoAttr cargoAttr : cargoAttrs) {
+                if (cargoAttr.getTypeId().equals(cargo2.getTypeId())) {
+                    remain -= (double) cargo2.getGross() * (1 / (double) cargoAttr.getMaximumInAContainer());
+                    if (remain <= 0) return false;
+                    break;
+                }
+            }
+        }
+        System.out.println("remain：" + remain);
+        for (CargoAttr cargoAttr : cargoAttrs) {
+            if (cargoAttr.getTypeId().equals(uninsertCargo.getTypeId())) {
+                if (uninsertCargo.getGross() >= cargoAttr.getMaximumInAContainer()) return false;
+                if ((double) uninsertCargo.getGross() * (1 / (double) cargoAttr.getMaximumInAContainer()) <= remain) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public void addACargo(Cargo cargo) {
+    }
+
     /**
-     *加入一批货物
+     * 加入一批货物
+     *
      * @param cargo
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
-    public void addABatchCargo(Cargo cargo){
+    public void addABatchCargo(Cargo cargo) {
         cargoMapper.insertCargo(cargo);
     }
 }

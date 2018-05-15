@@ -9,7 +9,9 @@ import java.util.List;
 @Repository
 public interface CargoAttrMapper {
 
-    List<CargoAttr> getCargoAttr(Cargo cargo);
+    List<CargoAttr> getCargoAttrs(CargoAttr cargoAttr);
 
-    int insertCargoAttr(Cargo cargo);
+    int insertCargoAttr(CargoAttr cargoAttr);
+
+
 }

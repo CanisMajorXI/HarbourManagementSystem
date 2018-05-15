@@ -1,9 +1,12 @@
 package com.redsun.controller;
 
+import com.redsun.pojo.Cargo;
 import com.redsun.pojo.Container;
+import com.redsun.service.CargoService;
 import com.redsun.service.ContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,8 +28,12 @@ public class ContainerController {
     @Autowired
     private ContainerService containerService = null;
 
+    @Autowired
+    private CargoService cargoService = null;
+
     /**
      * 获取箱子信息
+     *
      * @param id
      * @param row
      * @param column
@@ -43,7 +51,7 @@ public class ContainerController {
                                       @RequestParam(name = "type", required = false) Byte type,
                                       @RequestParam(name = "size", required = false) Byte size,
                                       ModelMap modelMap) {
-        try{
+        try {
             Container container = new Container();
             container.setId(id);
             container.setRow(row);
@@ -63,27 +71,87 @@ public class ContainerController {
             modelMap.addAttribute("container", containers);
             mv.setView(new MappingJackson2JsonView());
             return mv;
-        }catch(Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
 
     /**
      * 加入一个空箱子
+     *
      * @param container
      */
     @RequestMapping("/add")
     @ResponseBody
     public boolean addAnEmptyContainer(Container container) {
-        try{
+        try {
             if (!Container.checkTentativeValidity(container)) return false;
             containerService.addAnEmptyContainer(container);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
 
     //初步判断集装箱属性合法性，即数据是否在设计范围
+    @RequestMapping("/addwithcargo")
+    @ResponseBody
+    public boolean addAContainerWithCargo() {
+        Container container = new Container();
+        container.setId(88888888);
+        container.setRow((byte) 8);
+        container.setColumn((byte) 2);
+        container.setLayer((byte) 2);
+        container.setType((byte) 0);
+        container.setSize((byte) 0);
+        List<Cargo> cargos = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            Cargo cargo = new Cargo();
+            cargo.setTypeId(10000000 + i);
+            cargo.setGross(10);
+            cargo.setCargoId(10000000 + i);
+            cargos.add(cargo);
+        }
+        try {
+            containerService.addAContainerWithCargo(container, cargos);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @RequestMapping("/shift")
+    @ResponseBody
+    public boolean shift(@RequestParam("id") Integer id, @RequestParam("row") Byte row, @RequestParam("column") Byte column, @RequestParam("layer") Byte layer) {
+
+        try {
+            if (id == null || row == null || column == null || layer == null) return false;
+            containerService.changeContainerPosition(id,row,column,layer);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public boolean test() {
+        try {
+            Container container = new Container();
+            container.setId(10000000);
+            return cargoService.isEmpty(container);
+//            Cargo cargo = new Cargo();
+//            cargo.setTypeId(10000000);
+//            cargo.setGross(370);
+//            cargo.setCargoId(10000003);
+//            return cargoService.isFullToThisCargo(new Container.Builder().setId(88888888).setSize(Container.SIZE_LARGE).build(),cargo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
+

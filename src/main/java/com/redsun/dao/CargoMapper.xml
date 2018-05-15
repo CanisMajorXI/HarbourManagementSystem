@@ -3,26 +3,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.redsun.dao.CargoMapper">
-    <resultMap id="cargo" type="cargo">
-        <id property="cargoid" column="cargo_id"/>
-        <id property="typeid" column="cargo_type_id"/>
-        <id property="gross" column="gross"/>
-    </resultMap>
-    <select id="getCargos"  resultMap="cargo" parameterType="cargo">
-        SELECT * FROM cargo_table
+    <select id="getCargos" resultType="cargo" parameterType="cargo">
+        SELECT cargo_id as cargoId,
+        cargo_type_id as typeId,
+        gross,
+        container_id as containerId
+        FROM cargo_table
         <trim prefix="WHERE" prefixOverrides="AND">
-            <if test="cargoid != null">
-                AND cargo_id = #{cargoid}
+            <if test="cargoId != null">
+                AND cargo_id = #{cargoId}
             </if>
-            <if test="typeid != null">
-                AND cargo_type_id = #{typeid}
+            <if test="typeId != null">
+                AND cargo_type_id = #{typeId}
             </if>
             <if test="gross != null">
                 AND gross = #{gross}
             </if>
+            <if test="containerId != null">
+                AND container_id = #{containerId}
+            </if>
         </trim>
     </select>
     <insert id="insertCargo" parameterType="cargo">
-        INSERT into cargo_table VALUES (#{cargoid},#{typeid},#{gross})
+        INSERT into cargo_table VALUES (#{cargoId},#{typeId},#{gross},#{containerId})
     </insert>
 </mapper>

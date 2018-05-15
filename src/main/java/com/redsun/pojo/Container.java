@@ -18,7 +18,7 @@ public class Container {
     public static final byte AREA_FREEZE = 2;
     public static final byte AREA_HAZARD = 3;
     public static final byte AREA_ERROR = 4;
-    //对应箱子的范围
+    //对应箱子的范围;
     public static final byte LOWER_LIMIT_EMPTY = 1;
     public static final byte UPPER_LIMIT_EMPTY = 5;
     public static final byte LOWER_LIMIT_ORDINARY = 6;

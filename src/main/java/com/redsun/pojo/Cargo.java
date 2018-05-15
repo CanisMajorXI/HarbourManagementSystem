@@ -1,24 +1,25 @@
 package com.redsun.pojo;
 
 public class Cargo {
-    private Integer cargoid;
-    private Integer typeid;
+    private Integer cargoId;
+    private Integer typeId;
     private Integer gross;
+    private Integer containerId;
 
-    public Integer getCargoid() {
-        return cargoid;
+    public Integer getCargoId() {
+        return cargoId;
     }
 
-    public void setCargoid(Integer cargoid) {
-        this.cargoid = cargoid;
+    public void setCargoId(Integer cargoId) {
+        this.cargoId = cargoId;
     }
 
-    public Integer getTypeid() {
-        return typeid;
+    public Integer getTypeId() {
+        return typeId;
     }
 
-    public void setTypeid(Integer typeid) {
-        this.typeid = typeid;
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public Integer getGross() {
@@ -27,5 +28,13 @@ public class Cargo {
 
     public void setGross(Integer gross) {
         this.gross = gross;
+    }
+
+    public Integer getContainerId() {
+        return containerId;
+    }
+
+    public void setContainerId(Integer containerId) {
+        this.containerId = containerId;
     }
 }
