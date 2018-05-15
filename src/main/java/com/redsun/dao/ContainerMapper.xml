@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.redsun.dao.ContainerMapper">
     <resultMap id="container" type="container">
         <id property="id" column="container_id"/>
@@ -10,7 +10,7 @@
         <id property="type" column="container_type"/>
         <id property="size" column="container_size"/>
     </resultMap>
-    <select id="getContainers"  resultMap="container" parameterType="container">
+    <select id="getContainers" resultMap="container" parameterType="container">
         SELECT * FROM container_table
         <trim prefix="WHERE" prefixOverrides="AND">
             <if test="id != null">
@@ -37,6 +37,12 @@
         INSERT into container_table VALUES (#{id},#{row},#{column},#{layer},#{type},#{size})
     </insert>
 
+    <update id="updateContainerPosition" parameterType="container">
+        UPDATE container_table SET container_row = #{row},
+        container_column = #{column},
+        container_layer = #{layer}
+        WHERE container_id = #{id}
+    </update>
     <delete id="deleteContainer" parameterType="container">
 
     </delete>

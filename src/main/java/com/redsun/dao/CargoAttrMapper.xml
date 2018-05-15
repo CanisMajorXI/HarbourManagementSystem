@@ -3,8 +3,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.redsun.dao.CargoAttrMapper">
-    <select id="getCargoAttr" resultType="cargoattr" parameterType="cargoattr">
-        SELECT * FROM cargo_attr_table
+    <select id="getCargoAttrs" resultType="cargoattr" parameterType="cargoattr">
+        SELECT cargo_type_id AS  typeId,
+        cargo_name AS name,
+        maximum AS maximumInAContainer,
+        unit_type AS unitType
+        FROM cargo_attr_table
         <trim prefix="WHERE" prefixOverrides="AND">
             <if test="typeId != null">
                 AND cargo_type_id = #{typeId}
@@ -15,12 +19,12 @@
             <if test="maximumInAContainer != null">
                 AND maximum = #{maximumInAContainer}
             </if>
-            <if test="type != null">
-                AND unit_type = #{type}
+            <if test="unitType != null">
+                AND unit_type = #{unitType}
             </if>
         </trim>
     </select>
     <insert id="insertCargoAttr" parameterType="cargoattr">
-        INSERT into cargo_table VALUES (#{typeId},#{name},#{maximumInAContainer},,#{type})
+        INSERT into cargo_attr_table VALUES (#{typeId},#{name},#{maximumInAContainer},#{unitType})
     </insert>
 </mapper>

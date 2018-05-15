@@ -100,132 +100,158 @@ container_id</ColNames>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="36" parent="16" name="cargo_table_cargo_attr_table_cargo_type_id_fk">
+    <column id="36" parent="16" name="container_id">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="37" parent="16" name="cargo_table_cargo_attr_table_cargo_type_id_fk">
       <ColNames>cargo_type_id</ColNames>
     </index>
-    <key id="37" parent="16" name="PRIMARY">
+    <index id="38" parent="16" name="cargo_table_container_table_container_id_fk">
+      <ColNames>container_id</ColNames>
+    </index>
+    <key id="39" parent="16" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cargo_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="38" parent="16" name="cargo_table_cargo_attr_table_cargo_type_id_fk">
+    <foreign-key id="40" parent="16" name="cargo_table_cargo_attr_table_cargo_type_id_fk">
       <ColNames>cargo_type_id</ColNames>
       <RefSchemaName>redsun</RefSchemaName>
       <RefTableName>cargo_attr_table</RefTableName>
       <RefColNames>cargo_type_id</RefColNames>
     </foreign-key>
-    <column id="39" parent="17" name="container_id">
+    <foreign-key id="41" parent="16" name="cargo_table_container_table_container_id_fk">
+      <ColNames>container_id</ColNames>
+      <RefSchemaName>redsun</RefSchemaName>
+      <RefTableName>container_table</RefTableName>
+      <RefColNames>container_id</RefColNames>
+    </foreign-key>
+    <column id="42" parent="17" name="container_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="40" parent="17" name="container_row">
+    <column id="43" parent="17" name="container_row">
       <Position>2</Position>
       <DataType>tinyint(4)|0</DataType>
     </column>
-    <column id="41" parent="17" name="container_column">
+    <column id="44" parent="17" name="container_column">
       <Position>3</Position>
       <DataType>tinyint(4)|0</DataType>
     </column>
-    <column id="42" parent="17" name="container_layer">
+    <column id="45" parent="17" name="container_layer">
       <Position>4</Position>
       <DataType>tinyint(4)|0</DataType>
     </column>
-    <column id="43" parent="17" name="container_type">
+    <column id="46" parent="17" name="container_type">
       <Position>5</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="44" parent="17" name="container_size">
+    <column id="47" parent="17" name="container_size">
       <Position>6</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="45" parent="17" name="PRIMARY">
+    <key id="48" parent="17" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>container_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="46" parent="18" name="user_id">
+    <column id="49" parent="18" name="user_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="47" parent="18" name="cargo_id">
+    <column id="50" parent="18" name="cargo_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="48" parent="18" name="cargo_type_id">
+    <column id="51" parent="18" name="cargo_type_id">
       <Position>3</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="49" parent="18" name="gross">
+    <column id="52" parent="18" name="gross">
       <Position>4</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="50" parent="18" name="PRIMARY">
+    <column id="53" parent="18" name="container_id">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <index id="54" parent="18" name="shipper_cargo_table_shipper_container_table_container_id_fk">
+      <ColNames>container_id</ColNames>
+    </index>
+    <key id="55" parent="18" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cargo_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="51" parent="19" name="user_id">
+    <foreign-key id="56" parent="18" name="shipper_cargo_table_shipper_container_table_container_id_fk">
+      <ColNames>container_id</ColNames>
+      <RefSchemaName>redsun</RefSchemaName>
+      <RefTableName>shipper_container_table</RefTableName>
+      <RefColNames>container_id</RefColNames>
+    </foreign-key>
+    <column id="57" parent="19" name="user_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="52" parent="19" name="container_id">
+    <column id="58" parent="19" name="container_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="53" parent="19" name="type">
+    <column id="59" parent="19" name="type">
       <Position>3</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="54" parent="19" name="size">
+    <column id="60" parent="19" name="size">
       <Position>4</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="55" parent="19" name="PRIMARY">
+    <key id="61" parent="19" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>container_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="56" parent="20" name="user_id">
+    <column id="62" parent="20" name="user_id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="57" parent="20" name="user_password">
+    <column id="63" parent="20" name="user_password">
       <Position>2</Position>
       <DataType>varchar(40)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="58" parent="20" name="user_email">
+    <column id="64" parent="20" name="user_email">
       <Position>3</Position>
       <DataType>varchar(50)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="59" parent="20" name="user_type">
+    <column id="65" parent="20" name="user_type">
       <Position>4</Position>
       <DataType>tinyint(4)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="60" parent="20" name="user_table_user_email_pk">
+    <index id="66" parent="20" name="user_table_user_email_pk">
       <ColNames>user_email</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="61" parent="20" name="PRIMARY">
+    <key id="67" parent="20" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>user_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="62" parent="20" name="user_table_user_email_pk">
+    <key id="68" parent="20" name="user_table_user_email_pk">
       <ColNames>user_email</ColNames>
       <UnderlyingIndexName>user_table_user_email_pk</UnderlyingIndexName>
     </key>
