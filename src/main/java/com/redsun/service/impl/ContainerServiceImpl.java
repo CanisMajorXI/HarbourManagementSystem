@@ -20,6 +20,10 @@ public class ContainerServiceImpl implements ContainerService {
     @Autowired
     private CargoMapper cargoMapper = null;
 
+    /**
+     * 未实现
+     * @return
+     */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public List<Container> getContainers() {

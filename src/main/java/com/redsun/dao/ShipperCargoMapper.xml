@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.redsun.dao.ShipperCargoMapper">
+    <select id="getShipperCargos"  resultType="shippercargo" parameterType="shippercargo">
+        SELECT user_id AS userId,
+        cargo_id AS cargoId,
+        cargo_type_id AS cargoTypeId,
+        container_id AS containerId,
+        gross
+        FROM shipper_cargo_table
+        <trim prefix="WHERE" prefixOverrides="AND">
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="cargoId != null">
+                AND cargo_id = #{cargoId}
+            </if>
+            <if test="cargoTypeId != null">
+                AND cargo_type_id = #{cargoTypeId}
+            </if>
+            <if test="gross != null">
+                AND gross = #{gross}
+            </if>
+            <if test="containerId != null">
+                AND container_id = #{containerId}
+            </if>
+        </trim>
+    </select>
+    <insert id="insertShipperCargo" parameterType="shippercargo">
+        INSERT into shipper_cargo_table VALUES (#{userId},#{cargoId},#{cargoTypeId},#{gross},#{containerId})
+    </insert>
+</mapper>
