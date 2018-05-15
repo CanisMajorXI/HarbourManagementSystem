@@ -7,7 +7,8 @@
         SELECT user_id AS userId,
         cargo_id AS cargoId,
         cargo_type_id AS cargoTypeId,
-        container_id AS containerId
+        container_id AS containerId,
+        gross
         FROM shipper_cargo_table
         <trim prefix="WHERE" prefixOverrides="AND">
             <if test="userId != null">

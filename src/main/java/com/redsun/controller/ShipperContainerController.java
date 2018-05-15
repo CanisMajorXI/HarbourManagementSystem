@@ -97,4 +97,27 @@ public class ShipperContainerController {
         }
     }
 
+    @RequestMapping("/test")
+    @ResponseBody
+    public boolean test(){
+        ShipperContainer shipperContainer = new ShipperContainer();
+        shipperContainer.setUserId(10000000);
+        shipperContainer.setSize(Byte.valueOf("1"));
+        shipperContainer.setType(Byte.valueOf("0"));
+        shipperContainer.setContainerId(10000003);
+
+        ShipperCargo shipperCargo = new ShipperCargo();
+        shipperCargo.setUserId(10000000);
+        shipperCargo.setContainerId(10000003);
+        shipperCargo.setGross(100);
+        shipperCargo.setCargoTypeId(10000001);
+        shipperCargo.setCargoId(10000003);
+        try{
+            shipperContainerService.insertContaienrwithCargo(shipperCargo,shipperContainer);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 }

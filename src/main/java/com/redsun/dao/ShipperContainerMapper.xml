@@ -5,8 +5,10 @@
 <mapper namespace="com.redsun.dao.ShipperContainerMapper">
     <select id="getShipperContainers"  resultType="shippercontainer" parameterType="shippercontainer">
         SELECT user_id AS userId,
-        container_id AS containerId
-        FROM shipper_cargo_table
+        container_id AS containerId,
+        type,
+        size
+        FROM shipper_container_table
         <trim prefix="WHERE" prefixOverrides="AND">
             <if test="userId != null">
                 AND user_id = #{userId}
@@ -23,6 +25,6 @@
         </trim>
     </select>
     <insert id="insertShipperContainer" parameterType="shippercontainer">
-        INSERT into shipper_cargo_table VALUES (#{userId},#{containerId},#{type},#{size})
+        INSERT into shipper_container_table VALUES (#{userId},#{containerId},#{type},#{size})
     </insert>
 </mapper>

@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class ShipperCargoServiceImpl implements ShipperCargoService {
     @Autowired
-    private ShipperCargoMapper shippercargoMapper = null;
+    private ShipperCargoMapper shipperCargoMapper = null;
 
     /**
      * 获取货物
@@ -24,7 +24,7 @@ public class ShipperCargoServiceImpl implements ShipperCargoService {
     @Override
     public List<ShipperCargo> getShipperCargos(ShipperCargo shippercargo) {
         List<ShipperCargo> resultShipperCargos = null;
-        resultShipperCargos = shippercargoMapper.getShipperCargos(shippercargo);
+        resultShipperCargos = shipperCargoMapper.getShipperCargos(shippercargo);
         return resultShipperCargos;
     }
 
@@ -35,6 +35,7 @@ public class ShipperCargoServiceImpl implements ShipperCargoService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public void addShipperCargo(ShipperCargo shippercargo) {
-        shippercargoMapper.insertShipperCargo(shippercargo);
+
+        shipperCargoMapper.insertShipperCargo(shippercargo);
     }
 }

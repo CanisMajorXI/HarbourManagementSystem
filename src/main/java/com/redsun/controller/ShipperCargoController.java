@@ -3,6 +3,7 @@ package com.redsun.controller;
 
 import com.redsun.pojo.Cargo;
 import com.redsun.pojo.ShipperCargo;
+import com.redsun.pojo.ShipperContainer;
 import com.redsun.service.ShipperCargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,5 +53,22 @@ public class ShipperCargoController {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public boolean test(){
+        ShipperCargo shipperCargo = new ShipperCargo();
+        shipperCargo.setUserId(10000000);
+        shipperCargo.setCargoId(10000001);
+        shipperCargo.setCargoTypeId(10000001);
+        shipperCargo.setGross(100);
+       // shipperCargo.setContainerId(null);
+        try{
+            shipperCargoService.addShipperCargo(shipperCargo);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return true;
     }
 }

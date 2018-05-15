@@ -15,9 +15,9 @@ import java.util.List;
 @Service
 public class ShipperContainerServiceImpl implements ShipperContainerService {
     @Autowired
-    private ShipperContainerMapper shippercontainerMapper = null;
+    private ShipperContainerMapper shipperContainerMapper = null;
     @Autowired
-    private ShipperCargoMapper shippercargoMapper = null;
+    private ShipperCargoMapper shipperCargoMapper = null;
 
     /**
      * 操作员get
@@ -28,7 +28,7 @@ public class ShipperContainerServiceImpl implements ShipperContainerService {
     @Override
     public List<ShipperContainer> getShipperContainers(ShipperContainer shipperContainer) {
         List<ShipperContainer> resultShipperContainer = null;
-        resultShipperContainer = shippercontainerMapper.getShipperContainers(shipperContainer);
+        resultShipperContainer = shipperContainerMapper.getShipperContainers(shipperContainer);
         return resultShipperContainer;
     }
 
@@ -43,7 +43,7 @@ public class ShipperContainerServiceImpl implements ShipperContainerService {
        List<ShipperContainer> resultById = null;
        ShipperContainer SC = new ShipperContainer();
        SC.setUserId(id);
-       resultById = shippercontainerMapper.getShipperContainers(SC);
+       resultById = shipperContainerMapper.getShipperContainers(SC);
        return resultById;
     }
 
@@ -54,7 +54,7 @@ public class ShipperContainerServiceImpl implements ShipperContainerService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public void insertEmptyContainer(ShipperContainer shippercontainer) {
-        shippercontainerMapper.insertShipperContainer(shippercontainer);
+        shipperContainerMapper.insertShipperContainer(shippercontainer);
     }
 
     /**
@@ -65,8 +65,8 @@ public class ShipperContainerServiceImpl implements ShipperContainerService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public void insertContaienrwithCargo(ShipperCargo shippercargo, ShipperContainer shippercontainer) {
-        shippercontainerMapper.insertShipperContainer(shippercontainer);
+        shipperContainerMapper.insertShipperContainer(shippercontainer);
         shippercargo.setContainerId(shippercontainer.getContainerId());
-        shippercargoMapper.insertShipperCargo(shippercargo);
+        shipperCargoMapper.insertShipperCargo(shippercargo);
     }
 }
