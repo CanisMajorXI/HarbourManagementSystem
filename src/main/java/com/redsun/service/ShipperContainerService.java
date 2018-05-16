@@ -28,6 +28,6 @@ public interface ShipperContainerService {
     /**
      * 加入一个有货的箱子
      */
-    void insertContaienrwithCargo(ShipperCargo shippercargo,ShipperContainer shippercontainer);
+    boolean insertContainerWithCargo(ShipperContainer container,List<ShipperCargo>cargos);
 
 }

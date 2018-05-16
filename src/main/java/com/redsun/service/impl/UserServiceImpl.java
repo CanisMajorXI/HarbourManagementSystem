@@ -26,38 +26,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User userVerification(User user) {
         User resultUser = null;
-        try {
-            List<User> users = userMapper.getUsers(user);
-            if (users.size() == 1) {
-                resultUser = users.get(0);
-                System.out.println(user.getId() + " " + user.getEmail() + " " + user.getPassword());
-            } else if (users.size() >= 1) {
-                System.out.println("用户数据库发生重复用户名！请联系管理员进行检查！");
-                throw new RuntimeException();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info(e);
-            throw new RuntimeException(e);
-        } finally {
-            return resultUser;
-        }
+        List<User> users = userMapper.getUsers(user);
+        if (users.size() == 1)
+            resultUser = users.get(0);
+        return resultUser;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
-    @Override
-    public List<User> getTotalUsers() {
-        List<User> users = null;
-        User user = new User();
-        try {
-            users = userMapper.getUsers(user);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } finally {
-            return users;
-        }
-    }
+
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override

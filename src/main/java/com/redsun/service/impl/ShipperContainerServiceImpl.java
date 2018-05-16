@@ -2,8 +2,11 @@ package com.redsun.service.impl;
 
 import com.redsun.dao.ShipperCargoMapper;
 import com.redsun.dao.ShipperContainerMapper;
+import com.redsun.pojo.Container;
 import com.redsun.pojo.ShipperCargo;
 import com.redsun.pojo.ShipperContainer;
+import com.redsun.service.CargoService;
+import com.redsun.service.ShipperCargoService;
 import com.redsun.service.ShipperContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,15 +15,25 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Service
 public class ShipperContainerServiceImpl implements ShipperContainerService {
     @Autowired
     private ShipperContainerMapper shipperContainerMapper = null;
+
     @Autowired
     private ShipperCargoMapper shipperCargoMapper = null;
 
+    @Autowired
+    private CargoService cargoService = null;
+
+    @Autowired
+
+    private ShipperCargoService shipperCargoService = null;
+
     /**
      * 操作员get
+     *
      * @param shipperContainer
      * @return
      */
@@ -34,21 +47,23 @@ public class ShipperContainerServiceImpl implements ShipperContainerService {
 
     /**
      * 根据ID查找
+     *
      * @param id
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public List<ShipperContainer> getById(Integer id) {
-       List<ShipperContainer> resultById = null;
-       ShipperContainer SC = new ShipperContainer();
-       SC.setUserId(id);
-       resultById = shipperContainerMapper.getShipperContainers(SC);
-       return resultById;
+        List<ShipperContainer> resultById = null;
+        ShipperContainer SC = new ShipperContainer();
+        SC.setUserId(id);
+        resultById = shipperContainerMapper.getShipperContainers(SC);
+        return resultById;
     }
 
     /**
      * 加入一个空箱子
+     *
      * @param shippercontainer
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
@@ -57,16 +72,26 @@ public class ShipperContainerServiceImpl implements ShipperContainerService {
         shipperContainerMapper.insertShipperContainer(shippercontainer);
     }
 
-    /**
-     * 加入一个有货的箱子
-     * @param shippercargo
-     * @param shippercontainer
-     */
+    //    /**
+//     * 加入一个有货的箱子
+//     * @param shippercargo
+//     * @param shippercontainer
+//     */
+//    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+//    @Override
+//    public void insertContaienrwithCargo(ShipperCargo shippercargo, ShipperContainer shippercontainer) {
+//        shipperContainerMapper.insertShipperContainer(shippercontainer);
+//        shippercargo.setContainerId(shippercontainer.getContainerId());
+//        shipperCargoMapper.insertShipperCargo(shippercargo);
+//    }
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
-    public void insertContaienrwithCargo(ShipperCargo shippercargo, ShipperContainer shippercontainer) {
-        shipperContainerMapper.insertShipperContainer(shippercontainer);
-        shippercargo.setContainerId(shippercontainer.getContainerId());
-        shipperCargoMapper.insertShipperCargo(shippercargo);
+    public boolean insertContainerWithCargo(ShipperContainer container, List<ShipperCargo> cargos) {
+        if (shipperCargoService.isFullToTheseCargosInTask(container, cargos)) return false;
+        shipperContainerMapper.insertShipperContainer(container);
+        for (ShipperCargo shipperCargo : cargos) {
+            shipperCargoMapper.insertShipperCargo(shipperCargo);
+        }
+        return true;
     }
 }

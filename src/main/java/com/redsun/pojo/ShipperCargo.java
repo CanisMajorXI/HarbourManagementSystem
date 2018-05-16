@@ -1,10 +1,22 @@
 package com.redsun.pojo;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ShipperCargo {
-    public Integer userId;
-    public Integer cargoId;
-    public Integer cargoTypeId;
-    public Integer gross;
+
+    @SerializedName(value = "userid")
+    private Integer userId;
+
+    @SerializedName(value = "cargoid")
+    private Integer cargoId;
+
+    @SerializedName(value = "typeid")
+    private Integer cargoTypeId;
+
+    @SerializedName(value = "gross")
+    private Integer gross;
+
+    @SerializedName(value = "containerid")
     public Integer containerId;
 
     public Integer getUserId() {

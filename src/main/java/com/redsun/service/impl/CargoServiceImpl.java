@@ -2,9 +2,8 @@ package com.redsun.service.impl;
 
 import com.redsun.dao.CargoAttrMapper;
 import com.redsun.dao.CargoMapper;
-import com.redsun.pojo.Cargo;
-import com.redsun.pojo.CargoAttr;
-import com.redsun.pojo.Container;
+import com.redsun.dao.ShipperCargoMapper;
+import com.redsun.pojo.*;
 import com.redsun.service.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +21,9 @@ public class CargoServiceImpl implements CargoService {
 
     @Autowired
     private CargoAttrMapper cargoAttrMapper = null;
+
+    @Autowired
+    private ShipperCargoMapper shipperCargoMapper = null;
 
     /**
      * 获取货物
@@ -84,6 +87,17 @@ public class CargoServiceImpl implements CargoService {
         return cargos.size() == 0;
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public boolean isEmptyInTask(Container container) {
+        Integer containerId = container.getId();
+        ShipperCargo shipperCargo = new ShipperCargo();
+        shipperCargo.setContainerId(containerId);
+        List<ShipperCargo> shipperCargos = shipperCargoMapper.getShipperCargos(shipperCargo);
+        //int aa=4;
+        return shipperCargos.size() == 0;
+    }
+
     //检查该箱子是否还能装得下该货物
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
@@ -119,6 +133,39 @@ public class CargoServiceImpl implements CargoService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
+    public boolean isFullToTheseCargos(Container container, List<Cargo> uninsertCargos) {
+        Integer containerId = container.getId();
+        Cargo cargo = new Cargo();
+        cargo.setContainerId(containerId);
+        List<Cargo> cargos = cargoMapper.getCargos(cargo);
+        List<CargoAttr> cargoAttrs = cargoAttrMapper.getCargoAttrs(new CargoAttr());
+        //大箱子容量为小箱子的两倍
+        double remain = container.getSize() == Container.SIZE_SMALL ? 1 : 2;
+        for (Cargo insertedCargo : cargos) {
+            for (CargoAttr cargoAttr : cargoAttrs) {
+                if (cargoAttr.getTypeId().equals(insertedCargo.getTypeId())) {
+                    remain -= (double) insertedCargo.getGross() * (1 / (double) cargoAttr.getMaximumInAContainer());
+                    if (remain <= 0) return false;
+                    break;
+                }
+            }
+        }
+        System.out.println("remain：" + remain);
+        for (Cargo uninsertCargo : uninsertCargos) {
+            for (CargoAttr cargoAttr : cargoAttrs) {
+                if (cargoAttr.getTypeId().equals(uninsertCargo.getTypeId())) {
+                    if (uninsertCargo.getGross() >= cargoAttr.getMaximumInAContainer()) return false;
+                    remain -= (double) uninsertCargo.getGross() * (1 / (double) cargoAttr.getMaximumInAContainer());
+                    break;
+                }
+            }
+        }
+        System.out.println("finalremain：" + remain);
+        return remain < 0;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
     public void addACargo(Cargo cargo) {
     }
 
@@ -131,5 +178,20 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public void addABatchCargo(Cargo cargo) {
         cargoMapper.insertCargo(cargo);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public List<NameAndUnit> getCargosNameAndUnit() {
+        List<NameAndUnit> nameAndUnits = new ArrayList<>();
+        List<CargoAttr> cargoAttrs = cargoAttrMapper.getCargoAttrs(new CargoAttr());
+        for (CargoAttr cargoAttr : cargoAttrs) {
+            NameAndUnit nameAndUnit = new NameAndUnit();
+            nameAndUnit.setId(cargoAttr.getTypeId());
+            nameAndUnit.value.setName(cargoAttr.getName());
+            nameAndUnit.value.setUnit(cargoAttr.getUnitType());
+            nameAndUnits.add(nameAndUnit);
+        }
+        return nameAndUnits;
     }
 }

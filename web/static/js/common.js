@@ -67,7 +67,8 @@ $(document).ready(function () {
                 url: "/api/user/login",
                 data: {
                     username: $(".username").val(),
-                    password: $(".password").val()
+                    password: $(".password").val(),
+                    type:$(".type").val()
                 },
                 success: function (result) {
                     if (result && result === 'true')
@@ -166,6 +167,7 @@ $(document).ready(function () {
         submitHandler: function (form) {
             var username =  $(".username").val();
             var password =   $(".password").val();
+            var type =   $(".type").val();
             $.ajax({
                 type: "POST",
                 dataType: "text",
@@ -174,7 +176,7 @@ $(document).ready(function () {
                     username: username,
                     password: password,
                     email: $(".email").val(),
-                    type: $(".type").val(),
+                    type: type,
                     vericode: $(".veriinput").val(),
                 },
                 success: function (result) {
@@ -182,6 +184,7 @@ $(document).ready(function () {
                         alert("注册成功！");
                         $.cookie('registeruser',username);
                         $.cookie('registerpassword',password);
+                        $.cookie('type',type);
                         $(location).attr('href', 'index.html');
                     }
                     else if(result === '1'){

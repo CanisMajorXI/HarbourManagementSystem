@@ -355,7 +355,7 @@ var threejs_areas = [{
                 break;
             case 2:
                 if (data.row >= 1 && data.row <= 6) {
-                  data.row += 15;
+                    data.row += 15;
                     canShow = true;
                 }
                 break;

@@ -12,10 +12,10 @@ public interface ContainerMapper {
 
     List<Container> getContainers(Container container);
 
-    int insertContainer(Container container);
+    void insertContainer(Container container);
 
-    int deleteContainer(Container container);
+    int deleteContainer(Integer id);
 
     //目前的功能只有更换位置
-    int updateContainerPosition(@Param("id") Integer id, @Param("row") Byte row, @Param("column") Byte column, @Param("layer") Byte layer);
+    void updateContainerPosition(@Param("id") Integer id, @Param("row") Byte row, @Param("column") Byte column, @Param("layer") Byte layer);
 }

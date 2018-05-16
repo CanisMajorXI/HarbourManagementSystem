@@ -7,19 +7,69 @@
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         $(function () {
-            var proAreaCode =$("#pro_areaCode").val();
-            alert(proAreaCode);
+//            var users = JSON.stringify([
+//                {name: "wabiaozai1", pwd: "123"},
+//                {name: "wabiaozai2", pwd: "123"}
+//            ]);
+            var data = JSON.stringify({
+                container: {
+                    userid: 19530615,
+                    containerid: 12345678,
+                    type: 0,
+                    size: 1
+                },
+                cargos: [{
+                    userid: 19530615,
+                    typeid: 10000004,
+                    containerid: 12345678,
+                    gross: 26
+                },
+                    {
+                        userid: 19530615,
+                        typeid: 10000002,
+                        containerid: 12345678,
+                        gross: 19
+                    },
+                    {
+                        userid: 19530615,
+                        typeid: 10000000,
+                        containerid: 12345678,
+                        gross: 17
+                    },
+                    {
+                        userid: 19530615,
+                        typeid: 10000003,
+                        containerid: 12345678,
+                        gross: 41
+                    },
+                    {
+                        userid: 19530615,
+                        typeid: 10000002,
+                        containerid: 12345678,
+                        gross: 11
+                    }
+                ]
+
+            });
+            $.ajax({
+                url: '/api/fr/addwithcargo',
+                dataType: "json",
+                type: "post",
+                data: data,
+                contentType: "application/json; charset=utf-8"
+            });
+            //  $.post("/api/shippercontainer/addwithcargo",data,'json');
         });
     </script>
 </head>
 <body>
 <select name="select" id="pro_areaCode">
-<option value="0000000000">请选择</option>
-<option value="110000">北京市</option>
-<option value="120000" selected="selected">天津市</option>
-<option value="130000">河北省</option>
-<option value="140000">山西省</option>
-<option value="150000">内蒙古自治区</option>
+    <option value="0000000000">请选择</option>
+    <option value="110000">北京市</option>
+    <option value="120000" selected="selected">天津市</option>
+    <option value="130000">河北省</option>
+    <option value="140000">山西省</option>
+    <option value="150000">内蒙古自治区</option>
 </select>
 </body>
 </html>

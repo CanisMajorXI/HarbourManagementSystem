@@ -22,18 +22,15 @@
         $(function () {
             var username = $.cookie('registeruser');
             var password = $.cookie('registerpassword');
-            if (username && password) {
+            var type = $.cookie('type');
+            if (username && password && username != null && password != null) {
                 $(".username").val(username);
                 $(".password").val(password);
-                $.cookie('registeruser',null);
-                $.cookie('registerpassword',null);
+                $(".type").val(type);
+                $.cookie('registeruser', null);
+                $.cookie('registerpassword', null);
+                $.cookie('type', null);
             }
-
-//            if (username && password) {
-//
-//            }
-            $.cookie('registeruser', null);
-            $.cookie('registeruser', null);
         });
     </script>
 </head>
