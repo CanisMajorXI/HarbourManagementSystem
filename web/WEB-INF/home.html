@@ -59,7 +59,7 @@
                 };
             }
             $.ajax(getContainers());
-            $(".next-area-btn").click(function () {
+            $("#next-area-btn").click(function () {
                 if (areatype < 3) {
                     areatype++;
                     $.get("/api/container/get", function (result) {
@@ -80,17 +80,12 @@
                 $.ajax(getContainers());
             });
             $("#container-add-btn").click(function () {
-                insertContainer.data = {
-                    id: Number($("#container-add-id").val()),
-                    row: Number($("#container-add-row").val()),
-                    column: Number($("#container-add-column").val()),
-                    layer: Number($("#container-add-layer").val()),
-                    type: Number($("#container-add-type").val()),
-                    size: Number($("#container-add-size").val())
-                };
-                if (!convertToDatabaseFormat(insertContainer.data)) return;
-                $.ajax(insertContainer);
-            })
+                $("#container-add-btn").click(function () {
+                    var insertdata = insertContainer();
+                    if (!convertToDatabaseFormat(insertdata.data)) return;
+                    $.ajax(insertdata);
+                })
+            });
         })
     </script>
     <style>
@@ -102,12 +97,9 @@
         div#back-color-wrapper {
             background-color: #FFFFFF;
             width: 80%;
-            height: 100%;
+            height: 120%;
             position: absolute;
             left: 10%;
-            top: 50px;
-            bottom: 50px;
-            padding: 40px;
             opacity: 0.5;
             z-index: -1;
             border: 2px solid;
@@ -116,20 +108,21 @@
 
         div#back-wrapper {
             position: absolute;
-            left: 19%;
+            height: 100%;
+            left: 10%;
             top: 50px;
-
         }
 
         div#form-container {
             position: relative;
-            width: 300px;
-            height: 400px;
+            width: 30%;
+            height: 20%;
         }
 
         div#form-container {
             align-content: center;
             text-align: center;
+            height: 60%;
         }
 
         div#form-container input{
@@ -140,9 +133,6 @@
             text-align: left;
         }
 
-        div#find-container {
-
-        }
 
         h1#redsun-title {
             text-align: center;
@@ -151,17 +141,18 @@
         div#canvas-frame {
             border: 3px solid darkcyan;
             cursor: pointer;
-            width: 800px;
-            left: 50%;
+            width: 600px;
+            height: 400px;
+            left: 30%;
             transform: translateX(-50%);
-            height: 600px;
             background-color: #72D1FF;
         }
 
         .threejscontainer {
             position: absolute;
-            left: 65%;
-            top: 150px;
+            height: 80%;
+            left: 60%;
+            top: 220px;
         }
 
         #prev-area-btn{
@@ -184,7 +175,7 @@
 <div id="back-color-wrapper"></div>
 <div id="back-wrapper">
     <h1 id="redsun-title">欢迎来到红太阳港口管理系统</h1>
-    <div class="container">
+    <div class="nostyle-container">
         <div id="form-container">
             <div id="find-container">
                 <h5>查询指定箱子</h5>
@@ -276,7 +267,7 @@
             </div>
         </div>
     </div>
-    <div class="threejscontainer container" id="3jscontainer">
+    <div class="threejscontainer" id="3jscontainer">
         <div id="canvas-frame"></div>
         <button id="prev-area-btn" class="btn btn-primary btn-wide mrm">上一区域</button>
         <button id="next-area-btn" class="btn btn-primary btn-wide mrm">下一区域</button>

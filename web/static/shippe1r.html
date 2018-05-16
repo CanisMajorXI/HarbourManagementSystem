@@ -11,6 +11,51 @@
     <script src="/static/js/OrbitControls.js"></script>
     <script src="/static/js/Detector.js"></script>
     <script src="/static/js/mythreejs.js"></script>
+    <script type="text/javascript">
+
+        function altRows(){
+                var rows = document.getElementsByClassName("my-tr");
+
+                for(i = 0; i < rows.length; i++){
+                    if(i % 2 == 0){
+                        rows[i].className = "evenrowcolor";
+                    }else{
+                        rows[i].className = "oddrowcolor";
+                    }
+                }
+        }
+
+        function refreshContainerTable(resultJson) {
+            var list = $(".altrowstable").children(".my-tr");
+        }
+
+        function refreshCargoTable(resultJson){
+
+        }
+
+        function getContainerInformation(url,data) {
+            return {
+                type: "POST",
+                dataType: "json",
+                url: url,
+                data: data,
+                success: function (result) {
+
+                },
+                error: function () {
+                    alert("error!");
+                }
+            };
+        }
+
+        $("#search-container-btn").click(function () {
+        });
+
+        window.onload=function(){
+            altRows();
+        }
+
+    </script>
     <style>
         #warpper{
             border: 2px solid black;
@@ -52,6 +97,24 @@
             margin-right: 5%;
         }
 
+        .tools-block select{
+            position: relative;
+            height: 80%;
+            width: 80%;
+            left: 10%;
+            top: 10%;
+            border-radius: 10px;
+        }
+
+        .tools-block button{
+            position: relative;
+            height: 80%;
+            width: 80%;
+            left: 10%;
+            top: 10%;
+            border-radius: 10px;
+        }
+
         .my-table{
             position: relative;
             left: 5%;
@@ -75,13 +138,13 @@
         }
         table.altrowstable th {
             border-width: 1px;
-            padding: 8px;
+            padding: 7px;
             border-style: solid;
             border-color: #a9c6c9;
         }
         table.altrowstable td {
             border-width: 1px;
-            padding: 8px;
+            padding: 7px;
             border-style: solid;
             border-color: #a9c6c9;
         }
@@ -102,24 +165,77 @@
     <div class="my-table-warpper" id="table-top">
         <div class="tools">
             <div class="tools-block">
-                <select name="" id="" value>
+                <select name="" id="" >
                     <option value="0">测试数据</option>
                     <option value="1">测试数据</option>
                     <option value="2">测试数据</option>
                 </select>
             </div>
-            <div class="tools-block"></div>
+            <div class="tools-block">
+                <button id="search-container-btn">
+                    查询
+                </button>
+            </div>
         </div>
         <div class="my-table">
             <table class="altrowstable">
-                <tr>
-                    <th>测试数据</th>
+                <tr class="my-tr">
+                    <th>1123123123123123123123123123123123123123123213</th>
                     <th>测试</th>
                     <th>测试</th>
                     <th>测试</th>
                     <th>测试</th>
                 </tr>
-                <tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
                     <td>测试</td>
                     <td>测试</td>
                     <td>测试</td>

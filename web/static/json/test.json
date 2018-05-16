@@ -1,0 +1,60 @@
+{
+  "container": [
+    {
+      "id": "10000000",
+      "row": 1,
+      "column": 1,
+      "layer": 1,
+      "type": 1,
+      "size": 1
+    },
+    {
+      "id": 10000001,
+      "row": 1,
+      "column": 4,
+      "layer": 1,
+      "type": 2,
+      "size": 0
+    },
+    {
+      "id": 10000002,
+      "row": 1,
+      "column": 7,
+      "layer": 1,
+      "type": 0,
+      "size": 0
+    },
+    {
+      "id": 10000004,
+      "row": 2,
+      "column": 1,
+      "layer": 1,
+      "type": 0,
+      "size": 0
+    },
+    {
+      "id": 12121111,
+      "row": 4,
+      "column": 7,
+      "layer": 1,
+      "type": 0,
+      "size": 0
+    },
+    {
+      "id": 88888888,
+      "row": 8,
+      "column": 2,
+      "layer": 2,
+      "type": 0,
+      "size": 0
+    },
+    {
+      "id": 312312222,
+      "row": 4,
+      "column": 4,
+      "layer": 1,
+      "type": 1,
+      "size": 0
+    }
+  ]
+}
