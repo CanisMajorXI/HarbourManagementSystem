@@ -184,7 +184,7 @@ $(document).ready(function () {
                         alert("注册成功！");
                         $.cookie('registeruser',username);
                         $.cookie('registerpassword',password);
-                        $.cookie('registerpassword',type);
+                        $.cookie('type',type);
                         $(location).attr('href', 'index.html');
                     }
                     else if(result === '1'){
