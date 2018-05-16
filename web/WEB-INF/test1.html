@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>红太阳管理系统</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="../static/css/flat-ui.min.css" rel="stylesheet">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="../static/layer-v3.1.1/layer/layer.js"></script>
+    <script src="/static/js/three.js"></script>
+    <script src="/static/js/OrbitControls.js"></script>
+    <script src="/static/js/Detector.js"></script>
+    <script src="/static/js/mythreejs.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            /**
+             * 这个方法主要用来获得Json数据
+             * @param url 目标API地址
+             * @param data 传入的参数
+             * @param func 传入的函数
+             * @returns {{type: string, dataType: string, url: *, data: *, success: success, error: error}}
+             */
+            function getContainerInformation(url, data, func) {
+                return {
+                    type: "POST",
+                    dataType: "json",
+                    url: url,
+                    data: data,
+                    success: function (result) {
+                        func(result);
+                    },
+                    error: function () {
+                        alert("error!");
+                    }
+                };
+            }
+
+            /**
+             * 已经弃用的方法
+             * 表格行列颜色改变函数
+             *
+             function altRows() {
+                var rows = document.getElementsByClassName("my-tr");
+
+                for (i = 0; i < rows.length; i++) {
+                    if (i % 2 == 0) {
+                        rows[i].className = "evenrowcolor";
+                    } else {
+                        rows[i].className = "oddrowcolor";
+                    }
+                }
+            }
+             */
+
+            /**
+             * jQuery重写的表格颜色变换函数
+             */
+            function altRowsjq() {
+                let rows = $(".my-tr");
+
+                for (let i = 0; i < rows.length; i++) {
+                    if (i % 4 == 0) {
+                        $(rows[i]).addClass("evenrowcolor");
+                    } else if (i % 4 == 2) {
+                        $(rows[i]).addClass("oddrowcolor");
+                    }
+                }
+            }
+
+            // 测试用的json数据
+            json = {
+                "container": [
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    }, {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    }, {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    }, {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    }, {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    }, {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    }, {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    }
+                ]
+            };
+            json1 = {
+                "container": [
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    }
+                ]
+            };
+            json2 = {
+                "container": [
+                    {
+                        "id": "10000000",
+                        "row": 1,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 1
+                    },
+                    {
+                        "id": 10000001,
+                        "row": 1,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 2,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000002,
+                        "row": 1,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 10000004,
+                        "row": 2,
+                        "column": 1,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 12121111,
+                        "row": 4,
+                        "column": 7,
+                        "layer": 1,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 88888888,
+                        "row": 8,
+                        "column": 2,
+                        "layer": 2,
+                        "type": 0,
+                        "size": 0
+                    },
+                    {
+                        "id": 312312222,
+                        "row": 4,
+                        "column": 4,
+                        "layer": 1,
+                        "type": 1,
+                        "size": 0
+                    }
+                ]
+            }
+            json3 = {"container": []};
+
+
+            /**---------------初始化页面数据------------------ **/
+            let containerDataJson;
+            let cargoDataJson;
+            let containerPageNum = 1;
+            let containerPageMaxNum = 1;
+            let currentContainerPageMaxNum = 5;
+            let currentContainerPageMinxNum = 1;
+            $("#container-pagination").hide();
+            $("#cargo-pagination").hide();
+            const containerTable = $("#container-table-tbody");
+
+            /**---------------初始化页面数据------------------ **/
+
+
+            /**
+             * 用来分页展示Json数据到指定的表格
+             * @param content 是处理后的Json数据
+             * @param pageNum 是对应的页数
+             * @param table 表格父节点
+             */
+            function getDataByPage(content, pageNum, table) {
+                let type = {
+                    0: "普通箱",
+                    1: "冷冻箱",
+                    2: "危险箱"
+                };
+                let size = {
+                    0: "小箱子",
+                    1: "大箱子"
+                };
+
+                // 获得分页数据
+                pageNum = parseInt(pageNum);
+                pageNum--;
+
+                // 先清空表格内容
+                table.empty();
+
+                // 这里截取获得需要页面的Json数据
+                let temContent = content.slice(pageNum * 9, pageNum * 9 + 9);
+
+                // 遍历添加内容
+                $.each(temContent, function (index, val) {
+                    let trHtml = "<tr class='my-tr'>" +
+                        "<th>" + val['id'] + "</th>" +
+                        "<th>" + getContainerArea(val['row']) + "</th>" +
+                        "<th>" + val['row'] + "</th>" +
+                        "<th>" + val['column'] + "</th>" +
+                        "<th>" + val['layer'] + "</th>" +
+                        "<th>" + type[val['type']] + "</th>" +
+                        "<th>" + size[val['size']] + "</th>" +
+                        "</tr>";
+                    table.append(trHtml);
+                });
+                // 每次刷新完成以后，都要重新绑定事件监听器
+                boundBtn();
+            }
+
+            /**
+             * 页面按钮数字的变化
+             */
+            function paginationButtonChange() {
+                $("#container-paging-ul").empty();
+                if (containerPageNum > currentContainerPageMaxNum) {
+                    currentContainerPageMaxNum += 5;
+                    currentContainerPageMinxNum += 5;
+                    if (currentContainerPageMaxNum >= containerPageMaxNum) {
+                        currentContainerPageMaxNum = containerPageMaxNum;
+                        currentContainerPageMinxNum = containerPageMaxNum - 4;
+                    }
+                }
+                if (containerPageNum < currentContainerPageMinxNum) {
+                    currentContainerPageMaxNum -= 5;
+                    currentContainerPageMinxNum -= 5;
+                    if (currentContainerPageMinxNum <= 0) {
+                        currentContainerPageMaxNum = 5;
+                        currentContainerPageMinxNum = 1;
+                    }
+                }
+
+                for (let i = currentContainerPageMinxNum; i <= currentContainerPageMaxNum; i++) {
+                    $("#container-paging-ul").append("<li id='container-pager-id" + i + "'><a class='container-change-page'>" + i + "</a></li>");
+                }
+
+                boundPageBtn();
+            }
+
+            /**
+             * 绑定监听器--箱子表格，弹出窗口设置
+             */
+            function boundBtn() {
+                $("#container-table-tbody .my-tr").click(function () {
+                    // 箱子里的货物
+                    let content;
+                    // 获取当前选中的箱子的ID
+                    let containerID = Number($(this).children().first().text());
+
+                    // ajax请求获得数据，通过箱子ID获得内部货物
+                    let cargoData = {
+                        "cargo":
+                            [{
+                                "cargoId": 10000000,
+                                "typeId": 10000000,
+                                "gross": 10,
+                                "containerId": 10000000
+                            }]
+                    };
+
+                    // 如果箱子中并没有货物
+                    if (cargoData.cargo.length <= 0) {
+                        content = "<div id='open-data'><h5 align='center'>这是一个空箱</h5>" +
+                            "<button class='btn btn-info'>移动箱子</button><button class='btn btn-warning'>移除箱子</button></div>";
+
+                    } else {
+                        $.each(cargoData.cargo, function (index, val) {
+                            content = "<div id='open-data'><p>货物&nbsp&nbspID：" + val['cargoId'] +
+                                "</p><p>货物类型：" + val['typeId'] +
+                                "</p><p>货物数量：" + val['gross'] +
+                                "</p><button class='btn btn-info' id='move-container-btn'>移动箱子</button><button class='btn btn-warning' id='remove-container-btn'>移除箱子</button>" +
+                                "</div>"
+                        });
+                    }
+                    layer.open({
+                        type: 1,
+                        title: "查询结果",
+                        closeBtn: 1,
+                        shadeClose: true,
+                        skin: 'layui-layer-molv',
+                        content: content
+                    });
+
+                    $("#move-container-btn").click(function () {
+                        let position;
+                        // ajax请求获得数据（可插入位置）
+                        let resultJson = {
+                            "container": [{
+                                "id": null,
+                                "row": 1,
+                                "column": 1,
+                                "layer": 2,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 1, "column": 2, "layer": 2, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 1,
+                                "column": 3,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 1, "column": 4, "layer": 2, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 1,
+                                "column": 5,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 1, "column": 6, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 1,
+                                "column": 7,
+                                "layer": 2,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 1, "column": 8, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 1,
+                                "column": 9,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 1, "column": 10, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 2,
+                                "column": 1,
+                                "layer": 2,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 2, "column": 2, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 2,
+                                "column": 3,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 2, "column": 4, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 2,
+                                "column": 5,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 2, "column": 6, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 2,
+                                "column": 7,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 2, "column": 8, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 2,
+                                "column": 9,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 2, "column": 10, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 3,
+                                "column": 1,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 3, "column": 2, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 3,
+                                "column": 3,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 3, "column": 4, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 3,
+                                "column": 5,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 3, "column": 6, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 3,
+                                "column": 7,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 3, "column": 8, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 3,
+                                "column": 9,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 3, "column": 10, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 4,
+                                "column": 1,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 4, "column": 2, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 4,
+                                "column": 3,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 4, "column": 4, "layer": 2, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 4,
+                                "column": 5,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 4, "column": 6, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 4,
+                                "column": 7,
+                                "layer": 2,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 4, "column": 8, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 4,
+                                "column": 9,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 4, "column": 10, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 5,
+                                "column": 1,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 5, "column": 2, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 5,
+                                "column": 3,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 5, "column": 4, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 5,
+                                "column": 5,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 5, "column": 6, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 5,
+                                "column": 7,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 5, "column": 8, "layer": 1, "type": null, "size": null}, {
+                                "id": null,
+                                "row": 5,
+                                "column": 9,
+                                "layer": 1,
+                                "type": null,
+                                "size": null
+                            }, {"id": null, "row": 5, "column": 10, "layer": 1, "type": null, "size": null}]
+                        };
+                        let content = $("<div id='container-selectable-position'></div>");
+
+                        $.each(resultJson.container, function (index, val) {
+                            let value = val['row'] + ',' + val['column'] + ',' + val['layer'];
+                            let button = "<button class='btn btn-primary btn-sm container-selectable-position-btn'>" + value + "</button>";
+                            content.append(button);
+                        });
+                        console.log(content.html());
+                        layer.open({
+                            type: 1,
+                            title: "可插入位置",
+                            closeBtn: 1,
+                            shadeClose: true,
+                            skin: 'layui-layer-molv',
+                            content: content.html(),
+                            area:['800px','auto']
+                        });
+                        // 位置按钮事件监听器
+                        $(".container-selectable-position-btn").click(function () {
+                            position = $(this).text();
+                            layer.confirm("确定要插入到该位置？",function (index) {
+                                // ajax请求插入
+                                alert(position);
+                                layer.close(index);
+                                layer.close(index-1);
+                                layer.close(index-2);
+                            },function (index) {
+                                layer.close(index);
+                            });
+                        })
+                    });
+
+                    $("#remove-container-btn").click(function () {
+                        let content = "<p>是否确定移除该箱子？</p>";
+                        layer.confirm(content,
+                            function (index) { // 确定后调用的函数
+                                // ajax删除请求，通过箱子ID
+                                layer.alert('移除成功');
+                                layer.close(index);
+                                layer.close(index - 1);
+                                // 修改数据库后需要刷新 这里的json需要得到回传的json
+                                refreshContainerTable(json1);
+                            }, function () { // 取消调用的函数
+                            });
+                    });
+
+                });
+
+                /**
+                 * 表格中按键的样式设计
+                 */
+                $("#container-table-tbody .my-tr").hover(function () {
+                    $(this).siblings().removeClass("mouseoverColor");
+                    $(this).addClass("mouseoverColor");
+                }, function () {
+                    $(this).removeClass("mouseoverColor");
+                });
+            }
+
+            /**
+             * 绑定监听器--箱子表格分页按钮
+             */
+            function boundPageBtn() {
+                $("#container-paging-ul li a").click(function () {
+                    $(this).parent().siblings().removeClass("active");
+                    $(this).parent().addClass("active");
+                    containerPageNum = $(this).text();
+                    getDataByPage(json.container, containerPageNum, containerTable);
+                    altRowsjq();
+                });
+            }
+
+            /**
+             * 每次根据查询接收到新的Json数据，就刷新箱子表
+             *
+             * @param resultJson json格式的箱子数据
+             */
+            function refreshContainerTable(resultJson) {
+
+
+                let table = containerTable;
+                let content = resultJson.container;
+                let containerLength = content.length;
+
+                // 遍历JSON数据，并对表格进行渲染
+                if (containerLength <= 9 && containerLength > 0) {
+                    // 如果只有一页或者没有数据的话就隐藏分页
+                    $("#container-pagination").hide();
+                    getDataByPage(content, 1, table);
+                } else if (containerLength <= 0) { // 如果没有数据则显示
+
+                    table.empty();
+                    $("#container-pagination").hide();
+                    table.append("<h3>没有查找到数据</h3>");
+
+                } else { //如果需要分页，则进行分页展示
+
+                    // 获得分页按钮的父元素
+                    let parent = $("#container-paging-ul");
+                    parent.empty();
+                    // 分页数等于json里数据个数 /9 （单页表格最多展示9格数据）
+                    let pageLength = containerLength / 9;
+                    containerPageMaxNum = Math.ceil(pageLength);
+                    if (pageLength <= 5) { // 分页数在5页以内
+                        for (i = 0; i < pageLength; i++) {
+                            parent.append("<li id='container-pager-id" + (i + 1) + "'><a class='container-change-page'>" + (i + 1) + "</a></li>");
+                        }
+                        $("#container-pager-id" + containerPageNum).addClass("active");
+                        currentContainerPageMaxNum = containerPageMaxNum;
+                        getDataByPage(content, 1, table); //每次默认显示第一页的内容
+                    } else { // 分页数多于5页
+                        for (i = 0; i < 5; i++) {
+                            parent.append("<li id='container-pager-id" + (i + 1) + "'><a class='container-change-page'>" + (i + 1) + "</a></li>");
+                        }
+                        $("#container-pager-id" + containerPageNum).addClass("active");
+                        getDataByPage(content, 1, table); //每次默认显示第一页的内容
+                    }
+                    // 显示分页按钮
+                    $("#container-pagination").show();
+                    boundPageBtn();
+                }
+                // 动态修改表格的颜色
+                altRowsjq();
+            }
+
+            /**
+             * 根据箱子的行号获得相应的区域
+             *
+             * @param row 箱子的行号
+             */
+            function getContainerArea(row) {
+                if (row >= 1 && row <= 5) {
+                    return "空箱区";
+                } else if (row >= 6 && row <= 15) {
+                    return "普通区";
+                } else if (row >= 16 && row <= 21) {
+                    return "冷冻区";
+                } else if (row >= 22 && row <= 27) {
+                    return "危险区";
+                }
+            }
+
+            // 这里模拟首次ajax获得数据并渲染刷新表格
+            refreshContainerTable(json);
+
+            /**
+             * 箱子表向前翻页
+             */
+            $("#container-paging-pre-btn").click(function () {
+                containerPageNum--;
+                if (containerPageNum <= 0) {
+                    containerPageNum = 1;
+                }
+                paginationButtonChange();
+                $("#container-pager-id" + containerPageNum).addClass("active");
+                getDataByPage(json.container, containerPageNum, containerTable);
+                altRowsjq();
+            });
+
+            /**
+             * 箱子表向后翻页
+             */
+            $("#container-paging-next-btn").click(function () {
+                containerPageNum++;
+                if (containerPageNum >= containerPageMaxNum) {
+                    containerPageNum = containerPageMaxNum;
+                }
+                paginationButtonChange();
+                $("#container-pager-id" + containerPageNum).addClass("active");
+
+                //
+                getDataByPage(json.container, containerPageNum, containerTable);
+                altRowsjq();
+            });
+
+            /**
+             * 箱子查询按钮，ajax实现
+             */
+            $("#search-container-btn").click(function () {
+                // ajax查询，构建数据
+                let url = "";
+                // type[-1:"无类型",0:"普通",1:"冷冻",2:"危险"]
+                // area[-1:"无类型",0:"空区",1:"普通",2:"冷冻",3:"危险"]
+                // size[-1:"无类型",0:"小",1:"大"]
+                let data = {
+                    type: Number($("#search-container-type").val()),
+                    size: Number($("#search-container-size").val()),
+                    area: Number($("#search-container-area").val())
+                };
+                let func = function (resultJson) {
+                    containerDataJson = resultJson;
+                    refreshContainerTable(containerDataJson);
+                };
+                // ajax进行查询
+                alert(data.type);
+                // 刷新表格
+            });
+
+
+            function refreshCargoTable(resultJson) {
+
+            }
+
+
+            /** ----------- 3D模型函数 ---------- **/
+            /**
+             * 3D模型初始化函数
+             */
+            startThreejs(0);
+
+            function getContainers() {
+                return {
+                    type: "POST",
+                    dataType: "json",
+                    url: "/api/container/get",
+                    data: {
+                        id: $("#container-id").val(),
+                        row: $("#container-row").val(),
+                        column: $("#container-column").val(),
+                        layer: $("#container-layer").val(),
+                        type: $("#container-type").val(),
+                        size: $("#container-size").val()
+                    },
+                    success: function (result) {
+                        updateThreejs(result.container);
+                    },
+                    error: function () {
+                        alert("error!");
+                    }
+                };
+            }
+
+            /**
+             * 3D模型换页函数
+             */
+            $.ajax(getContainers());
+            $("#next-area-btn").click(function () {
+                if (areatype < 3) {
+                    areatype++;
+                    $.get("/api/container/get", function (result) {
+                        updateThreejs(result.container);
+                    }, "json");
+                }
+            });
+
+            $("#prev-area-btn").click(function () {
+                if (areatype > 0) {
+                    areatype--;
+                    $.get("/api/container/get", function (result) {
+                        updateThreejs(result.container);
+                    }, "json");
+                }
+
+            });
+            $("#container-query-btn").click(function () {
+                $.ajax(getContainers());
+            });
+            /** ----------- 3D模型函数 ---------- **/
+
+        })
+    </script>
+    <style>
+
+        body {
+            background-image: url("../static/img/1.jpg");
+            position: relative;
+        }
+
+        #open-data {
+            padding: 20px;
+        }
+
+        #open-data button {
+            margin: 5px;
+        }
+
+        #container-selectable-position{
+            padding: 40px;
+        }
+
+        .container-selectable-position-btn{
+            margin: 10px;
+            width: 80px;
+        }
+
+        #warpper {
+            border: 2px solid black;
+            width: 100%;
+            height: 1400px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .my-table-warpper {
+            border-radius: 50px;
+            float: left;
+            border: 2px solid blue;
+            width: 45%;
+            height: 40%;
+            position: relative;
+            margin-left: 3%;
+            top: 10%;
+            margin-bottom: 50px;
+        }
+
+        .mengban {
+            background-color: #FFFFFF;
+            border-radius: 50px;
+            opacity: 0.5;
+            height: 100%;
+            width: 100%;
+            z-index: -1;
+        }
+
+        .my-canvas-warpper {
+            float: left;
+            border: 2px solid blue;
+            width: 85%;
+            height: 45%;
+            position: relative;
+            left: 7%;
+            top: 10%;
+            margin-bottom: 50px;
+        }
+
+        .tools {
+            position: relative;
+            top: -100%;
+            left: 5%;
+            width: 90%;
+            height: 15%;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            /*border: 2px solid red;*/
+        }
+
+        .tools-block {
+            display: block;
+            width: 15%;
+            height: 80%;
+            /*border: 2px solid blue;*/
+            float: right;
+            position: relative;
+            top: 10%;
+            margin-right: 5%;
+        }
+
+        .tools-block select {
+            position: relative;
+            height: 60%;
+            width: 90%;
+            left: 5%;
+            top: 20%;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .tools-block button {
+            position: relative;
+            height: 80%;
+            width: 80%;
+            left: 10%;
+            top: 10%;
+            border-radius: 10px;
+        }
+
+        .my-table {
+            position: relative;
+            border-radius: 40px;
+            top: -100%;
+            left: 5%;
+            width: 90%;
+            height: 60%;
+            border: 2px solid red;
+            padding-left: 5%;
+        }
+
+        .pagination-warpper {
+            position: relative;
+            top: -100%;
+            left: 18%;
+        }
+
+        table.altrowstable {
+            position: relative;
+            top: 5%;
+            width: 90%;
+            height: 90%;
+            font-family: verdana, arial, sans-serif;
+            font-size: 11px;
+            color: #333333;
+            border-width: 2px;
+            border-color: #000000;
+            border-collapse: collapse;
+        }
+
+        table.altrowstable th {
+            border-style: solid;
+            border-width: 2px;
+            border-color: #1abc9c;
+        }
+
+        table.altrowstable td {
+            padding: 7px;
+        }
+
+        .oddrowcolor {
+            background-color: #d4e3e5;
+        }
+
+        .evenrowcolor {
+            background-color: #c3dde0;
+        }
+
+        .mouseoverColor {
+            background-color: #c29d0b;
+        }
+
+        .threejscontainer {
+            border: 2px solid red;
+            position: relative;
+            left: 5%;
+            top: 5%;
+            width: 90%;
+            height: 80%;
+        }
+
+        div#canvas-frame {
+            border: 3px solid darkcyan;
+            cursor: pointer;
+            width: 80%;
+            height: 100%;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #72D1FF;
+        }
+
+        #canvas-button {
+            border: 2px solid red;
+            position: relative;
+            left: 5%;
+            top: 5%;
+            width: 90%;
+            height: 10%;
+        }
+
+        #prev-area-btn {
+            position: relative;
+            left: 25%;
+        }
+
+        #next-area-btn {
+            position: relative;
+            left: 50%;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div id="warpper">
+    <!--箱子表模块-->
+    <div class="my-table-warpper" id="table-top">
+        <div class="mengban"></div>
+        <!--工具行-->
+        <div class="tools">
+            <div class="tools-block">
+                <button id="search-container-btn" class="btn btn-primary">
+                    查询
+                </button>
+            </div>
+            <div class="tools-block">
+                <select name="container-area" id="search-container-area">
+                    <option value="-1">箱子区域</option>
+                    <option value="0">空箱区</option>
+                    <option value="1">普通区</option>
+                    <option value="2">冷冻区</option>
+                    <option value="3">危险区</option>
+                </select>
+            </div>
+            <div class="tools-block">
+                <select name="container-type" id="search-container-type">
+                    <option value="-1">箱子类型</option>
+                    <option value="0">普通箱</option>
+                    <option value="1">冷冻箱</option>
+                    <option value="2">危险箱</option>
+                </select>
+            </div>
+            <div class="tools-block">
+                <select name="container-size" id="search-container-size">
+                    <option value="-1">箱子大小</option>
+                    <option value="0">小箱子</option>
+                    <option value="1">大箱子</option>
+                </select>
+            </div>
+        </div>
+        <!--表内容-->
+        <div class="my-table">
+            <table class="altrowstable" id="container-table">
+                <thead>
+                <tr class="my-tr-head">
+                    <th>ID</th>
+                    <th>区域</th>
+                    <th>行</th>
+                    <th>列</th>
+                    <th>层</th>
+                    <th>类型</th>
+                    <th>大小</th>
+                </tr>
+                </thead>
+                <tbody id="container-table-tbody"></tbody>
+            </table>
+        </div>
+        <!--分页按钮-->
+        <div class="pagination-warpper" id="container-pagination">
+            <div class="pagination pagination-success" id="container-paging">
+                <a class="btn btn-success previous" id="container-paging-pre-btn">Previous</a>
+
+                <ul id="container-paging-ul">
+                    <!--分页，格式如下-->
+                    <!--<li><a href="#">1</a></li>-->
+                </ul>
+
+                <a class="btn btn-success next" id="container-paging-next-btn">Next</a>
+            </div>
+        </div>
+    </div>
+    <!--箱子表模块结束-->
+
+    <!--货物表模块-->
+    <div class="my-table-warpper" id="table-bottom">
+        <div class="mengban"></div>
+
+        <!--工具行-->
+        <div class="tools">
+
+        </div>
+        <!--表内容-->
+        <div class="my-table">
+
+        </div>
+        <!--分页按钮-->
+        <div class="pagination-warpper">
+            <div class="pagination pagination-success">
+                <a href="#" class="btn btn-success previous">Previous</a>
+
+                <ul>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                </ul>
+
+                <a href="#" class="btn btn-success next">Next</a>
+            </div>
+        </div>
+    </div>
+    <!--货物表模块结束-->
+
+    <!--画板模块-->
+    <div class="my-canvas-warpper">
+        <div class="threejscontainer" id="3jscontainer">
+            <div id="canvas-frame"></div>
+            <div id="canvas-button">
+                <button id="prev-area-btn" class="btn btn-primary btn-wide mrm">上一区域</button>
+                <button id="next-area-btn" class="btn btn-primary btn-wide mrm">下一区域</button>
+            </div>
+        </div>
+    </div>
+    <!--画板模块结束-->
+</div>
+</body>
+</html>

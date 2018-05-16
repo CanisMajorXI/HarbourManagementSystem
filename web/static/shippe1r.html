@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>红太阳管理系统</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="../static/css/flat-ui.min.css" rel="stylesheet">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/js/three.js"></script>
+    <script src="/static/js/OrbitControls.js"></script>
+    <script src="/static/js/Detector.js"></script>
+    <script src="/static/js/mythreejs.js"></script>
+    <script type="text/javascript">
+
+        function altRows(){
+                var rows = document.getElementsByClassName("my-tr");
+
+                for(i = 0; i < rows.length; i++){
+                    if(i % 2 == 0){
+                        rows[i].className = "evenrowcolor";
+                    }else{
+                        rows[i].className = "oddrowcolor";
+                    }
+                }
+        }
+
+        function refreshContainerTable(resultJson) {
+            var list = $(".altrowstable").children(".my-tr");
+        }
+
+        function refreshCargoTable(resultJson){
+
+        }
+
+        function getContainerInformation(url,data) {
+            return {
+                type: "POST",
+                dataType: "json",
+                url: url,
+                data: data,
+                success: function (result) {
+
+                },
+                error: function () {
+                    alert("error!");
+                }
+            };
+        }
+
+        $("#search-container-btn").click(function () {
+        });
+
+        window.onload=function(){
+            altRows();
+        }
+
+    </script>
+    <style>
+        #warpper{
+            border: 2px solid black;
+            width: 80%;
+            height: 1200px;
+            padding: 20px;
+            position: relative;
+            left: 10%;
+        }
+
+        .my-table-warpper {
+            border:2px solid blue;
+            width: 80%;
+            height: 40%;
+            position: relative;
+            top: 10%;
+            margin-bottom: 50px;
+            left: 10%;
+        }
+
+        .tools{
+            position: relative;
+            left: 5%;
+            width: 90%;
+            height:15%;
+            margin-top: 2%;
+            margin-bottom: 2%;
+            border: 2px solid red;
+        }
+
+        .tools-block{
+            display: block;
+            width: 15%;
+            height: 80%;
+            border: 2px solid blue;
+            float: right;
+            position: relative;
+            top: 10%;
+            margin-right: 5%;
+        }
+
+        .tools-block select{
+            position: relative;
+            height: 80%;
+            width: 80%;
+            left: 10%;
+            top: 10%;
+            border-radius: 10px;
+        }
+
+        .tools-block button{
+            position: relative;
+            height: 80%;
+            width: 80%;
+            left: 10%;
+            top: 10%;
+            border-radius: 10px;
+        }
+
+        .my-table{
+            position: relative;
+            left: 5%;
+            width: 90%;
+            height: 60%;
+            border: 2px solid red;
+        }
+
+        .pagination-warpper{
+            position: relative;
+            left: 22%;
+        }
+
+        table.altrowstable {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #a9c6c9;
+            border-collapse: collapse;
+        }
+        table.altrowstable th {
+            border-width: 1px;
+            padding: 7px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+        table.altrowstable td {
+            border-width: 1px;
+            padding: 7px;
+            border-style: solid;
+            border-color: #a9c6c9;
+        }
+        .oddrowcolor{
+            background-color:#d4e3e5;
+        }
+        .evenrowcolor{
+            background-color:#c3dde0;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+<div id="warpper">
+    <div class="my-table-warpper" id="table-top">
+        <div class="tools">
+            <div class="tools-block">
+                <select name="" id="" >
+                    <option value="0">测试数据</option>
+                    <option value="1">测试数据</option>
+                    <option value="2">测试数据</option>
+                </select>
+            </div>
+            <div class="tools-block">
+                <button id="search-container-btn">
+                    查询
+                </button>
+            </div>
+        </div>
+        <div class="my-table">
+            <table class="altrowstable">
+                <tr class="my-tr">
+                    <th>1123123123123123123123123123123123123123123213</th>
+                    <th>测试</th>
+                    <th>测试</th>
+                    <th>测试</th>
+                    <th>测试</th>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+                <tr class="my-tr">
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                    <td>测试</td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="pagination-warpper">
+            <div class="pagination pagination-success">
+                <a href="#" class="btn btn-success previous">Previous</a>
+
+                <ul>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="">4</a></li>
+                    <li><a href="">5</a></li>
+                </ul>
+
+                <a href="#" class="btn btn-success next">Next</a>
+            </div>
+        </div>
+    </div>
+    <div class="my-table-warpper" id="table-bottom">
+        <div class="tools">
+
+        </div>
+        <div class="mytable">
+
+        </div>
+        <div class="pagination-warpper">
+            <div class="pagination pagination-success">
+                <a href="#" class="btn btn-success previous">Previous</a>
+
+                <ul>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                </ul>
+
+                <a href="#" class="btn btn-success next">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

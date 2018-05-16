@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <title>红太阳管理系统</title>
     <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="../static/css/flat-ui.min.css" rel="stylesheet">
     <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/static/js/three.js"></script>
@@ -58,7 +59,7 @@
                 };
             }
             $.ajax(getContainers());
-            $(".next-area-btn").click(function () {
+            $("#next-area-btn").click(function () {
                 if (areatype < 3) {
                     areatype++;
                     $.get("/api/container/get", function (result) {
@@ -66,7 +67,7 @@
                     }, "json");
                 }
             });
-            $(".prev-area-btn").click(function () {
+            $("#prev-area-btn").click(function () {
                 if (areatype > 0) {
                     areatype--;
                     $.get("/api/container/get", function (result) {
@@ -79,136 +80,198 @@
                 $.ajax(getContainers());
             });
             $("#container-add-btn").click(function () {
-                var insertdata = insertContainer();
-                if (!convertToDatabaseFormat(insertdata.data)) return;
-                $.ajax(insertdata);
-            })
+                $("#container-add-btn").click(function () {
+                    var insertdata = insertContainer();
+                    if (!convertToDatabaseFormat(insertdata.data)) return;
+                    $.ajax(insertdata);
+                })
+            });
         })
     </script>
     <style>
-        div#canvas-frame {
-            border: 1px solid darkcyan;
-            cursor: pointer;
-            width: 90%;
+        body {
+            background-image: url("../static/img/1.jpg");
             position: relative;
-            left: 50%;
+        }
+
+        div#back-color-wrapper {
+            background-color: #FFFFFF;
+            width: 80%;
+            height: 120%;
+            position: absolute;
+            left: 10%;
+            opacity: 0.5;
+            z-index: -1;
+            border: 2px solid;
+            border-radius: 50px;
+       }
+
+        div#back-wrapper {
+            position: absolute;
+            height: 100%;
+            left: 10%;
+            top: 50px;
+        }
+
+        div#form-container {
+            position: relative;
+            width: 30%;
+            height: 20%;
+        }
+
+        div#form-container {
+            align-content: center;
+            text-align: center;
+            height: 60%;
+        }
+
+        div#form-container input{
+            margin: 5px;
+        }
+
+        div#form-container label{
+            text-align: left;
+        }
+
+
+        h1#redsun-title {
+            text-align: center;
+        }
+
+        div#canvas-frame {
+            border: 3px solid darkcyan;
+            cursor: pointer;
+            width: 600px;
+            height: 400px;
+            left: 30%;
             transform: translateX(-50%);
-            height: 600px;
-            background-color: #EEEEEE;
+            background-color: #72D1FF;
         }
 
         .threejscontainer {
-            position: relative;
-        }
-
-        .prev-area-btn, .next-area-btn {
             position: absolute;
-            top: 40%;
-            display: block;
-            font-size: 60px;
+            height: 80%;
+            left: 60%;
+            top: 220px;
         }
 
-        .next-area-btn {
-            right: 16px;
+        #prev-area-btn{
+            position: relative;
+            top: 20px;
+            left: -200px;
         }
+
+        #next-area-btn{
+            position: relative;
+            top: 20px;
+            left: -80px;
+        }
+
 
     </style>
 </head>
 <body>
 
-<h2 style="text-align: center">欢迎来到红太阳港口管理系统</h2>
-<div class="container">
-    <h2>查询指定箱子</h2>
-    <form class="form-inline" role="form">
-        <div class="form-group">
-            <label for="container-id">id</label>
-            <input type="number" class="form-control" id="container-id" autocomplete="off"
-                   placeholder="请输入8位数id">
+<div id="back-color-wrapper"></div>
+<div id="back-wrapper">
+    <h1 id="redsun-title">欢迎来到红太阳港口管理系统</h1>
+    <div class="nostyle-container">
+        <div id="form-container">
+            <div id="find-container">
+                <h5>查询指定箱子</h5>
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <label for="container-id">id</label>
+                        <input type="number" class="form-control" id="container-id" autocomplete="off"
+                               placeholder="请输入8位数id">
+                    </div>
+                    <div class="form-group">
+                        <label for="container-row">行</label>
+                        <input type="number" class="form-control" id="container-row" autocomplete="off"
+                               placeholder="请输入行数">
+                    </div>
+                    <div class="form-group">
+                        <label for="container-column">列</label>
+                        <input type="number" class="form-control" id="container-column" autocomplete="off"
+                               placeholder="请输入行数">
+                    </div>
+                    <div class="form-group">
+                        <label for="container-layer">层</label>
+                        <input type="number" class="form-control" id="container-layer" autocomplete="off"
+                               placeholder="请输入行数">
+                    </div>
+                    <div class="form-group">
+                        <label for="container-type">箱子种类</label>
+                        <select class="form-control" id="container-type">
+                            <option value selected>所有</option>
+                            <option value="0">普通箱</option>
+                            <option value="1">冷冻箱</option>
+                            <option value="2">危险箱</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="container-size">箱子尺寸</label>
+                        <select class="form-control" id="container-size">
+                            <option value selected>所有</option>
+                            <option value="0">小</option>
+                            <option value="1">大</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-hg btn-primary" id="container-query-btn">查询</button>
+                    </div>
+                </form>
+            </div>
+            <div id="insert-container">
+                <h5>插入指定箱子</h5>
+                <form class="form-inline" role="form">
+                    <div class="form-group">
+                        <label for="container-add-id">id</label>
+                        <input type="number" class="form-control" id="container-add-id" autocomplete="off"
+                               placeholder="请输入8位数id">
+                    </div>
+                    <div class="form-group">
+                        <label for="container-add-row">行</label>
+                        <input type="number" class="form-control" id="container-add-row" autocomplete="off"
+                               placeholder="请输入行数">
+                    </div>
+                    <div class="form-group">
+                        <label for="container-add-column">列</label>
+                        <input type="number" class="form-control" id="container-add-column" autocomplete="off"
+                               placeholder="请输入行数">
+                    </div>
+                    <div class="form-group">
+                        <label for="container-add-layer">层</label>
+                        <input type="number" class="form-control" id="container-add-layer" autocomplete="off"
+                               placeholder="请输入行数">
+                    </div>
+                    <div class="form-group">
+                        <label for="container-add-type">箱子种类</label>
+                        <select class="form-control" id="container-add-type">
+                            <option value="0">普通箱子</option>
+                            <option value="1">冷冻箱</option>
+                            <option value="2">危险箱</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="container-add-size">箱子尺寸</label>
+                        <select class="form-control" id="container-add-size">
+                            <option value="0">小</option>
+                            <option value="1">大</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-hg btn-primary" id="container-add-btn">插入箱子</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="container-row">行</label>
-            <input type="number" class="form-control" id="container-row" autocomplete="off"
-                   placeholder="请输入行数">
-        </div>
-        <div class="form-group">
-            <label for="container-column">列</label>
-            <input type="number" class="form-control" id="container-column" autocomplete="off"
-                   placeholder="请输入行数">
-        </div>
-        <div class="form-group">
-            <label for="container-layer">层</label>
-            <input type="number" class="form-control" id="container-layer" autocomplete="off"
-                   placeholder="请输入行数">
-        </div>
-        <div class="form-group">
-            <label for="container-type">箱子种类</label>
-            <select class="form-control" id="container-type">
-                <option value selected>所有</option>
-                <option value="0">普通箱</option>
-                <option value="1">冷冻箱</option>
-                <option value="2">危险箱</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="container-size">箱子尺寸</label>
-            <select class="form-control" id="container-size">
-                <option value selected>所有</option>
-                <option value="0">小</option>
-                <option value="1">大</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <button type="button" class="btn btn-default" id="container-query-btn">查询</button>
-        </div>
-    </form>
-    <h2>插入指定箱子</h2>
-    <form class="form-inline" role="form">
-        <div class="form-group">
-            <label for="container-add-id">id</label>
-            <input type="number" class="form-control" id="container-add-id" autocomplete="off"
-                   placeholder="请输入8位数id">
-        </div>
-        <div class="form-group">
-            <label for="container-add-row">行</label>
-            <input type="number" class="form-control" id="container-add-row" autocomplete="off"
-                   placeholder="请输入行数">
-        </div>
-        <div class="form-group">
-            <label for="container-add-column">列</label>
-            <input type="number" class="form-control" id="container-add-column" autocomplete="off"
-                   placeholder="请输入行数">
-        </div>
-        <div class="form-group">
-            <label for="container-add-layer">层</label>
-            <input type="number" class="form-control" id="container-add-layer" autocomplete="off"
-                   placeholder="请输入行数">
-        </div>
-        <div class="form-group">
-            <label for="container-add-type">箱子种类</label>
-            <select class="form-control" id="container-add-type">
-                <option value="0">普通箱子</option>
-                <option value="1">冷冻箱</option>
-                <option value="2">危险箱</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="container-add-size">箱子尺寸</label>
-            <select class="form-control" id="container-add-size">
-                <option value="0">小</option>
-                <option value="1">大</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <button type="button" class="btn btn-default" id="container-add-btn">插入箱子</button>
-        </div>
-    </form>
+    </div>
+    <div class="threejscontainer" id="3jscontainer">
+        <div id="canvas-frame"></div>
+        <button id="prev-area-btn" class="btn btn-primary btn-wide mrm">上一区域</button>
+        <button id="next-area-btn" class="btn btn-primary btn-wide mrm">下一区域</button>
+    </div>
 </div>
-<div class="threejscontainer container">
-    <button class="prev-area-btn"> <</button>
-    <button class="next-area-btn">></button>
-    <div id="canvas-frame"></div>
-</div>
-
-
 </body>
 </html>
