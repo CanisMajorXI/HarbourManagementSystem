@@ -121,10 +121,10 @@ public class ContainerServiceImpl implements ContainerService {
 
         if(cargoService.isEmpty(container)){
             //空箱
-            int cont[][][] = new int[5][10][6];
-            for(int i=0;i<5;i++)
-                for(int j=0;j<10;j++)
-                    for(int k=0;k<6;k++)
+            int cont[][][] = new int[Container.TOTAL_ROWS_EMPTY][Container.TOTAL_COLUMNS_EMPTY][Container.TOTAL_LAYERS_EMPTY];
+            for(int i=0;i<Container.TOTAL_ROWS_EMPTY;i++)
+                for(int j=0;j<Container.TOTAL_COLUMNS_EMPTY;j++)
+                    for(int k=0;k<Container.TOTAL_LAYERS_EMPTY;k++)
                         cont[i][j][k] = 0;
             /**
              * step 1
@@ -136,7 +136,7 @@ public class ContainerServiceImpl implements ContainerService {
                 Byte column = container3.getColumn();
                 Byte layer = container3.getLayer();
                 Byte size = container3.getSize();
-                if(row >= (byte)1 && row <=(byte)5){
+                if(row >= Container.LOWER_LIMIT_EMPTY && row <=Container.UPPER_LIMIT_EMPTY){
                     ContainerTool containerTool = new ContainerTool();
                     containerTool.setColumn(column);
                     containerTool.setLayer(layer);
@@ -168,8 +168,8 @@ public class ContainerServiceImpl implements ContainerService {
              * step 3
              * 第一层可放箱子的区域设置
              */
-            for(int i=0;i<5;i++)
-                for(int j=0;j<10;j++){
+            for(int i=0;i<Container.TOTAL_ROWS_EMPTY;i++)
+                for(int j=0;j<Container.TOTAL_COLUMNS_EMPTY;j++){
                     if(cont[i][j][0]  == 0){
                         cont[i][j][0] = 2;
                     }
@@ -178,9 +178,9 @@ public class ContainerServiceImpl implements ContainerService {
              * step 4
              * 高层可放箱子的区域设置
              */
-            for(int i=0;i<5;i++)
-                for(int j=0;j<10;j++)
-                    for(int k=0;k<6;k++){
+            for(int i=0;i<Container.TOTAL_ROWS_EMPTY;i++)
+                for(int j=0;j<Container.TOTAL_COLUMNS_EMPTY;j++)
+                    for(int k=0;k<Container.TOTAL_LAYERS_EMPTY;k++){
                         if(cont[i][j][k] == 1 && k<= 4){
                             if(cont[i][j][k+1] == 0){
                                 cont[i][j][k+1] = 2;
@@ -193,10 +193,10 @@ public class ContainerServiceImpl implements ContainerService {
              * 根据尺寸进行合并 （大箱）
              */
             if(ContaienrSize == 1){
-                for(int i=0;i<5;i++)
-                    for(int j=0;j<10;j++)
-                        for(int k=0;k<6;k++){
-                            if(cont[i][j][k] == 2 && j<= 8){
+                for(int i=0;i<Container.TOTAL_ROWS_EMPTY;i++)
+                    for(int j=0;j<Container.TOTAL_COLUMNS_EMPTY;j++)
+                        for(int k=0;k<Container.TOTAL_LAYERS_EMPTY;k++){
+                            if(cont[i][j][k] == 2 && j<= (Container.TOTAL_COLUMNS_EMPTY - 2)){
                                 if(cont[i][j+1][k] == 2){
                                     //cont[i][j][k] = 2;
                                     //  cont[i][j+1][k] = 1; //相当于进行了插入
@@ -213,9 +213,9 @@ public class ContainerServiceImpl implements ContainerService {
              * step 6
              * 遍历可插入的箱子位置
              */
-            for(int i=0;i<5;i++)
-                for(int j=0;j<10;j++)
-                    for(int k=0;k<6;k++){
+            for(int i=0;i<Container.TOTAL_ROWS_EMPTY;i++)
+                for(int j=0;j<Container.TOTAL_COLUMNS_EMPTY;j++)
+                    for(int k=0;k<Container.TOTAL_LAYERS_EMPTY;k++){
                         if(cont[i][j][k]  == 2 ) {
                             Container container1 = new Container();
                             container1.setRow((byte) (i + 1));
@@ -249,7 +249,7 @@ public class ContainerServiceImpl implements ContainerService {
                         ContainerTool containerTool = new ContainerTool();
                         containerTool.setColumn(column);
                         containerTool.setLayer(layer);
-                        containerTool.setRow(row);
+                        containerTool.setRow((byte)(row - Container.UPPER_LIMIT_EMPTY));
                         containerTool.setSize(size);
                         containerTools.add(containerTool);
                     }
@@ -344,7 +344,7 @@ public class ContainerServiceImpl implements ContainerService {
                             cont[i][j][k] = 0;
                 /**
                  * step 1
-                 * 获取所有空箱区的箱子的行列层数以及箱子尺寸加入到containerTools链表中
+                 * 获取所有箱子的行列层数以及箱子尺寸加入到containerTools链表中
                  */
                 for (Container container3: Containers
                         ) {
@@ -356,7 +356,7 @@ public class ContainerServiceImpl implements ContainerService {
                         ContainerTool containerTool = new ContainerTool();
                         containerTool.setColumn(column);
                         containerTool.setLayer(layer);
-                        containerTool.setRow(row);
+                        containerTool.setRow((byte)(row-Container.UPPER_LIMIT_ORDINARY));
                         containerTool.setSize(size);
                         containerTools.add(containerTool);
                     }
@@ -434,7 +434,7 @@ public class ContainerServiceImpl implements ContainerService {
                         for(int k=0;k<Container.TOTAL_LAYERS_FREEZE;k++){
                             if(cont[i][j][k]  == 2 ) {
                                 Container container1 = new Container();
-                                container1.setRow((byte) (i + Container.LOWER_LIMIT_FREEZE)); //行数加6
+                                container1.setRow((byte) (i + Container.LOWER_LIMIT_FREEZE));
                                 container1.setColumn((byte) (j + 1));
                                 container1.setLayer((byte) (k + 1));
                                 result.add(container1);
@@ -463,7 +463,7 @@ public class ContainerServiceImpl implements ContainerService {
                         ContainerTool containerTool = new ContainerTool();
                         containerTool.setColumn(column);
                         containerTool.setLayer(layer);
-                        containerTool.setRow(row);
+                        containerTool.setRow((byte)(row-Container.UPPER_LIMIT_FREEZE));
                         containerTool.setSize(size);
                         containerTools.add(containerTool);
                     }
@@ -541,7 +541,7 @@ public class ContainerServiceImpl implements ContainerService {
                         for(int k=0;k<Container.TOTAL_LAYERS_HAZARD;k++){
                             if(cont[i][j][k]  == 2 ) {
                                 Container container1 = new Container();
-                                container1.setRow((byte) (i + Container.LOWER_LIMIT_HAZARD)); //行数加6
+                                container1.setRow((byte) (i + Container.LOWER_LIMIT_HAZARD));
                                 container1.setColumn((byte) (j + 1));
                                 container1.setLayer((byte) (k + 1));
                                 result.add(container1);
