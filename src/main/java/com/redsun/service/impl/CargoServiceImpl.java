@@ -182,8 +182,7 @@ public class CargoServiceImpl implements CargoService {
         for (CargoAttr cargoAttr : cargoAttrs) {
             NameAndUnit nameAndUnit = new NameAndUnit();
             nameAndUnit.setId(cargoAttr.getTypeId());
-            nameAndUnit.value.setName(cargoAttr.getName());
-            nameAndUnit.value.setUnit(cargoAttr.getUnitType());
+            nameAndUnit.setNameAndUnit(cargoAttr.getName()+"  单位：("+cargoAttr.getUnitType()+")");
             nameAndUnits.add(nameAndUnit);
         }
         return nameAndUnits;
