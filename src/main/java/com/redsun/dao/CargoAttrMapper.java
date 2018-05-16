@@ -11,7 +11,7 @@ public interface CargoAttrMapper {
 
     List<CargoAttr> getCargoAttrs(CargoAttr cargoAttr);
 
-    int insertCargoAttr(CargoAttr cargoAttr);
+    void insertCargoAttr(CargoAttr cargoAttr);
 
 
 }

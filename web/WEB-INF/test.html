@@ -13,31 +13,46 @@
 //            ]);
             var data = JSON.stringify({
                 container: {
-                    userid: 10001111,
-                    containerid: 13331311,
-                    type: 1,
-                    size: 0
+                    userid: 19530615,
+                    containerid: 12345678,
+                    type: 0,
+                    size: 1
                 },
                 cargos: [{
-                    userid: 88888888,
-                    typeid: 10000000,
-                    gross: 15
+                    userid: 19530615,
+                    typeid: 10000004,
+                    containerid: 12345678,
+                    gross: 26
                 },
                     {
-                        userid: 88888888,
-                        typeid: 10000001,
-                        gross: 9
+                        userid: 19530615,
+                        typeid: 10000002,
+                        containerid: 12345678,
+                        gross: 19
                     },
                     {
-                        userid: 88888888,
-                        typeid: 10000002,
-                        gross: 10
+                        userid: 19530615,
+                        typeid: 10000000,
+                        containerid: 12345678,
+                        gross: 17
                     },
+                    {
+                        userid: 19530615,
+                        typeid: 10000003,
+                        containerid: 12345678,
+                        gross: 41
+                    },
+                    {
+                        userid: 19530615,
+                        typeid: 10000002,
+                        containerid: 12345678,
+                        gross: 11
+                    }
                 ]
 
             });
             $.ajax({
-                url: '/api/shippercontainer/addwithcargo',
+                url: '/api/fr/addwithcargo',
                 dataType: "json",
                 type: "post",
                 data: data,

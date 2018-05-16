@@ -1,90 +1,56 @@
 package com.redsun.controller;
 
 import com.google.gson.*;
-import com.redsun.pojo.Container;
 import com.redsun.pojo.ShipperCargo;
 import com.redsun.pojo.ShipperContainer;
 import com.redsun.service.ShipperCargoService;
 import com.redsun.service.ShipperContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * SerializedName(value = "userid")
+ * private Integer userId;
+ *
+ * @SerializedName(value = "cargoid")
+ * private Integer cargoId;
+ * @SerializedName(value = "typeid")
+ * private Integer cargoTypeId;
+ * @SerializedName(value = "gross")
+ * private Integer gross;
+ * @SerializedName(value = "containerid")
+ * public Integer containerId;
+ */
 @Controller
-@RequestMapping("/api/shippercontainer")
-public class ShipperContainerController {
-    @Autowired
-    private ShipperContainerService shipperContainerService = null;
+@RequestMapping("/api/fr")
+
+public class FreighterController {
+/*
+   userid: 77777777,
+                        typeid: 10000002,
+                        containerid: 32324444,
+                        gross: 11
+                       http://localhost:8080/api/fr/addcargo?userid=19530615&typeid=10000002&gross=30
+                         http://localhost:8080/api/fr/addempty?userid=19530615&containerid=98765432&type=0&size=1
+                         http://localhost:8080/api/fr/addempty?userid=19530615&containerid=98765432&type=0&size=1
+           http://localhost:8080/api/op/importcargointoempty?cargoid=19&containerid=10000000&row=8&column=3&layer=3
+* */
 
     @Autowired
     private ShipperCargoService shipperCargoService = null;
 
-    /**
-     * 操作员
-     *
-     * @param userId
-     * @param containerId
-     * @param type
-     * @param size
-     * @param modelMap
-     * @return
-     */
-    @RequestMapping("/get")
-    public ModelAndView getShipperContaienrs(@RequestParam(name = "userId", required = false) Integer userId,
-                                             @RequestParam(name = "containerId", required = false) Integer containerId,
-                                             @RequestParam(name = "type", required = false) Byte type,
-                                             @RequestParam(name = "size", required = false) Byte size,
-                                             ModelMap modelMap) {
-        try {
-            ShipperContainer shipperContaienr = new ShipperContainer();
-            shipperContaienr.setUserId(userId);
-            shipperContaienr.setContainerId(containerId);
-            shipperContaienr.setType(type);
-            shipperContaienr.setSize(size);
-            ModelAndView mv = new ModelAndView();
-            List<ShipperContainer> sContaienrs = shipperContainerService.getShipperContainers(shipperContaienr);
-            modelMap.addAttribute("shipperContaienr", sContaienrs);
-            mv.setView(new MappingJackson2JsonView());
-            return mv;
-        } catch (Exception e) {
-            return null;
-        }
-    }
+    @Autowired
+    private ShipperContainerService shipperContainerService = null;
 
-    /**
-     * 根据货主ID
-     */
-    @RequestMapping("/getbyid")
-    public ModelAndView getById(@RequestParam(name = "userId", required = false) Integer userId,
-                                ModelMap modelMap) {
-        try {
-            ModelAndView mv = new ModelAndView();
-            List<ShipperContainer> sContaienrs = shipperContainerService.getById(userId);
-            modelMap.addAttribute("shipperContaienr", sContaienrs);
-            mv.setView(new MappingJackson2JsonView());
-            return mv;
-        } catch (Exception e) {
-            return null;
-        }
 
-    }
-
-    /**
-     * @param userId
-     * @param containerId
-     * @param type
-     * @param size
-     * @return
-     */
     @RequestMapping("/addempty")
     @ResponseBody
     public boolean insertEmptyContainer(@RequestParam("userid") Integer userId,
@@ -105,8 +71,6 @@ public class ShipperContainerController {
             return false;
         }
     }
-
-
     @RequestMapping("/addwithcargo")
     @ResponseBody
     public boolean insertContainerWithCargo(@RequestBody String json) {
@@ -138,43 +102,22 @@ public class ShipperContainerController {
             return false;
         }
     }
-
-    @RequestMapping("/test")
+    @RequestMapping("/addcargo")
     @ResponseBody
-    public boolean test() {
-        ShipperContainer shipperContainer = new ShipperContainer();
-        shipperContainer.setUserId(10000000);
-        shipperContainer.setSize(Byte.valueOf("1"));
-        shipperContainer.setType(Byte.valueOf("0"));
-        shipperContainer.setContainerId(10000003);
-
+    public boolean addBulkCargo(@RequestParam("userid") Integer userId,
+                                @RequestParam("typeid") Integer typeId,
+                                @RequestParam("gross") Integer gross) {
+        if (userId == null || typeId == null || gross == null) return false;
         ShipperCargo shipperCargo = new ShipperCargo();
-        shipperCargo.setUserId(10000000);
-        shipperCargo.setContainerId(10000003);
-        shipperCargo.setGross(100);
-        shipperCargo.setCargoTypeId(10000001);
-        shipperCargo.setCargoId(10000003);
+        shipperCargo.setUserId(userId);
+        shipperCargo.setCargoTypeId(typeId);
+        shipperCargo.setGross(gross);
         try {
-            // shipperContainerService.insertContaienrwithCargo(shipperCargo, shipperContainer);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
-    @RequestMapping("/test2")
-    @ResponseBody
-    public boolean test2() {
-        try {
-//            ShipperCargo shipperCargo =  new ShipperCargo();
-//            shipperCargo.setUserId(10000000);
-
-            //shipperCargoService.isFullToTheseCargosInTask(s);
+            shipperCargoService.addShipperCargo(shipperCargo);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
-
 }

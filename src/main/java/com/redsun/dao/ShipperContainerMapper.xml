@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.redsun.dao.ShipperContainerMapper">
-    <select id="getShipperContainers"  resultType="shippercontainer" parameterType="shippercontainer">
+    <select id="getShipperContainers" resultType="shippercontainer" parameterType="shippercontainer">
         SELECT user_id AS userId,
         container_id AS containerId,
         type,
@@ -27,4 +27,7 @@
     <insert id="insertShipperContainer" parameterType="shippercontainer">
         INSERT into shipper_container_table VALUES (#{userId},#{containerId},#{type},#{size})
     </insert>
+    <delete id="deleteShipperContainerById" parameterType="int">
+        DELETE FROM shipper_container_table WHERE container_id = #{shipperContainerId}
+    </delete>
 </mapper>

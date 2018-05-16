@@ -10,5 +10,7 @@ public interface CargoMapper {
     //  List<Cargo> getTotalCargos();
     List<Cargo> getCargos(Cargo cargo);
 
-    int insertCargo(Cargo cargo);
+    void insertCargo(Cargo cargo);
+
+    void deleteCargo(Integer id);
 }

@@ -21,9 +21,12 @@ public interface CargoService {
 
     boolean isEmpty(Container container);
 
+    boolean isEmptyInTask(Container container);
+
     boolean isFullToThisCargo(Container container, Cargo cargo);
 
     boolean isFullToTheseCargos(Container container, List<Cargo> cargos);
+
 
     void addABatchCargo(Cargo cargo);
 

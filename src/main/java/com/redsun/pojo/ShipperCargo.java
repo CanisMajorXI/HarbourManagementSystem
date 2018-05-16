@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName;
 public class ShipperCargo {
 
     @SerializedName(value = "userid")
-    public Integer userId;
+    private Integer userId;
 
     @SerializedName(value = "cargoid")
-    public Integer cargoId;
+    private Integer cargoId;
 
     @SerializedName(value = "typeid")
-    public Integer cargoTypeId;
+    private Integer cargoTypeId;
 
     @SerializedName(value = "gross")
-    public Integer gross;
+    private Integer gross;
 
     @SerializedName(value = "containerid")
     public Integer containerId;

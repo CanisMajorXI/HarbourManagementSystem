@@ -1,9 +1,12 @@
 package com.redsun.service.impl;
 
 import com.redsun.dao.CargoAttrMapper;
+import com.redsun.dao.CargoMapper;
+import com.redsun.dao.ContainerMapper;
 import com.redsun.dao.ShipperCargoMapper;
 import com.redsun.pojo.*;
 import com.redsun.service.CargoService;
+import com.redsun.service.ContainerService;
 import com.redsun.service.ShipperCargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,14 @@ public class ShipperCargoServiceImpl implements ShipperCargoService {
     @Autowired
     private CargoAttrMapper cargoAttrMapper = null;
 
+    @Autowired
+    ContainerMapper containerMapper = null;
+
+    @Autowired
+    CargoMapper cargoMapper = null;
+
+    @Autowired
+    ContainerService containerService = null;
 
     /**
      * 获取货物
@@ -43,15 +54,14 @@ public class ShipperCargoServiceImpl implements ShipperCargoService {
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
-    public boolean addShipperCargo(ShipperCargo shippercargo) {
+    public void addShipperCargo(ShipperCargo shippercargo) {
         int typeId = shippercargo.getCargoTypeId();
         CargoAttr cargoAttr = new CargoAttr();
         cargoAttr.setTypeId(typeId);
         if (cargoAttrMapper.getCargoAttrs(cargoAttr).size() == 0) {
-            return false;
+            throw new RuntimeException();
         }
         shipperCargoMapper.insertShipperCargo(shippercargo);
-        return true;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
@@ -86,6 +96,7 @@ public class ShipperCargoServiceImpl implements ShipperCargoService {
             }
         }
         System.out.println("finalremain：" + remain);
-        return remain > 0;
+        return remain < 0;
     }
+
 }

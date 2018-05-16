@@ -43,7 +43,7 @@
         container_layer = #{layer}
         WHERE container_id = #{id}
     </update>
-    <delete id="deleteContainer" parameterType="container">
-
+    <delete id="deleteContainer" parameterType="int">
+          DELETE FROM container_table WHERE container_id = #{id}
     </delete>
 </mapper>

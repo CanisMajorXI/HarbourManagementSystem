@@ -63,7 +63,8 @@ public class ShipperCargoController {
         shipperCargo.setGross(gross);
         shipperCargo.setUserId(userId);
         try {
-            return shipperCargoService.addShipperCargo(shipperCargo);
+            shipperCargoService.addShipperCargo(shipperCargo);
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

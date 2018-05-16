@@ -27,4 +27,8 @@
     <insert id="insertCargo" parameterType="cargo">
         INSERT into cargo_table VALUES (#{cargoId},#{typeId},#{gross},#{containerId})
     </insert>
+
+    <delete id="deleteCargo" parameterType="int">
+          DELETE FROM cargo_table WHERE cargo_id = ${id}
+    </delete>
 </mapper>

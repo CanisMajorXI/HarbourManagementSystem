@@ -2,9 +2,11 @@ package com.redsun.service.impl;
 
 import com.redsun.dao.CargoAttrMapper;
 import com.redsun.dao.CargoMapper;
+import com.redsun.dao.ShipperCargoMapper;
 import com.redsun.pojo.Cargo;
 import com.redsun.pojo.CargoAttr;
 import com.redsun.pojo.Container;
+import com.redsun.pojo.ShipperCargo;
 import com.redsun.service.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class CargoServiceImpl implements CargoService {
 
     @Autowired
     private CargoAttrMapper cargoAttrMapper = null;
+
+    @Autowired
+    private ShipperCargoMapper shipperCargoMapper = null;
 
     /**
      * 获取货物
@@ -76,6 +81,17 @@ public class CargoServiceImpl implements CargoService {
         cargo.setContainerId(containerId);
         List<Cargo> cargos = cargoMapper.getCargos(cargo);
         return cargos.size() == 0;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public boolean isEmptyInTask(Container container) {
+        Integer containerId = container.getId();
+        ShipperCargo shipperCargo = new ShipperCargo();
+        shipperCargo.setContainerId(containerId);
+        List<ShipperCargo>shipperCargos = shipperCargoMapper.getShipperCargos(shipperCargo);
+        //int aa=4;
+        return shipperCargos.size() == 0;
     }
 
     //检查该箱子是否还能装得下该货物
@@ -141,7 +157,7 @@ public class CargoServiceImpl implements CargoService {
             }
         }
         System.out.println("finalremain：" + remain);
-        return remain > 0;
+        return remain < 0;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)

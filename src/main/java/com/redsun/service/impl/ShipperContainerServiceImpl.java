@@ -6,6 +6,7 @@ import com.redsun.pojo.Container;
 import com.redsun.pojo.ShipperCargo;
 import com.redsun.pojo.ShipperContainer;
 import com.redsun.service.CargoService;
+import com.redsun.service.ShipperCargoService;
 import com.redsun.service.ShipperContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,10 @@ public class ShipperContainerServiceImpl implements ShipperContainerService {
 
     @Autowired
     private CargoService cargoService = null;
+
+    @Autowired
+
+    private ShipperCargoService shipperCargoService = null;
 
     /**
      * 操作员get
@@ -82,16 +87,11 @@ public class ShipperContainerServiceImpl implements ShipperContainerService {
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
     @Override
     public boolean insertContainerWithCargo(ShipperContainer container, List<ShipperCargo> cargos) {
-
-//        ShipperCargo idShipperCargo = new ShipperCargo();
-//        idShipperCargo.setContainerId(container.getContainerId());
-//        List<ShipperCargo> savedCargos = shipperCargoMapper.getShipperCargos(idShipperCargo);
-//
-//        float remain = container.size == Container.SIZE_SMALL ? 1 : 2;
-//        for (ShipperCargo shipperCargo : savedCargos) {
-//
-//        }
-
+        if (shipperCargoService.isFullToTheseCargosInTask(container, cargos)) return false;
+        shipperContainerMapper.insertShipperContainer(container);
+        for (ShipperCargo shipperCargo : cargos) {
+            shipperCargoMapper.insertShipperCargo(shipperCargo);
+        }
         return true;
     }
 }
