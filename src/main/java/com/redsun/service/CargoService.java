@@ -3,6 +3,7 @@ package com.redsun.service;
 import com.redsun.pojo.Cargo;
 import com.redsun.pojo.CargoAttr;
 import com.redsun.pojo.Container;
+import com.redsun.pojo.NameAndUnit;
 
 import java.util.List;
 
@@ -27,7 +28,8 @@ public interface CargoService {
 
     boolean isFullToTheseCargos(Container container, List<Cargo> cargos);
 
-
     void addABatchCargo(Cargo cargo);
+
+    List<NameAndUnit> getCargosNameAndUnit();
 
 }

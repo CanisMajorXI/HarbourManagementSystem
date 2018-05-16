@@ -15,5 +15,4 @@ public interface UserService {
 
    void addAnUser(User user);
 
-    List<User> getTotalUsers();
 }

@@ -34,8 +34,11 @@ public class UserController {
     //验证登陆状态,username 可以是id也可以是邮箱
     @RequestMapping("/login")
     @ResponseBody
-    public boolean verifyUser(@RequestParam("username") String username, @RequestParam("password") String password, HttpSession session) {
-        //todo
+    public boolean verifyUser(@RequestParam("username") String username,
+                              @RequestParam("password") String password,
+                              @RequestParam("type") Byte type,
+                              HttpSession session) {
+        if (username == null || password == null || type == null) return false;
         User user = new User();
         user.setPassword(password);
         if (typeOfUsername(username) == TYPEOFID) {
@@ -43,25 +46,16 @@ public class UserController {
         } else if (typeOfUsername(username) == TYPEOFEMAIL) {
             user.setEmail(username);
         }
-        if (userService.userVerification(user) == null) return false;
-        session.setAttribute("user", user);
-        return true;
+        user.setType(type);
+        try {
+            if (userService.userVerification(user) == null) return false;
+            session.setAttribute("user", user);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
-
-    @RequestMapping("/gettotalusers1")
-    public ModelAndView getAllUsers1(ModelMap modelMap) {
-        modelMap.addAttribute("users", userService.getTotalUsers());
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setView(new MappingJackson2JsonView());
-        return modelAndView;
-    }
-
-    @RequestMapping("/gettotalusers")
-    @ResponseBody
-    public List<User> getAllUsers() {
-        return userService.getTotalUsers();
-    }
-
 
     @RequestMapping("/register/getcode")
     public void sendVerificationCode(@RequestParam("email") String email, HttpSession session) {

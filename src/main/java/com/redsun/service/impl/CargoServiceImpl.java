@@ -3,10 +3,7 @@ package com.redsun.service.impl;
 import com.redsun.dao.CargoAttrMapper;
 import com.redsun.dao.CargoMapper;
 import com.redsun.dao.ShipperCargoMapper;
-import com.redsun.pojo.Cargo;
-import com.redsun.pojo.CargoAttr;
-import com.redsun.pojo.Container;
-import com.redsun.pojo.ShipperCargo;
+import com.redsun.pojo.*;
 import com.redsun.service.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +11,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -89,7 +87,7 @@ public class CargoServiceImpl implements CargoService {
         Integer containerId = container.getId();
         ShipperCargo shipperCargo = new ShipperCargo();
         shipperCargo.setContainerId(containerId);
-        List<ShipperCargo>shipperCargos = shipperCargoMapper.getShipperCargos(shipperCargo);
+        List<ShipperCargo> shipperCargos = shipperCargoMapper.getShipperCargos(shipperCargo);
         //int aa=4;
         return shipperCargos.size() == 0;
     }
@@ -174,5 +172,20 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public void addABatchCargo(Cargo cargo) {
         cargoMapper.insertCargo(cargo);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.SERIALIZABLE)
+    @Override
+    public List<NameAndUnit> getCargosNameAndUnit() {
+        List<NameAndUnit> nameAndUnits = new ArrayList<>();
+        List<CargoAttr> cargoAttrs = cargoAttrMapper.getCargoAttrs(new CargoAttr());
+        for (CargoAttr cargoAttr : cargoAttrs) {
+            NameAndUnit nameAndUnit = new NameAndUnit();
+            nameAndUnit.setId(cargoAttr.getTypeId());
+            nameAndUnit.value.setName(cargoAttr.getName());
+            nameAndUnit.value.setUnit(cargoAttr.getUnitType());
+            nameAndUnits.add(nameAndUnit);
+        }
+        return nameAndUnits;
     }
 }

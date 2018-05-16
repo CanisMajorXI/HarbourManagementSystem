@@ -1,17 +1,24 @@
 package com.redsun.controller;
 
 import com.google.gson.*;
+import com.redsun.pojo.NameAndUnit;
 import com.redsun.pojo.ShipperCargo;
 import com.redsun.pojo.ShipperContainer;
+import com.redsun.pojo.User;
+import com.redsun.service.CargoService;
 import com.redsun.service.ShipperCargoService;
 import com.redsun.service.ShipperContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,16 +57,21 @@ public class FreighterController {
     @Autowired
     private ShipperContainerService shipperContainerService = null;
 
+    @Autowired
+    private CargoService cargoService = null;
+
 
     @RequestMapping("/addempty")
     @ResponseBody
-    public boolean insertEmptyContainer(@RequestParam("userid") Integer userId,
-                                        @RequestParam("containerid") Integer containerId,
+    public boolean insertEmptyContainer(@RequestParam("containerid") Integer containerId,
                                         @RequestParam("type") Byte type,
-                                        @RequestParam("size") Byte size) {
-        if (userId == null || containerId == null || type == null || size == null) return false;
+                                        @RequestParam("size") Byte size, HttpSession session) {
+        if (session == null) return false;
+        User user = (User) session.getAttribute("user");
+        if (!user.getType().equals(User.TYPE_FREIGHTER)) return false;
+        if (containerId == null || type == null || size == null) return false;
         ShipperContainer shipperContainer = new ShipperContainer();
-        shipperContainer.setUserId(userId);
+        shipperContainer.setUserId(user.getId());
         shipperContainer.setContainerId(containerId);
         shipperContainer.setSize(size);
         shipperContainer.setType(type);
@@ -71,6 +83,7 @@ public class FreighterController {
             return false;
         }
     }
+
     @RequestMapping("/addwithcargo")
     @ResponseBody
     public boolean insertContainerWithCargo(@RequestBody String json) {
@@ -102,6 +115,7 @@ public class FreighterController {
             return false;
         }
     }
+
     @RequestMapping("/addcargo")
     @ResponseBody
     public boolean addBulkCargo(@RequestParam("userid") Integer userId,
@@ -120,4 +134,19 @@ public class FreighterController {
             return false;
         }
     }
+
+    @RequestMapping("/getnameandunit")
+    public ModelAndView getNameAndUnit(ModelMap modelMap) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setView(new MappingJackson2JsonView());
+        try {
+            List<NameAndUnit> nameAndUnits = cargoService.getCargosNameAndUnit();
+            modelMap.addAttribute("nameandunit", nameAndUnits);
+            return modelAndView;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return modelAndView;
+        }
+    }
+
 }
