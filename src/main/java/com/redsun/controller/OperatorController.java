@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/op")
@@ -76,6 +79,20 @@ public class OperatorController {
             return false;
         }
     }
-
-
+//@ResponseBody("/getarea")
+//    public ModelAndView getArea(@RequestParam("id") Integer contianerId){
+//        ModelAndView modelAndView = new ModelAndView();
+//        try {
+//            Container tempContainer = new Container();
+//            tempContainer.setId(contianerId);
+//           Container container = containerService.getContainers(tempContainer).get(0);
+//            container.setId(contianerId);
+//            containerService.showFeasibleArea(container);
+//            return modelAndView;
+//        }catch (Exception e){
+//            e.printStackTrace();
+//           return modelAndView;
+//        }
 }
+
+//}
